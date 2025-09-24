@@ -5,6 +5,7 @@ import fistSlidePhoto from '../../../../../assets/png/fist_slide_photo.png';
 
 import FrameComponent from "./FrameContent/FrameContent";
 import TopContent from "./TopContent/TopContent"
+import BottomContent from "./BottomContent/BottomContent";
 
 import styles from "./FirstSlide.module.scss"
 
@@ -24,8 +25,7 @@ const FirstSlide = () => {
 
     const widthScale = containerWidth / imageWidth;
     const heightScale = containerHeight / imageHeight;
-
-    // Выбираем *наибольший* масштаб, чтобы полностью покрыть контейнер
+    
     const newScale = Math.max(widthScale, heightScale);
     setScale(newScale);
   };
@@ -39,14 +39,6 @@ const FirstSlide = () => {
     };
   }, []);
 
-
-
-  const BottomContent = () => 
-    <div className={styles.bottomContent}>
-      <div className={styles.buttonText}>
-        Начать тренировки
-      </div>
-    </div>;
     
   return (
     <div className={styles.firstSlideWrapper}>

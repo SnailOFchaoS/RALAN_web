@@ -1,10 +1,18 @@
 import Background from "@/components/Background/Background";
 import FirstSlide from "./FirstSlide/FirstSlide";
+import AboutUsSlide from "./AboutUsSlide/AboutUsSlide"
 
 export default function MainPage() {
+
+  const mainBackgroundProps = {
+    backgroundColor: '#1A2344',
+  };
+
   return (
-    <Background>
+    <div>
+      <Background {...mainBackgroundProps} />
       <FirstSlide/>
-    </Background>
+      <AboutUsSlide/>
+    </div>
   );
 }
