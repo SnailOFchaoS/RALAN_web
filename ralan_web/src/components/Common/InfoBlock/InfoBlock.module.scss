@@ -1,0 +1,28 @@
+.InfoBlockWrapper{
+  display: flex;
+  flex-direction: column;
+
+  .titleText{
+    font-family: var(--tactic-sans-bold), sans-serif;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .dataText{
+    font-family: var(--montserrat), sans-serif;
+    font-weight: 500;
+    text-align: left;
+  }
+
+
+  // .textInfoBlock{
+  //   display: flex;
+  //   flex-direction: column;
+  //   width: 772px;
+  //   main-height: 930px;
+  //   padding: 60px 32px;
+  //   border-radius: 60px;
+  //   background-color: #fffff0;
+  // }
+  
+}

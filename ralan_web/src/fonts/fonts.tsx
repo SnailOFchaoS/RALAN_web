@@ -5,12 +5,12 @@ const tacticSansBold = localFont({
   src: [
     {
       path: '../../assets/fonts/tactic-sans-extra-extended/TacticSansExtExd-Bld.woff2',
-      weight: '700', // Bold
+      weight: '700',
       style: 'normal',
     },
     {
       path: '../../assets/fonts/tactic-sans-extra-extended/TacticSansExtExd-Bld.woff',
-      weight: '700', // Bold
+      weight: '700',
       style: 'normal',
     },
   ],
@@ -36,10 +36,10 @@ const tacticSansRegular = localFont({
 });
 
 const montserrat = Montserrat({
-  subsets: ['latin', 'cyrillic'], // Укажите нужные подмножества символов
-  weight: ['400', '700'], // Укажите нужные начертания
-  style: ['normal', 'italic'], // Укажите нужные стили
-  display: 'swap',  // Оптимизация загрузки
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
 });
 
 export {
