@@ -1,4 +1,3 @@
-
 import Image from "next/image"
 
 import InfoBlock from "../../../Common/InfoBlock/InfoBlock"

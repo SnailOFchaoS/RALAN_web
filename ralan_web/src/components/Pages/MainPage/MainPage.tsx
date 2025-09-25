@@ -1,6 +1,7 @@
 import Background from "@/components/Background/Background";
 import FirstSlide from "./FirstSlide/FirstSlide";
 import AboutUsSlide from "./AboutUsSlide/AboutUsSlide"
+import YouWillFindSlide from "./YouWillFindSlide/YouWillFindSlide"
 
 export default function MainPage() {
 
@@ -13,6 +14,7 @@ export default function MainPage() {
       <Background {...mainBackgroundProps} />
       <FirstSlide/>
       <AboutUsSlide/>
+      <YouWillFindSlide/>
     </div>
   );
 }
