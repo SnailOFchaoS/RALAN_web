@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { tacticSansBold, tacticSansRegular, montserrat } from "@/fonts/fonts";
+import { tacticSansBold, tacticSansRegular, tacticSansMedium, montserrat } from "@/fonts/fonts";
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -9,6 +9,8 @@ function App({ Component, pageProps }: AppProps) {
         :root {
           --tactic-sans-bold: ${tacticSansBold.style.fontFamily};
           --tactic-sans-regular: ${tacticSansRegular.style.fontFamily};
+          --tactic-sans-medium: ${tacticSansMedium.style.fontFamily};
+          
           --montserrat: ${montserrat.style.fontFamily};
         }
       `}</style>

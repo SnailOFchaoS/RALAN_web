@@ -35,6 +35,23 @@ const tacticSansRegular = localFont({
   variable: '--tactic-sans-regular',
 });
 
+const tacticSansMedium = localFont({
+  src: [
+    {
+      path: '../../assets/fonts/tactic-sans-extra-extended/TacticSansExtExd-Med.woff2', // Теперь путь начинается с /
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../assets/fonts/tactic-sans-extra-extended/TacticSansExtExd-Med.woff', // Теперь путь начинается с /
+      weight: '500',
+      style: 'normal',
+    },
+  ],
+  display: 'swap',
+  variable: '--tactic-sans-medium',
+});
+
 const montserrat = Montserrat({
   subsets: ['latin', 'cyrillic'],
   weight: ['400', '500', '700'],
@@ -45,5 +62,6 @@ const montserrat = Montserrat({
 export {
   tacticSansBold, 
   tacticSansRegular,
+  tacticSansMedium,
   montserrat
 };

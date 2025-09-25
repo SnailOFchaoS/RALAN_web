@@ -1,0 +1,28 @@
+.youWillFindSlideWrapper{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 180px;
+  gap: 32px;
+
+  .titleLine{
+    display: flex;
+    align-items: flex-end;
+    width: 1246px;
+    height: 84px;
+
+    .titleText{
+      color: #fffff0;
+      text-align: start;
+      font-family: var(--tactic-sans-bold), sans-serif;
+      font-weight: bold;
+      font-size: 70px;
+    }
+  }
+
+  .slideLine{
+    display: flex;
+    flex-direction: column;
+    width: 1246px;
+  }
+}
