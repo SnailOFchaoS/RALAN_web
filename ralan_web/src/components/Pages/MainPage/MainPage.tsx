@@ -2,6 +2,7 @@ import Background from "@/components/Background/Background";
 import FirstSlide from "./FirstSlide/FirstSlide";
 import AboutUsSlide from "./AboutUsSlide/AboutUsSlide"
 import YouWillFindSlide from "./YouWillFindSlide/YouWillFindSlide"
+import TeamRepresentatives from "./TeamRepresentatives/TeamRepresentatives"
 
 export default function MainPage() {
 
@@ -15,6 +16,7 @@ export default function MainPage() {
       <FirstSlide/>
       <AboutUsSlide/>
       <YouWillFindSlide/>
+      <TeamRepresentatives/>
     </div>
   );
 }

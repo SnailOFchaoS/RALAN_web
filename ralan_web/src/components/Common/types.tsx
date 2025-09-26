@@ -33,3 +33,25 @@ export interface YouWillFindInfoBlockProps{
   }
 }
 
+export interface personDataInterface{
+  surname: string,
+  name: string,
+  patronymic: string,
+  descriptionTop: string,
+  descriptionBottom: string,
+  achievements: {
+    text: string,
+  }[],
+  image:{
+    src: StaticImageData,
+    closed:{
+      positionX: number,
+      positionY: number,
+      scale: number,
+    },
+    opened:{
+      positionX: number,
+      positionY: number,
+    }
+  }
+}
