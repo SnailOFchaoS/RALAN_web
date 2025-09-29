@@ -1,0 +1,67 @@
+.slideWrapper{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	padding: 32px;
+	gap: 20px;
+
+	.slideInfoLine {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		width: 325px;
+		height: 110px;
+
+		.halfLine{
+			display: flex;
+			flex-direction: row;
+			height: 50%;
+			width: 100%;
+		}
+
+		.discipline{
+			font-size: 18px;
+			font-family: var(--montserrat), sans-serif;
+			font-weight: 500;
+			text-align: left;
+			color: #1A2344;
+		}
+
+		.dateAndTime{
+			align-items: center;
+			font-size: 18px;
+			font-family: var(--montserrat), sans-serif;
+			font-weight: 500;
+			text-align: left;
+			color: #1A2344;
+		}
+
+		.offerName{
+			text-align: center;
+			font-size: 26px;
+			font-family: var(--tactic-sans-medium), sans-serif;
+			font-weight: 500;
+			color: #fffff0;
+		}
+
+		.price{
+			text-align: center;
+			text-align: left;
+			font-size: 48px;
+			font-family: var(--tactic-sans-medium), sans-serif;
+			font-weight: 500;
+			color: #fffff0;
+		}
+
+		.ridingLevel{
+			align-items: center;
+			font-size: 26px;
+			font-family: var(--montserrat), sans-serif;
+			font-weight: 500;
+			text-align: left;
+			color: #1A2344;
+		}
+
+	}
+}

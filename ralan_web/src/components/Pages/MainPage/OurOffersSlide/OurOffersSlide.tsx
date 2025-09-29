@@ -1,4 +1,5 @@
 import OfferCarousel from "./OfferCarousel/OfferCarousel";
+import MySlider from "./OfferCarouselСlone/OfferCarousel";
 
 import styles from "./OurOffersSlide.module.scss"
 
@@ -9,8 +10,11 @@ const OurOffersSlide = () => {
         <p className={styles.titleText}>
           МЫ ПРЕДЛАГАЕМ
         </p>
-        <OfferCarousel/>
       </div>
+      <div className={styles.sliderWrapper}>
+        <MySlider/>
+      </div>
+      
     </div>
   )
 }

@@ -28,4 +28,12 @@
     flex-wrap: wrap;
     gap: 20px;
   }
+
+  .sliderWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 180px;;
+  }
 }
