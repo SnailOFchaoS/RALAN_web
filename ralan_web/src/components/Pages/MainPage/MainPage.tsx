@@ -4,6 +4,7 @@ import AboutUsSlide from "./AboutUsSlide/AboutUsSlide"
 import YouWillFindSlide from "./YouWillFindSlide/YouWillFindSlide"
 import TeamRepresentatives from "./TeamRepresentatives/TeamRepresentatives"
 import OurOffersSlide from "./OurOffersSlide/OurOffersSlide"
+import CallToActionSlide from "./CallToActionSlide/CallToActionSlide";
 
 export default function MainPage() {
 
@@ -19,6 +20,7 @@ export default function MainPage() {
       <YouWillFindSlide/>
       <TeamRepresentatives/>
       <OurOffersSlide/>
+      <CallToActionSlide/>
     </div>
   );
 }
