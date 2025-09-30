@@ -5,6 +5,9 @@ import YouWillFindSlide from "./YouWillFindSlide/YouWillFindSlide"
 import TeamRepresentatives from "./TeamRepresentatives/TeamRepresentatives"
 import OurOffersSlide from "./OurOffersSlide/OurOffersSlide"
 import CallToActionSlide from "./CallToActionSlide/CallToActionSlide";
+import Footer from "@/components/Footer/Footer";
+
+import styles from './MainPage.module.scss'
 
 export default function MainPage() {
 
@@ -13,7 +16,7 @@ export default function MainPage() {
   };
 
   return (
-    <div>
+    <div className={styles.scaleWrapper}>
       <Background {...mainBackgroundProps} />
       <FirstSlide/>
       <AboutUsSlide/>
@@ -21,6 +24,7 @@ export default function MainPage() {
       <TeamRepresentatives/>
       <OurOffersSlide/>
       <CallToActionSlide/>
+      <Footer/>
     </div>
   );
 }
