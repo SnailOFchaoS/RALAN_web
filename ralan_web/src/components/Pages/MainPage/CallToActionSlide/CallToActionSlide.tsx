@@ -1,7 +1,5 @@
 import styles from "./CallToActionSlide.module.scss"
 
-// import image from '../../../../../assets/png/call_to_action_bg.png'
-
 const CallToActionSlide: React.FC = () => {
 	return (
 		<div className={styles.callToActionSlideWrapper}>
