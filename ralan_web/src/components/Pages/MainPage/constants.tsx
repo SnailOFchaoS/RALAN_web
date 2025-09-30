@@ -3,6 +3,8 @@ import {InfoBlockProps, YouWillFindInfoBlockProps} from "@/components/Common/typ
 import preparationImage from '../../../../assets/png/preparation.png';
 import strategyImage from '../../../../assets/png/strategy.png';
 import winningImage from '../../../../assets/png/winning.png';
+import serviceImage from '../../../../assets/png/service.png';
+import uniformImage from '../../../../assets/png/uniform.png';
 
 export const aboutUsInfo: InfoBlockProps[] = [
   {
@@ -108,3 +110,35 @@ export const YouWillFindTextData: YouWillFindInfoBlockProps[] = [
     }
   },
 ]
+
+export const bycicleService: any = {
+  title: 'ВЕЛОСЕРВИС',
+  textInfo:[{
+    title: '一РЕМОНТ',
+    data: 'Ремонт любой сложности. Ремонт карбоновых рам. Ремонт трансмиссии, бла бла бла, потом придумаем'
+  },{
+    title: '一ОБСЛУЖИВАНИЕ',
+    data: 'Проведение планового ТО, замена колодок, замена дисков, мытье и настройка велосипеда'
+  }],
+  image: {
+    src: serviceImage,
+    positionX: -142,
+    positionY: -201,
+  }
+}
+
+export const bikeUniform: any = {
+  title: 'КОМАНДНАЯ ФОРМА',
+  textInfo:[{
+    title: '一ЛЕТНЯЯ ФОРМА',
+    data: 'Красивое описание нашей летней формы, дишит, обтекает и тд'
+  },{
+    title: '一ТЕПЛАЯ ФОРМА',
+    data: 'Красивое описание нашей теплой формы, теплая, красивая, с начесом из шерсти якутской лошади'
+  }],
+  image:{
+    src: uniformImage,
+    positionX: -201,
+    positionY: -458,
+  }
+}

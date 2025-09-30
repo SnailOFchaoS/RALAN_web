@@ -1,7 +1,7 @@
 import firstImage from "../../../assets/png/Yan.png"
 import secondImage from "../../../assets/png/Daria.png"
 
-import { personDataInterface } from "@/components/Common/types"
+import { personDataInterface, OfferShort } from "@/components/Common/types"
 
 export const representatives: personDataInterface[] = [
   {
@@ -60,3 +60,51 @@ export const representatives: personDataInterface[] = [
     }
   },
 ]
+
+export const offersAll: OfferShort[] = [
+  { 
+    id: 1, 
+    discipline: ['шоссе', 'трек'],
+    offerName: 'Месячный абонемент',
+    date: '30 февраля',
+    price: '25 000 р',
+    time: '12 занятий по 90 минут',
+    level: ['Любой уровень'], 
+  },
+  { 
+    id: 2, 
+    discipline: ['шоссе', 'трек'],
+    offerName: 'Месячный абонемент',
+    date: '30 февраля',
+    price: '25 000 р',
+    time: '12 занятий по 90 минут',
+    level: ['Любой уровень'], 
+  },
+  { 
+    id: 3, 
+    discipline: ['шоссе', 'трек'],
+    offerName: 'Месячный абонемент',
+    date: '30 февраля',
+    price: '25 000 р',
+    time: '12 занятий по 90 минут',
+    level: ['Любой уровень'],  
+  },
+  { 
+    id: 4, 
+    discipline: ['шоссе', 'трек'],
+    offerName: 'Месячный абонемент',
+    date: '30 февраля',
+    price: '25 000 р',
+    time: '12 занятий по 90 минут',
+    level: ['Любой уровень'], 
+  },
+  { 
+    id: 5, 
+    discipline: ['шоссе', 'трек'],
+    offerName: 'Месячный абонемент',
+    date: '30 февраля',
+    price: '25 000 р',
+    time: '12 занятий по 90 минут',
+    level: ['Любой уровень'], 
+  },
+];
