@@ -1,4 +1,10 @@
-.MainPageWrapper{
-  display: flex;
-  flex-direction: column;
+.scaleWrapper {
+  width: 100%;
+  transform-origin: top left;  /*  Важно для сохранения позиции!  */
+}
+
+@media (max-width: 1440px) { /*  Пример:  экраны ноутбуков до 1440px  */
+  .scaleWrapper {
+    transform: scale(0.67);
+  }
 }
