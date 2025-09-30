@@ -14,8 +14,8 @@ const SLIDER_DATA = [
 const MySlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideWidth, setSlideWidth] = useState<number>(0)
-  const sliderRef = useRef<any>(null);
-  const slideRef = useRef<any>(null);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const slideRef = useRef<HTMLDivElement | null>(null);
 
   const slideCount = SLIDER_DATA.length;
 
@@ -45,13 +45,13 @@ const MySlider = () => {
       >
         {offersAll.map((item, index) => (
           <div
+            key={index}
             style={{
               minWidth: '389px',
               minHeight: '100%',
             }}
           >
             <div
-              key={item.id}
               className={`${styles.slide} 
                 ${index === currentIndex ? styles.active : ''} 
                 ${index === (currentIndex - 1 + slideCount) % slideCount ? styles.prev : ''} 

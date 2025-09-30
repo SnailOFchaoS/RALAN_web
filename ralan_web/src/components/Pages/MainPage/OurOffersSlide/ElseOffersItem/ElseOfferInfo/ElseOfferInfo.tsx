@@ -5,7 +5,7 @@ import { ElseOfferInterface } from '@/components/Common/types';
 
 import styles from './ElseOfferInfo.module.scss'
 
-const ElseOfferInfo: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({mirror = false, data}: any) => {
+const ElseOfferInfo: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({mirror = false, data}) => {
 
 	const imagePosition = {
 		objectPosition: `${data.image?.positionX ?? 0}px ${data.image?.positionY ?? 0}px`
@@ -21,9 +21,12 @@ const ElseOfferInfo: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({
 					style={imagePosition}
 				/>
 			</div>
-			{data.textInfo.map((element: any) => {
+			{data.textInfo.map((element: {title: string, data: string}, index: number) => {
 				return(
-					<div className={`${styles.blockLine} ${mirror ? styles.mirror : ''}`}>
+					<div 
+            key={index}
+            className={`${styles.blockLine} ${mirror ? styles.mirror : ''}`}
+          >
 						<InfoBlock
 							title={{
 								text: element.title,

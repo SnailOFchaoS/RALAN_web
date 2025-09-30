@@ -35,6 +35,12 @@ export interface YouWillFindInfoBlockProps{
   }
 }
 
+export interface YouWillFindInfoTitleProps {
+  subtitle: YouWillFindInfoBlockProps;
+  openedBlocks: number[];
+  setOpenedBlocks: (blocks: number[]) => void;
+}
+
 export interface personDataInterface{
   surname: string,
   name: string,

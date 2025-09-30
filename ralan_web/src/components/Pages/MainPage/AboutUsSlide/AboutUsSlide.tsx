@@ -26,8 +26,11 @@ const AboutUsSlide = () => {
              }}
           />
         </div>
-        {aboutUsInfo.map(element => (
-          <div className={styles.contentRow}>
+        {aboutUsInfo.map((element, index) => (
+          <div 
+            className={styles.contentRow}
+            key={index}
+          >
             <InfoBlock
               title= {element.title}
               data={element.data}

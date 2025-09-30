@@ -1,7 +1,13 @@
 import styles from "./YouWillFindInfoTitle.module.scss"
 import { useState } from "react";
+import { YouWillFindInfoTitleProps } from "@/components/Common/types";
 
-const allSubtitles: any[] = [
+interface SubtitleItem {
+  id: number;
+  title: string;
+}
+
+const allSubtitles: SubtitleItem[] = [
   {
     id: 1,
     title: "подготовка"
@@ -20,7 +26,7 @@ const YouWillFindInfo = ({
   subtitle, 
   openedBlocks, 
   setOpenedBlocks
-}: any) => {
+}: YouWillFindInfoTitleProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
 
   const onTitleClick = () => {
@@ -43,9 +49,9 @@ const YouWillFindInfo = ({
     >
       <div className={styles.textBlock}>
         <div className={styles.allSubtitles}>
-          {allSubtitles.map(element => {
+          {allSubtitles.map((element, index) => {
             return (
-              <>
+              <div key={index}>
                 <p 
                   className={styles.subtitle}
                   style={{
@@ -57,7 +63,7 @@ const YouWillFindInfo = ({
                 <span className={styles.subtitle}>
                   ,&nbsp;
                 </span>
-              </>
+              </div>
             )
           })}
         </div>

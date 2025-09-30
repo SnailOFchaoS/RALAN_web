@@ -19,18 +19,19 @@ const YouWillFindInfoBlock: React.FC<{ infoBlockContent: YouWillFindInfoBlockPro
       }}
     >
       <div className={styles.textBlock}>
-        {infoBlockContent.textInfo?.map((element: any) => {
+        {infoBlockContent.textInfo?.map((element: {title?: string, text?: string}, index) => {
           return (
             <InfoBlock
+              key={index}
               title={{
                 color: infoBlockContent.openedColor !=='#FFFFF0' ? '#FFFFF0' : '#1A2344',
-                text: element.title,
+                text: element.title || '',
                 blockWidth: 380,
                 fontSize: 24,
               }}
               data={{
                 color: infoBlockContent.openedColor !=='#FFFFF0' ? '#FFFFF0' : '#1A2344',
-                text: element.text,
+                text: element.text || '',
                 blockWidth: 300,
                 fontSize: 16,
               }}
