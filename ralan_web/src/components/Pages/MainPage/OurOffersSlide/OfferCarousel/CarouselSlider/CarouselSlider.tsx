@@ -1,34 +1,41 @@
+import { OfferShort } from '@/components/Common/types';
+
 import styles from './CarouselSlider.module.scss'
 
-const CarouselSlide = () => {
+const CarouselSlide: React.FC<{offer: OfferShort}> = ({offer}) => {
 	return (
 		<div className={styles.slideWrapper}>
 			<div className={styles.slideInfoLine}>
 				<div className={`${styles.halfLine} ${styles.discipline}`}>
-					шоссе
+					{offer.discipline ? offer.discipline.join('/') : ''}
 				</div>
 				<div className={`${styles.halfLine} ${styles.offerName}`}>
-					Месячный абонемент
+					{offer.offerName}
 				</div>
 			</div>
 			<div className={styles.slideInfoLine}>
 				<div className={`${styles.halfLine} ${styles.dateAndTime}`}>
-					30 февраля
+					{offer.date ?? ''}
 				</div>
 				<div className={`${styles.halfLine} ${styles.price}`}>
-					25 000 р
+					{offer.price}
 				</div>
 			</div>
 			<div className={styles.slideInfoLine}>
 				<div className={`${styles.halfLine} ${styles.dateAndTime}`}>
-					12 занятий по 90 минут
+					{offer.time ?? ''}
 				</div>
 				<div className={`${styles.halfLine} ${styles.ridingLevel}`}>
-					Любой уровень
+					{offer.level ? offer.level.join('/') : ''}
 				</div>
 			</div>
-			<div className={styles.slideInfoLine}>
-				test
+			<div className={`${styles.slideInfoLine} ${styles.bottomLine}`}>
+				<div className={styles.buttonWrapper}>
+					<p className={styles.buttonText}>
+						ПОДРОБНЕЕ
+					</p>
+					<div className={styles.arrowContainer}/>
+				</div>
 			</div>
 		</div>
 	);

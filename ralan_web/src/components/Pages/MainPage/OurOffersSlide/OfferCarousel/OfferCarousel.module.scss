@@ -1,172 +1,91 @@
-/* OfferCarousel.module.scss */
-
-.carouselContainer {
-  text-align: center;
-  padding: 40px 0;
-  background-color: #1A2344; /* Темно-синий фон */
-  color: #F5F5F5;
+.sliderContainer {
+  width: 1246px;
+  max-width: 1246px; 
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  height: 564px;
 }
 
-.carouselContainer h2 {
-  font-size: 3rem;
-  margin-bottom: 30px;
-  font-weight: bold;
-  color: #F5F5F5;
-}
-
-.offerSwiper {
-  width: 100%;
-  padding: 0 20px; /* Добавляем небольшой отступ по бокам, чтобы стрелки не упирались в край */
-}
-
-.swiperSlide {
+.sliderWrapper {
   display: flex;
-  justify-content: center; /* Центрируем карточку в слайде */
-  width: auto !important; /* Чтобы слайд занимал ровно столько места, сколько нужно карточке */
+  height: 100%;
+  transition: transform 0.3s ease;
 }
 
-.offerCard {
-  background-color: #232F5C; /* Цвет карточки */
-  border-radius: 20px;
-  padding: 30px;
-  width: 380px; /* Фиксированная ширина карточки, чтобы они были одинаковыми */
+.slide {
+  flex-shrink: 0;
+  width: 389px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease-in-out;
-}
-
-.offerCard:hover {
-  transform: translateY(-10px);
-}
-
-.cardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.cardType {
-  font-size: 1rem;
-  opacity: 0.7;
-}
-
-.exclamationMark {
-  font-size: 1.5rem;
-  color: #FF4136; /* Красный цвет */
-  background-color: #F5F5F5; /* Белый фон */
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-}
-
-.cardTitle {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #F5F5F5;
-}
-
-.cardDate {
-  font-size: 0.9rem;
+  background-color: #457B9D;
+  border-radius: 40px;
+  font-size: 20px;
+  color: white;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
   opacity: 0.7;
-  margin-bottom: 10px;
+  filter: blur(2px);
 }
 
-.cardPrice {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #F5F5F5;
-  margin-bottom: 15px;
-}
-
-.cardDetails {
-  font-size: 1rem;
-  opacity: 0.7;
-  margin-bottom: 10px;
-}
-
-.cardLevel {
-  font-size: 1rem;
-  opacity: 0.7;
-  margin-bottom: 20px;
-}
-
-.cardButton {
-  background-color: #FF4136; /* Красный цвет кнопки */
-  color: #F5F5F5;
-  border: none;
-  border-radius: 10px;
-  padding: 15px 30px;
-  font-size: 1.1rem;
-  font-weight: bold;
+.slide.active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0px);
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.cardButton:hover {
-  background-color: #E03A2F; /* Темнее при наведении */
+.slide.prev {
+  opacity: 0.7;
+  transform: scale(0.925) translateX(100px);
+  filter: blur(1px);
+  z-index: 0;
 }
 
-/* Стили для навигации Swiper */
-.swiperNextButton,
-.swiperPrevButton {
+.slide.next {
+  opacity: 0.7;
+  transform: scale(0.925) translateX(-100px);
+  z-index: 0;
+}
+
+.slide.nonVisible {
+  display: none; 
+}
+
+.slider-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background-color: #FF4136; /* Красный */
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(230, 57, 70, 0.5);
   cursor: pointer;
   z-index: 10;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s ease;
-}
+  width: 95px;
+  height: 95px; 
+  display: inline-block;
+  -webkit-mask-image: url('../../../../../../assets/swg/carousel_arrow.svg');
+  mask-image: url('../../../../../../assets/swg/carousel_arrow.svg');
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  
+  &.prev {
+    left: 10px;
+    top: 40%;
+    transform: rotate(180deg);
+  }
 
-.swiperPrevButton {
-  left: 20px; /* Отступ слева */
-}
+  &.next {
+    right: 10px;
+  }
 
-.swiperNextButton {
-  right: 20px; /* Отступ справа */
-}
-
-.swiperNextButton:hover,
-.swiperPrevButton:hover {
-  background-color: #E03A2F;
-}
-
-.swiperNextButton img,
-.swiperPrevButton img {
-  width: 24px;
-  height: 24px;
-  filter: invert(1); /* Делаем стрелки белыми */
-}
-
-/* Стиль для пагинации (точек) - если используете */
-.swiper-pagination {
-  position: relative; /* Или абсолютное, в зависимости от макета */
-  bottom: 10px;
-}
-
-.swiper-pagination-bullet {
-  background-color: #F5F5F5; /* Цвет точек */
-  opacity: 0.7;
-}
-
-.swiper-pagination-bullet-active {
-  background-color: #FF4136; /* Цвет активной точки */
-  opacity: 1;
+  &:hover {
+    background-color: rgba(230, 57, 70, 1);
+  }
 }

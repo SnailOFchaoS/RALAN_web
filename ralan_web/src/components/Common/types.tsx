@@ -6,12 +6,14 @@ export interface InfoBlockProps{
     text: string,
     fontSize?: number,
     blockWidth?: number,
+    isRight?: boolean,
   },
   title?:{
     color?: string,
     text: string,
     fontSize?: number,
     blockWidth?: number,
+    isRight?: boolean,
   }
   block?: {
     styles: React.CSSProperties,
@@ -54,4 +56,27 @@ export interface personDataInterface{
       positionY: number,
     }
   }
+}
+
+export interface ElseOfferInterface{
+  title: string,
+  textInfo: {
+    title: string,
+    data: string,
+  }[],
+  image: {
+    src: StaticImageData,
+    positionX: number,
+    positionY: number,
+  }
+}
+
+export interface OfferShort{
+  id: number, 
+  discipline?: string[],
+  offerName: string,
+  date?: string,
+  price: string,
+  time?: string,
+  level?: string[],
 }

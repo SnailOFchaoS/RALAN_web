@@ -1,152 +1,76 @@
-// src/components/Carousel/OfferCarousel.jsx
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules'; // Если нужны пагинация или автовоспроизведение
+import React, { useState, useRef, useEffect } from 'react';
+import styles from './OfferCarousel.module.scss';
+import CarouselSlide from './CarouselSlider/CarouselSlider';
+import { offersAll } from '@/pages/api/mockData';
 
-// Импортируйте стили Swiper
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/autoplay'; // Если используете
-
-import styles from './OfferCarousel.module.scss'; // Ваши стили для карусели
-
-// Ваши данные для карточек
-const offerData = [
-  {
-    type: "ШОССЕ/ТРЕК",
-    title: "ТРЕНИРОВКА - ФОТОССЕССИЯ",
-    date: "30 февраля",
-    price: "3 500 ₽",
-    details: "1 занятие 4 часа",
-    level: "Опытный райдер",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#1D264C", // Темно-синий для карточек
-  },
-  {
-    type: "ШОССЕ",
-    title: "МЕСЯЧНЫЙ АБОНЕМЕНТ",
-    price: "25 000 ₽",
-    details: "12 занятий по 90 мин",
-    level: "Любой уровень",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#232F5C", // Чуть светлее для акцента
-  },
-  {
-    type: "ШОССЕ/ТРЕК",
-    title: "ТРЕНИРОВКА - ФОТОССЕССИЯ",
-    date: "30 февраля",
-    price: "500 ₽",
-    details: "1 занятие 4 часа",
-    level: "Опытный райдер",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#1D264C",
-  },
-  {
-    type: "ШОССЕ/ТРЕК",
-    title: "ТРЕНИРОВКА - ФОТОССЕССИЯ",
-    date: "30 февраля",
-    price: "500 ₽",
-    details: "1 занятие 4 часа",
-    level: "Опытный райдер",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#1D264C",
-  },
-  {
-    type: "ШОССЕ/ТРЕК",
-    title: "ТРЕНИРОВКА - ФОТОССЕССИЯ",
-    date: "30 февраля",
-    price: "500 ₽",
-    details: "1 занятие 4 часа",
-    level: "Опытный райдер",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#1D264C",
-  },
-  {
-    type: "ШОССЕ/ТРЕК",
-    title: "ТРЕНИРОВКА - ФОТОССЕССИЯ",
-    date: "30 февраля",
-    price: "500 ₽",
-    details: "1 занятие 4 часа",
-    level: "Опытный райдер",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#1D264C",
-  },
-  {
-    type: "ШОССЕ/ТРЕК",
-    title: "ТРЕНИРОВКА - ФОТОССЕССИЯ",
-    date: "30 февраля",
-    price: "500 ₽",
-    details: "1 занятие 4 часа",
-    level: "Опытный райдер",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#1D264C",
-  },
-  {
-    type: "ШОССЕ/ТРЕК",
-    title: "ТРЕНИРОВКА - ФОТОССЕССИЯ",
-    date: "30 февраля",
-    price: "500 ₽",
-    details: "1 занятие 4 часа",
-    level: "Опытный райдер",
-    buttonText: "ПОДРОБНЕЕ",
-    backgroundColor: "#1D264C",
-  },
+const SLIDER_DATA = [
+  { id: 1, title: "Слайд 1", description: "Описание слайда 1" },
+  { id: 2, title: "Слайд 2", description: "Описание слайда 2" },
+  { id: 3, title: "Слайд 3", description: "Описание слайда 3" },
+  { id: 4, title: "Слайд 4", description: "Описание слайда 4" },
+  { id: 5, title: "Слайд 5", description: "Описание слайда 5" },
 ];
 
-const OfferCarousel = () => {
-  return (
-    <div className={styles.carouselContainer}>
-      <Swiper
-        modules={[Navigation, Pagination, Autoplay]} // Подключите нужные модули
-        spaceBetween={20} // Расстояние между слайдами
-        slidesPerView={1.5} // Количество видимых слайдов (1.5, чтобы видеть части следующего)
-        navigation={{ // Настройки навигации (стрелок)
-          nextEl: `.${styles.swiperNextButton}`,
-          prevEl: `.${styles.swiperPrevButton}`,
-        }}
-        pagination={{ clickable: true }} // Если хотите точки пагинации
-        loop={true} // Зацикливание карусели
-        autoplay={{ delay: 5000 }} // Автоматическое переключение (опционально)
-        className={styles.offerSwiper} // Для применения стилей к самому Swiper
-        breakpoints={{ // Адаптивность
-          768: {
-            slidesPerView: 2,
-          },
-          1024: {
-            slidesPerView: 3, // На больших экранах показываем 3 карточки
-          },
-        }}
-      >
-        {offerData.map((item, index) => (
-          <SwiperSlide key={index} className={styles.swiperSlide}>
-            <div className={styles.offerCard} style={{ backgroundColor: item.backgroundColor }}>
-              <div className={styles.cardHeader}>
-                <span className={styles.cardType}>{item.type}</span>
-                {item.title === "МЕСЯЧНЫЙ АБОНЕМЕНТ" && (
-                  <span className={styles.exclamationMark}>!</span>
-                )}
-              </div>
-              <h3 className={styles.cardTitle}>{item.title}</h3>
-              {item.date && <p className={styles.cardDate}>{item.date}</p>}
-              <p className={styles.cardPrice}>{item.price}</p>
-              <p className={styles.cardDetails}>{item.details}</p>
-              <p className={styles.cardLevel}>{item.level}</p>
-              <button className={styles.cardButton}>{item.buttonText}</button>
-            </div>
-          </SwiperSlide>
-        ))}
+const MySlider = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideWidth, setSlideWidth] = useState<number>(0)
+  const sliderRef = useRef<any>(null);
+  const slideRef = useRef<any>(null);
 
-        {/* Стрелки навигации */}
-        {/* <div className={styles.swiperPrevButton}>
-          <img src="" alt="Previous" />
-        </div>
-        <div className={styles.swiperNextButton}>
-          <img src="" alt="Next" />
-        </div> */}
-      </Swiper>
+  const slideCount = SLIDER_DATA.length;
+
+  const nextSlide = () => {
+    console.log("nextSlide:")
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % slideCount);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + slideCount) % slideCount);
+  };
+
+  const transformValue = -((currentIndex - 1) * slideWidth) + 40 + 'px';
+
+  useEffect(()=> {
+    if (slideRef.current) {
+      setSlideWidth(slideRef.current.offsetWidth)
+    }
+  }, [slideRef.current])
+
+  return (
+    <div className={styles.sliderContainer}>
+      <div
+        className={styles.sliderWrapper}
+        ref={sliderRef}
+        style={{ transform: `translateX(${transformValue})` }}
+      >
+        {offersAll.map((item, index) => (
+          <div
+            style={{
+              minWidth: '389px',
+              minHeight: '100%',
+            }}
+          >
+            <div
+              key={item.id}
+              className={`${styles.slide} 
+                ${index === currentIndex ? styles.active : ''} 
+                ${index === (currentIndex - 1 + slideCount) % slideCount ? styles.prev : ''} 
+                ${index === (currentIndex + 1) % slideCount ? styles.next : ''}
+                ${!(index === (currentIndex + 1) || index === (currentIndex - 1) || index === currentIndex) ? styles.nonVisible : ''}
+              `}
+              ref={index === 0 ? slideRef : null}
+            >
+              <CarouselSlide
+                offer={item}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <button className={`${styles["slider-button"]} ${styles.prev}`} onClick={prevSlide} />
+      <button className={`${styles["slider-button"]} ${styles.next}`} onClick={nextSlide} />
     </div>
   );
 };
 
-export default OfferCarousel;
+export default MySlider;

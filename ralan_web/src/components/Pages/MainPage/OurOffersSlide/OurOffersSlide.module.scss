@@ -5,6 +5,7 @@
   margin-top: 180px;
   width: 100%;
   gap: 20px;
+  margin-bottom: 180px;
 
   .titleLine{
     display: flex;
@@ -34,6 +35,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 180px;;
+  }
+
+  .elseOffers{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
   }
 }
