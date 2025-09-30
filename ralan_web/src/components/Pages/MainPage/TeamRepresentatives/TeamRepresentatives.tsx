@@ -1,5 +1,5 @@
 import PersonBlock from "@/components/Common/PersonBlock/PersonBlock";
-
+import { personDataInterface } from "@/components/Common/types"
 import { representatives } from "@/pages/api/mockData";
 
 import styles from "./TeamRepresentatives.module.scss"
@@ -13,8 +13,9 @@ const TeamRepresentatives = () => {
         </p>
       </div>
       <div className={styles.slideLine}>
-        {representatives.map((person: any) => (
+        {representatives.map((person: personDataInterface, index) => (
           <PersonBlock
+            key={index}
             isOpenedDefault={true}
             isStatic
             person={person}

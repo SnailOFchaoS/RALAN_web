@@ -28,10 +28,10 @@ const OpenedPersonBlock: React.FC<{
           />
         </div>
         <div className={styles.textLine}>
-          {person.achievements.map((achievement: any) => {
-            console.log("achievement:", achievement)
+          {person.achievements.map((achievement: {text: string}, index: number) => {
             return (
               <InfoBlock
+                key={index}
                 title={{
                   text: `一${achievement.text.toUpperCase()}`,
                   color: "#1A2344",

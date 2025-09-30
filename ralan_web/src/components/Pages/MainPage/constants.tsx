@@ -1,4 +1,4 @@
-import {InfoBlockProps, YouWillFindInfoBlockProps} from "@/components/Common/types"
+import {InfoBlockProps, YouWillFindInfoBlockProps, ElseOfferInterface} from "@/components/Common/types"
 
 import preparationImage from '../../../../assets/png/preparation.png';
 import strategyImage from '../../../../assets/png/strategy.png';
@@ -111,7 +111,7 @@ export const YouWillFindTextData: YouWillFindInfoBlockProps[] = [
   },
 ]
 
-export const bycicleService: any = {
+export const bycicleService: ElseOfferInterface = {
   title: 'ВЕЛОСЕРВИС',
   textInfo:[{
     title: '一РЕМОНТ',
@@ -127,7 +127,7 @@ export const bycicleService: any = {
   }
 }
 
-export const bikeUniform: any = {
+export const bikeUniform: ElseOfferInterface = {
   title: 'КОМАНДНАЯ ФОРМА',
   textInfo:[{
     title: '一ЛЕТНЯЯ ФОРМА',

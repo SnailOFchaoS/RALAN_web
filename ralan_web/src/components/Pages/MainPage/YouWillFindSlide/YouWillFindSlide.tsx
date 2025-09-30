@@ -19,9 +19,12 @@ const YouWillFindSlide = () => {
           ВАС ЖДЁТ
         </p>
       </div>
-      {YouWillFindTextData.map((element: YouWillFindInfoBlockProps) => {
+      {YouWillFindTextData.map((element: YouWillFindInfoBlockProps, index) => {
         return (
-          <div className={styles.slideLine}>
+          <div 
+            className={styles.slideLine}
+            key={index}
+          >
             <YouWillFindInfoTitle
               subtitle = {element}
               openedBlocks = {openedBlocks}
