@@ -1,0 +1,55 @@
+.openedPersonBlock{
+  display: flex;
+  flex-direction: row;
+  width: 772px;
+  padding: 32px;
+  gap: 20px;
+  background-color: #fffff0;
+  border-radius: 40px;
+
+  .textBlock{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .textLine{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 417px;
+      height: 105px;
+
+      .nameLine{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        font-family: var(--tactic-sans-bold), sans-serif;
+        font-weight: bold;
+        text-align: left;
+        font-size: 16px;
+        color: #457B9D;
+
+        .surname{
+          color: #1A2344
+        }
+      }
+    }
+  }
+  
+  .imageBlock{
+    overflow: hidden;
+    position: relative;
+    width: 271px;
+    height: 354px;
+    border-radius: 28px;
+    background-color: #1A2344;
+
+    .image{
+      object-fit: cover;
+      transform-origin: center;
+      max-width: unset;
+      max-height: unset;
+      pointer-events: none;
+    }
+  }
+}
