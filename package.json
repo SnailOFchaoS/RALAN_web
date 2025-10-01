@@ -10,7 +10,8 @@
     "clean:out": "powershell -NoProfile -Command \"If (Test-Path ./out) { Remove-Item -Recurse -Force ./out }\" || exit 0",
     "build:gh-pages": "npm run clean:out && set NEXT_EXPORT=1&& set BASE_PATH=/RALAN_web&& next build",
     "serve:gh-pages": "node scripts/serve-ghpages.cjs",
-    "predeploy": "npm run build:gh-pages",
+    "add:nojekyll": "powershell -NoProfile -Command \"New-Item -Path ./out/.nojekyll -ItemType File -Force | Out-Null\"",
+    "predeploy": "npm run build:gh-pages && npm run add:nojekyll",
     "deploy": "gh-pages -d out"
   },
   "dependencies": {
