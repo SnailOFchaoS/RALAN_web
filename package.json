@@ -12,7 +12,7 @@
     "serve:gh-pages": "node scripts/serve-ghpages.cjs",
     "add:nojekyll": "powershell -NoProfile -Command \"New-Item -Path ./out/.nojekyll -ItemType File -Force | Out-Null\"",
     "predeploy": "npm run build:gh-pages && npm run add:nojekyll",
-    "deploy": "gh-pages -d out"
+    "deploy": "gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "@next/font": "^14.2.15",
