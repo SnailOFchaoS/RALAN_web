@@ -1,19 +1,17 @@
-import type { NextConfig } from "next";
+const isExport = process.env.NEXT_EXPORT === '1' || process.env.NEXT_EXPORT === 'true';
+const basePath = isExport ? (process.env.BASE_PATH || '/RALAN_web') : '';
 
-const isProd = process.env.NODE_ENV === 'production';
-
-const nextConfig: NextConfig = {
-  output: 'export',
-  basePath: isProd ? '/RALAN_web' : '',
-  assetPrefix: isProd ? '/RALAN_web' : '',
-  trailingSlash: true,
+const nextConfig: import('next').NextConfig = {
   reactStrictMode: true,
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
-  images: {
-    unoptimized: true,
-  },
-};
+  ...(isExport
+    ? {
+        output: 'export',
+        basePath: basePath || undefined,
+        assetPrefix: basePath ? `${basePath}/` : '',
+        trailingSlash: true,
+        images: { unoptimized: true },
+      }
+    : {}),
+}
 
-export default nextConfig;
+module.exports = nextConfig
