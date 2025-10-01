@@ -1,11 +1,7 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === 'production';
-
 const nextConfig: NextConfig = {
   output: 'export',
-  basePath: isProd ? '/RALAN_web' : '',
-  assetPrefix: isProd ? '/RALAN_web' : '',
   trailingSlash: true,
   reactStrictMode: true,
   compiler: {
@@ -14,6 +10,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  distDir: 'out',
 };
 
 export default nextConfig;
