@@ -9,12 +9,10 @@ const OUT_DIR = path.join(__dirname, '..', 'out');
 
 const app = express();
 
-// Redirect root to base path
 app.get('/', (_req, res) => {
   res.redirect(BASE_PATH + '/');
 });
 
-// Serve static export under base path
 app.use(BASE_PATH, express.static(OUT_DIR, { extensions: ['html'] }));
 
 app.listen(PORT, () => {
