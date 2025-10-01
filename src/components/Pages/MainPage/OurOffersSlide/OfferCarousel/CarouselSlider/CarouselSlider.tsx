@@ -34,7 +34,8 @@ const CarouselSlide: React.FC<{offer: OfferShort}> = ({offer}) => {
 					<p className={styles.buttonText}>
 						ПОДРОБНЕЕ
 					</p>
-					<div className={styles.arrowContainer}/>
+					<div className={`${styles.arrowContainer} ${styles.arrowRight}`}/>
+					<div className={`${styles.arrowContainer} ${styles.arrowLeft}`}/>
 				</div>
 			</div>
 		</div>

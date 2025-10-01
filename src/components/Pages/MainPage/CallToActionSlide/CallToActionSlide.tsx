@@ -13,7 +13,9 @@ const CallToActionSlide: React.FC = () => {
 							<p className={styles.buttonText}>
 								НАЧАТЬ ТРЕНИРОВКИ
 							</p>
-							<div className={styles.arrowContainer}/>
+							{/* <div className={styles.arrowContainer}/> */}
+							<div className={`${styles.arrowContainer} ${styles.arrowRight}`}/>
+							<div className={`${styles.arrowContainer} ${styles.arrowLeft}`}/>
 						</div>
 					</div>
 					<div className={styles.blockLine}>
