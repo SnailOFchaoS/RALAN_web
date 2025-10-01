@@ -1,0 +1,64 @@
+.youWillFindInfoWrapper{
+	display: flex;
+	flex-direction: column;
+	
+	.titleWrapper{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 613px;
+		height: 126px;
+		border-bottom: 3px solid #A8DADC;
+		box-sizing: border-box;
+		cursor: pointer;
+	
+		.textBlock{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			height: 100%;
+	
+			.allSubtitles{
+				display: flex;
+				flex-direction: row;
+				padding-left: 3px;
+				width: 100%;
+				font-family: var(--montserrat), sans-serif;
+				font-weight: normal;
+				font-size: 22px;
+				color: #fffff0;
+				line-height: 1;
+		
+			}
+		
+			.title{
+				display: flex;
+				min-height: 96px;
+				align-items: center;
+				font-family: var(--tactic-sans-medium), sans-serif;
+				font-weight: 500;
+				font-size: 40px;
+				color: #A8DADC;
+			}
+		}
+	
+		.arrowBlock{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			
+			.arrowContainer {
+				width: 78px;
+				height: 65px; 
+				display: inline-block;
+				background-color: #a8dadc;
+				-webkit-mask-image: url('../../../../../../assets/swg/arrow.svg');
+				mask-image: url('../../../../../../assets/swg/arrow.svg');
+				mask-repeat: no-repeat;
+				mask-size: contain;
+				mask-position: center;
+			}
+		}
+	}
+}
