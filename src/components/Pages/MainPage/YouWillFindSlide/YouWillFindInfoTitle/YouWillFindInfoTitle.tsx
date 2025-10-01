@@ -51,7 +51,10 @@ const YouWillFindInfo = ({
         <div className={styles.allSubtitles}>
           {allSubtitles.map((element, index) => {
             return (
-              <div key={index}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+              }} key={index}>
                 <p 
                   className={styles.subtitle}
                   style={{
