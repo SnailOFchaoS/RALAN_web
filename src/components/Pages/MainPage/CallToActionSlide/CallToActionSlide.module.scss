@@ -46,110 +46,30 @@
 					font-weight: 500;
 					font-size: 20px;
 				}
-
-				.buttonWrapper {
-					position: relative; /* Важно для абсолютного позиционирования стрелок */
-					display: flex;
-					flex-direction: row;
-					background-color: #D91722;
-					border-radius: 50px;
-					cursor: pointer;
-					justify-content: flex-start; /* Выравниваем элементы по левому краю */
-					align-items: center;
-					width: 366px;
-					height: 69px;
-					overflow: hidden;
-					transition: padding 0.3s ease;
-					padding-left: 20px;
-					// padding-right: 60px;
-				}
-				
-				.buttonText {
-					font-size: 16px;
-					font-family: var(--tactic-sans-medium), sans-serif;
-					font-weight: 500;
-					color: #fffff0;
-					transition: transform 0.3s ease;
-				}
-				
-				.arrowContainer {
-					position: absolute;
-					top: 50%;
-					transform: translateY(-50%);
-					width: 40px;
-					height: 24px;
-					display: inline-block;
-					background-color: #fffff0;
-					-webkit-mask-image: url('../../../../../assets/swg/buttons_arrow.svg');
-					mask-image: url('../../../../../assets/swg/buttons_arrow.svg');
-					mask-repeat: no-repeat;
-					mask-size: contain;
-					mask-position: center;
-					transition: transform 0.5s ease, opacity 0.5s ease;
-				}
-		
-				.arrowContainer.arrowRight {
-					right: 20px;
-					opacity: 1;
-				}
-				
-				.arrowContainer.arrowLeft {
-					left: -40px;
-					opacity: 0; 
-				}
-				
-				/* Hover эффект */
-				.buttonWrapper:hover {
-					padding-left: 40px;
-					// padding-right: 80px;
-					justify-content: flex-start;
-				}
-				
-				.buttonWrapper:hover .buttonText {
-					transform: translateX(30px);
-				}
-		
-				.buttonWrapper:hover .arrowContainer.arrowRight {
-					transform: translateX(60px) translateY(-50%);
-					opacity: 0;
-				}
-				
-				.buttonWrapper:hover .arrowContainer.arrowLeft {
-					transform: translateX(60px) translateY(-50%);
-					opacity: 1;
-				}
-
-				// .buttonWrapper {
-				// 	display: flex;
-				// 	flex-direction: row;
-				// 	background-color: #D91722;
-				// 	border-radius: 50px;
-				// 	justify-content: space-evenly;
-				// 	align-items: center;
-				// 	width: 366px;
-				// 	height: 69px;
-				// 	cursor: pointer;
-		
-				// 	.buttonText {
-						// font-size: 16px;
-						// font-family: var(--tactic-sans-medium), sans-serif;
-						// font-weight: 500;
-						// color: #fffff0;
-				// 	}
-		
-				// 	.arrowContainer {
-				// 		width: 40px;
-				// 		height: 24px;
-				// 		display: inline-block;
-				// 		background-color: #fffff0;
-				// 		-webkit-mask-image: url('../../../../../assets/swg/buttons_arrow.svg');
-				// 		mask-image: url('../../../../../assets/swg/buttons_arrow.svg');
-				// 		mask-repeat: no-repeat;
-				// 		mask-size: contain;
-				// 		mask-position: center;
-				// 	}
-				// }
 			}
 		}
+  }
+}
+
+/* Laptop adaptations */
+@media (max-width: 1366px) {
+  .callToActionSlideWrapper {
+    margin-top: 120px;
+    margin-bottom: 120px;
+
+    .slideLine {
+      .callToActionBlock {
+        width: 1040px;
+        height: 300px;
+        padding: 24px 16px;
+
+        .blockLine {
+          width: 720px;
+
+          .titleText { font-size: 22px; }
+          .mainText { width: 560px; font-size: 18px; }
+        }
+      }
+    }
   }
 }

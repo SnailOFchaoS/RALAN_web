@@ -42,3 +42,23 @@
     gap: 20px;
   }
 }
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .ourOffersWrapper {
+    margin-top: 120px;
+
+    .titleLine .titleText { font-size: 56px; }
+    .slideLine { gap: 16px; }
+    .elseOffers { gap: 16px; }
+  }
+}
+
+// @media (max-width: 1366px) {
+//   .ourOffersWrapper {
+//     margin-top: 120px;
+
+//     .titleLine .titleText { font-size: 56px; }
+//     .slideLine { gap: 16px; }
+//     .elseOffers { gap: 16px; }
+//   }
+// }

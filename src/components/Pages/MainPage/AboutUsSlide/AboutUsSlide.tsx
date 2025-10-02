@@ -43,7 +43,7 @@ const AboutUsSlide = () => {
           src={aboutUsPhoto}
           alt='About US'
           className={styles.image}
-        />
+        />    
       </div>
     </div>
   );
