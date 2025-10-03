@@ -1,7 +1,9 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 import InfoBlock from '@/components/Common/InfoBlock/InfoBlock';
 import { ElseOfferInterface } from '@/components/Common/types';
+import ButtonWithArrow from '@/components/Common/ButtonWithArrow/ButtonWithArrow';
 
 import styles from './ElseOfferInfo.module.scss'
 
@@ -51,12 +53,11 @@ const ElseOfferInfo: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({
 					alignItems: 'flex-end',
 				}}
 			>
-				<div className={styles.buttonWrapper}>
-					<p className={styles.buttonText}>
-						ПОДРОБНЕЕ
-					</p>
-					<div className={styles.arrowContainer}/>
-				</div>
+				<ButtonWithArrow
+					text='ПОДРОБНЕЕ'
+					size={{width: 412, height: 85}}
+					fontSize={24}
+				/>
 			</div>
 		</div>
 	);

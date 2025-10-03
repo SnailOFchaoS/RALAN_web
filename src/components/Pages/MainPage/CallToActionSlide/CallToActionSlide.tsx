@@ -1,3 +1,5 @@
+import ButtonWithArrow from "@/components/Common/ButtonWithArrow/ButtonWithArrow";
+
 import styles from "./CallToActionSlide.module.scss"
 
 const CallToActionSlide: React.FC = () => {
@@ -9,12 +11,11 @@ const CallToActionSlide: React.FC = () => {
 						<div className={styles.titleText}>
 							ЗАИНТЕРЕСОВАНЫ ?
 						</div>
-						<div className={styles.buttonWrapper}>
-							<p className={styles.buttonText}>
-								НАЧАТЬ ТРЕНИРОВКИ
-							</p>
-							<div className={styles.arrowContainer}/>
-						</div>
+						<ButtonWithArrow
+							text='НАЧАТЬ ТРЕНИРОВКИ'
+							size={{width: 366, height: 69}}
+							fontSize={16}
+						/>
 					</div>
 					<div className={styles.blockLine}>
 						<div className={styles.titleText}>

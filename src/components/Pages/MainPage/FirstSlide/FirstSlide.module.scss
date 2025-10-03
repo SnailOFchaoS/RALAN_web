@@ -76,3 +76,17 @@
     color: #fffff0;
   }
 }
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .firstSlideWrapper {
+
+    .contentWrapper { padding: 72px 120px 137px 120px; }
+
+    .mainContent {
+      margin: 65px 106px 65px 106px;
+
+      .titleText { font-size: 47px; }
+      .infoText { width: 623px; font-size: 20px; }
+    }
+  }
+}

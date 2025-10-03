@@ -1,0 +1,16 @@
+.topContentWrapper{
+  display: flex;
+  align-items: center;
+  padding: 0 34px;
+}
+
+.logoImage {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1366px) {
+  .topContentWrapper{
+    padding: 0 23px;
+  }
+}

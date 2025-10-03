@@ -19,7 +19,7 @@
 
     .image {
       object-fit: cover;
-      transform-origin: center;
+      transform-origin: top left;
       max-width: unset;
       max-height: unset;
       pointer-events: none;
@@ -65,5 +65,42 @@
 
   .mirror {
     justify-content: flex-end;
+  }
+}
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .elseOfferInfoWrapper {
+    width: 613px * 0.67;
+    height: 710px * 0.67;
+    border-radius: 40px * 0.67;
+    padding: 32px * 0.67;
+    gap: 20px * 0.67;
+    margin-top: 20px * 0.67;
+  
+    .imageBlock {
+      height: 246px * 0.67;
+      border-radius: 40px * 0.67;
+  
+      .image {
+        transform: scale(0.67);
+      }
+    }
+  
+    .blockLine {
+      height: 114px * 0.67;
+  
+      .buttonWrapper {
+        border-radius: 50px * 0.67;
+  
+        .buttonText {
+          font-size: 24px * 0.67;
+        }
+  
+        .arrowContainer {
+          width: 40px * 0.67;
+          height: 24px * 0.67;
+        }
+      }
+    }
   }
 }

@@ -4,12 +4,14 @@ import InfoBlock from '@/components/Common/InfoBlock/InfoBlock'
 import {YouWillFindInfoBlockProps} from "@/components/Common/types"
 
 import styles from './YouWillFindInfoBlock.module.scss'
+import { useMainPageContext } from '../../context';
 
 const YouWillFindInfoBlock: React.FC<{ infoBlockContent: YouWillFindInfoBlockProps }> = ({ infoBlockContent }) => {
 
   const imagePosition = {
     objectPosition: `${infoBlockContent?.image?.positionX ?? 0}px ${infoBlockContent?.image?.positionY ?? 0}px`
   }
+  const laptopScale = useMainPageContext();
 
   return (
     <div 
@@ -37,8 +39,8 @@ const YouWillFindInfoBlock: React.FC<{ infoBlockContent: YouWillFindInfoBlockPro
               }}
               block={{
                 styles:{
-                  height: '152px',
-                  paddingBottom: '24px',
+                  height:  `${laptopScale * 152}px`,
+                  paddingBottom: `${laptopScale * 24}px`,
                   justifyContent: 'space-between'
                 }
               }}

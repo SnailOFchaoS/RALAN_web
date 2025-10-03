@@ -1,23 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './OfferCarousel.module.scss';
+import { useMainPageContext } from '../../context';
+
 import CarouselSlide from './CarouselSlider/CarouselSlider';
 import { offersAll } from '@/pages/api/mockData';
-
-const SLIDER_DATA = [
-  { id: 1, title: "Слайд 1", description: "Описание слайда 1" },
-  { id: 2, title: "Слайд 2", description: "Описание слайда 2" },
-  { id: 3, title: "Слайд 3", description: "Описание слайда 3" },
-  { id: 4, title: "Слайд 4", description: "Описание слайда 4" },
-  { id: 5, title: "Слайд 5", description: "Описание слайда 5" },
-];
+import styles from './OfferCarousel.module.scss';
 
 const MySlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideWidth, setSlideWidth] = useState<number>(0)
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const slideRef = useRef<HTMLDivElement | null>(null);
+  const laptopScale = useMainPageContext();
 
-  const slideCount = SLIDER_DATA.length;
+  const slideCount = offersAll.length;
 
   const nextSlide = () => {
     console.log("nextSlide:")
@@ -28,7 +23,7 @@ const MySlider = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + slideCount) % slideCount);
   };
 
-  const transformValue = -((currentIndex - 1) * slideWidth) + 40 + 'px';
+  const transformValue = -((currentIndex - 1) * slideWidth) + 40 * laptopScale + 'px';
 
   useEffect(()=> {
     if (slideRef.current) {
@@ -47,7 +42,7 @@ const MySlider = () => {
           <div
             key={index}
             style={{
-              minWidth: '389px',
+              minWidth: `${389 * laptopScale}px`,
               minHeight: '100%',
             }}
           >

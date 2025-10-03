@@ -62,3 +62,31 @@
 		}
 	}
 }
+
+@media (max-width: 1366px) and (max-height: 820px) {
+	.youWillFindInfoWrapper{
+		.titleWrapper{
+			width: 613px * 0.67;
+			height: 126px * 0.67;
+		
+			.textBlock{
+				.allSubtitles{
+					padding-left: 3px * 0.67;
+					font-size: 22px * 0.67;
+				}
+			
+				.title{
+					min-height: 96px * 0.67;
+					font-size: 40px * 0.67;
+				}
+			}
+		
+			.arrowBlock{
+				.arrowContainer {
+					width: 78px * 0.67;
+					height: 65px * 0.67; 
+				}
+			}
+		}
+	}
+}

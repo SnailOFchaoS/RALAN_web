@@ -46,38 +46,41 @@
 					font-weight: 500;
 					font-size: 20px;
 				}
+			}
+		}
+  }
+}
 
-				.buttonWrapper {
-					display: flex;
-					flex-direction: row;
-					background-color: #D91722;
-					border-radius: 50px;
-					justify-content: space-evenly;
-					align-items: center;
-					width: 366px;
-					height: 69px;
-					cursor: pointer;
-		
-					.buttonText {
-						font-size: 16px;
-						font-family: var(--tactic-sans-medium), sans-serif;
-						font-weight: 500;
-						color: #fffff0;
+/* Laptop adaptations */
+@media (max-width: 1366px) {
+  .callToActionSlideWrapper{
+		margin-top: 180px * 0.67;
+		margin-bottom: 180px * 0.67;
+	
+		.slideLine{
+	
+			.callToActionBlock{
+				width: 1247px * 0.67;
+				height: 325px * 0.67;
+				padding: 32px * 0.67 18px * 0.67;
+				box-shadow: 0px 4px * 0.67 18px * 0.67 rgba(69, 123, 157, 0.25);
+				border-radius: 40px * 0.67;
+				gap: 20px * 0.67;
+	
+				.blockLine{
+					width: 807px * 0.67;
+					gap: 13px * 0.67;
+	
+					.titleText{
+						font-size: 26px * 0.67;
 					}
-		
-					.arrowContainer {
-						width: 40px;
-						height: 24px;
-						display: inline-block;
-						background-color: #fffff0;
-						-webkit-mask-image: url('../../../../../assets/swg/buttons_arrow.svg');
-						mask-image: url('../../../../../assets/swg/buttons_arrow.svg');
-						mask-repeat: no-repeat;
-						mask-size: contain;
-						mask-position: center;
+	
+					.mainText{
+						width: 605px * 0.67;
+						font-size: 20px * 0.67;
 					}
 				}
 			}
 		}
-  }
+	}
 }

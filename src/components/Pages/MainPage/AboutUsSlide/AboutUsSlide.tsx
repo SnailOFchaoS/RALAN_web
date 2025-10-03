@@ -6,7 +6,6 @@ import aboutUsPhoto from '../../../../../assets/png/about_us_photo.png';
 
 import styles from "./AboutUsSlide.module.scss"
 
-
 const AboutUsSlide = () => {
   return (
     <div className={styles.aboutUsSlideWrapper}>
@@ -43,7 +42,7 @@ const AboutUsSlide = () => {
           src={aboutUsPhoto}
           alt='About US'
           className={styles.image}
-        />
+        />    
       </div>
     </div>
   );

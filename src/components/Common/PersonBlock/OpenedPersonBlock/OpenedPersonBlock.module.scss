@@ -46,10 +46,42 @@
 
     .image{
       object-fit: cover;
-      transform-origin: center;
+      transform-origin: top left;
       max-width: unset;
       max-height: unset;
       pointer-events: none;
+    }
+  }
+}
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .openedPersonBlock{
+    width: 772px * 0.67;
+    padding: 32px * 0.67;
+    gap: 20px * 0.67;
+    border-radius: 40px * 0.67;
+  
+    .textBlock{
+      gap: 20px * 0.67;
+  
+      .textLine{
+        width: 417px * 0.67;
+        height: 105px * 0.67;
+  
+        .nameLine{
+          font-size: 16px * 0.67;
+        }
+      }
+    }
+    
+    .imageBlock{
+      width: 271px * 0.67;
+      height: 354px * 0.67;
+      border-radius: 28px * 0.67;
+  
+      .image{
+        transform: scale(0.67);
+      }
     }
   }
 }

@@ -49,3 +49,24 @@
   }
 }
 
+/* Laptop adaptations */
+@media (max-width: 1366px) and (max-height: 820px) {
+  .frameContainer {
+    border-width: 3px;
+    border-radius: 67px;
+
+    .topElement {
+      width: 305px;
+      height: 102px;
+      top: -60px;
+    }
+
+    .bottomElement {
+      width: 260px;
+      height: 68px;
+      border-radius: 44px;
+      bottom: -34px;
+    }
+  }
+}
+
