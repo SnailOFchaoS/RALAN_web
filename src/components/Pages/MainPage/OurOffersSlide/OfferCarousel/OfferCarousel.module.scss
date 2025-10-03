@@ -93,3 +93,34 @@
     background-color: rgba(217, 23, 34, 1);
   }
 }
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .sliderContainer {
+    width: 1246px * 0.67;
+    max-width: 1246px * 0.67; 
+    height: 564px * 0.67;
+  }
+  
+  .slide {
+    width: 389px * 0.67;
+    border-radius: 40px * 0.67;
+    font-size: 20px * 0.67;
+  }
+  
+  .slide.active {
+    box-shadow: 0 5px * 0.67 15px * 0.67 rgba(0, 0, 0, 0.3);
+  }
+  
+  .slider-button {
+    width: 95px * 0.67;
+    height: 95px * 0.67; 
+    
+    &.prev {
+      left: 10px * 0.67;
+    }
+  
+    &.next {
+      right: 10px * 0.67;
+    }
+  }
+}

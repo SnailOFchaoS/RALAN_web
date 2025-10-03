@@ -1,10 +1,13 @@
 import { useState } from 'react';
+
+import { useMainPageContext } from '../../context';
 import styles from './ElseOffersItem.module.scss'
 import ElseOfferInfo from './ElseOfferInfo/ElseOfferInfo';
 import { ElseOfferInterface } from '@/components/Common/types';
 
 const ElseOffersItem: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({mirror = false, data}) => {
 	const [isOpened, setIsOpened] = useState<boolean>(false)
+	const laptopScale = useMainPageContext();
 
 	return (
 		<div className={styles.youWillFindInfoWrapper}>
@@ -12,7 +15,7 @@ const ElseOffersItem: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = (
 				className={styles.titleWrapper}
 				onClick={() => setIsOpened(!isOpened)}
 				style={{
-					borderBottom: !isOpened ? '3px solid #A8DADC' : '3px solid transparent',
+					borderBottom: !isOpened ? `${3 * laptopScale}px solid #A8DADC` : `${3 * laptopScale}px solid transparent`,
 				}}
 			>
 				{mirror ? (
@@ -22,7 +25,7 @@ const ElseOffersItem: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = (
 								className={styles.arrowContainer}
 								style={{
 									backgroundColor: '#A8DADC',
-									marginLeft: `32px`,
+									marginLeft: `${32 * laptopScale}px`,
 									transform: isOpened ? 'rotate(180deg)' : 'none'
 								}}
 							/>
@@ -70,7 +73,7 @@ const ElseOffersItem: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = (
 								style={{
 									backgroundColor: '#A8DADC',
 									transform: isOpened ? 'rotate(180deg)' : 'none',
-									marginRight: `32px`,
+									marginRight: `${32 * laptopScale}px`,
 								}}
 							/>
 						</div>

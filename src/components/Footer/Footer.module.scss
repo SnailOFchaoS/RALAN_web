@@ -87,3 +87,38 @@
     }
   }
 }
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .footerWrapper{
+    height: 515px * 0.67;
+  
+    .content {
+      padding: 180px * 0.67 178px * 0.67 0 178px * 0.67;
+      gap: 378px * 0.67;
+  
+      .contentColumn{
+  
+        .textContent{
+          height: 77px * 0.67;
+  
+          .smallText{
+            font-size: 12px * 0.67;
+          }
+  
+          .bigText{
+            font-size: 18px * 0.67;
+          }
+        }
+  
+        .mainIcon{
+          margin-top: 26px * 0.67;
+        }
+  
+        .linksLine{
+          gap: 16px * 0.67;
+  
+        }
+      }
+    }
+  }
+}

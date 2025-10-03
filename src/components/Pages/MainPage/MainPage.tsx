@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import Background from "@/components/Background/Background";
 import FirstSlide from "./FirstSlide/FirstSlide";
 import AboutUsSlide from "./AboutUsSlide/AboutUsSlide"
@@ -6,6 +8,7 @@ import TeamRepresentatives from "./TeamRepresentatives/TeamRepresentatives"
 import OurOffersSlide from "./OurOffersSlide/OurOffersSlide"
 import CallToActionSlide from "./CallToActionSlide/CallToActionSlide";
 import Footer from "@/components/Footer/Footer";
+import { MainPageProvider } from "./context";
 
 import styles from './MainPage.module.scss'
 
@@ -15,16 +18,36 @@ export default function MainPage() {
     backgroundColor: '#1A2344',
   };
 
+  const [laptopScale, setLaptopScale] = useState<number>(1);
+
+	useEffect(() => {
+		const handleResize = () => {
+			if (window.innerWidth <= 1366) {
+				setLaptopScale(0.67);
+			} else {
+				setLaptopScale(1);
+			}
+		};
+	
+		handleResize();
+	
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
   return (
-    <div className={styles.scaleWrapper}>
-      <Background {...mainBackgroundProps} />
-      <FirstSlide/>
-      <AboutUsSlide/>
-      <YouWillFindSlide/>
-      <TeamRepresentatives/>
-      <OurOffersSlide/>
-      <CallToActionSlide/>
-      <Footer/>
-    </div>
+    <MainPageProvider value={laptopScale}>
+      <div className={styles.scaleWrapper}>
+        <Background {...mainBackgroundProps} />
+        <FirstSlide/>
+        <AboutUsSlide/>
+        <YouWillFindSlide/>
+        <TeamRepresentatives/>
+        <OurOffersSlide/>
+        <CallToActionSlide/>
+        <Footer/>
+      </div>
+    </MainPageProvider>
+    
   );
 }

@@ -58,3 +58,35 @@
 
   }
 }
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .youWillFindInfoWrapper{
+    height: 126px * 0.67;
+    border-bottom: 3px * 0.67 solid #A8DADC;
+  
+    .textBlock{
+  
+      .allSubtitles{
+        padding-left: 3px * 0.67;
+    
+        .subtitle{
+          font-size: 22px * 0.67;
+        }
+      }
+    
+      .title{
+        font-size: 64px * 0.67;
+      }
+    }
+  
+    .arrowBlock{
+      margin-right: 32px * 0.67;
+      
+      .arrowContainer {
+        width: 78px * 0.67;
+        height: 99px * 0.67; 
+      }
+  
+    }
+  }
+}

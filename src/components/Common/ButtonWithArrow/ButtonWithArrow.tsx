@@ -1,3 +1,5 @@
+import { useMainPageContext } from "@/components/Pages/MainPage/context";
+
 import styles from "./ButtonWithArrow.module.scss"
 
 interface buttonInterFace {
@@ -7,17 +9,20 @@ interface buttonInterFace {
 }
 
 const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize}) => {
+
+	const laptopScale = useMainPageContext();
+
 	return (
 		<div 
 			className={styles.buttonWrapper}
 			style={{
-				width: size ? `${size?.width}px` : '100%',
-				height: size ? `${size?.height}px` : '100%'
+				width: size ? `${size?.width * laptopScale}px` : '100%',
+				height: size ? `${size?.height * laptopScale}px` : '100%'
 			}}
 		>
 			<p 
 				className={styles.buttonText}
-				style={{fontSize: fontSize ? `${fontSize}px` : `24px`}}
+				style={{fontSize: fontSize ? `${fontSize * laptopScale}px` : `${24 * laptopScale}px`}}
 			>
 				{text}
 			</p>

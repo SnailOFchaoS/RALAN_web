@@ -1,25 +1,12 @@
-import { CSSProperties, useEffect, useState } from 'react';
-import styles from "./InfoBlock.module.scss"
+import { CSSProperties } from 'react';
+import { useMainPageContext } from '@/components/Pages/MainPage/context';
 import {InfoBlockProps} from "@/components/Common/types"
+
+import styles from "./InfoBlock.module.scss"
 
 const InfoBlock = ({data, title, block}: InfoBlockProps) => {
 
-  const [laptopScale, setLaptopScale] = useState<number>(1);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 1366) {
-        setLaptopScale(0.67);
-      } else {
-        setLaptopScale(1);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const laptopScale = useMainPageContext();
 
   const titleStyles: CSSProperties = {
     color: title?.color ?? '#1A2344',

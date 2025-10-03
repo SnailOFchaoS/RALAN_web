@@ -1,13 +1,16 @@
 import Image from "next/image";
+
+import { useMainPageContext } from "../Pages/MainPage/context";
 import ralanLogoRed from '../../../assets/swg/logo_with_text_red.svg'
 import stravaIcon from '../../../assets/swg/strava.svg'
 import intervalsIcon from '../../../assets/swg/intervals.svg'
 import telegramIcon from '../../../assets/swg/telegram.svg'
 
-
 import styles from './Footer.module.scss'
 
 const Footer: React.FC = () => {
+  const laptopScale = useMainPageContext();
+
   return (
     <div className={styles.footerWrapper}>
       <div className={styles.backgroundWrapper}>
@@ -46,30 +49,30 @@ const Footer: React.FC = () => {
             alt='ralan'
             src={ralanLogoRed}
             className={styles.mainIcon}
-            width={614}
-            height={144}
+            width={614 * laptopScale}
+            height={144 * laptopScale}
           />
           <div className={styles.linksLine}>
             <Image
               alt='intervals'
               src={intervalsIcon}
               className={styles.icon}
-              width={50}
-              height={50}
+              width={50 * laptopScale}
+              height={50 * laptopScale}
             />
             <Image
               alt='strava'
               src={stravaIcon}
               className={styles.icon}
-              width={50}
-              height={50}
+              width={50 * laptopScale}
+              height={50 * laptopScale}
             />
             <Image
               alt='telegram'
               src={telegramIcon}
               className={styles.icon}
-              width={50}
-              height={50}
+              width={50 * laptopScale}
+              height={50 * laptopScale}
             />
           </div>
         </div>

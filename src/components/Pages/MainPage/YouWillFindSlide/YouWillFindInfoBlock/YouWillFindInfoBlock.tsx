@@ -4,30 +4,14 @@ import InfoBlock from '@/components/Common/InfoBlock/InfoBlock'
 import {YouWillFindInfoBlockProps} from "@/components/Common/types"
 
 import styles from './YouWillFindInfoBlock.module.scss'
-import { useEffect, useState } from 'react';
+import { useMainPageContext } from '../../context';
 
 const YouWillFindInfoBlock: React.FC<{ infoBlockContent: YouWillFindInfoBlockProps }> = ({ infoBlockContent }) => {
 
   const imagePosition = {
     objectPosition: `${infoBlockContent?.image?.positionX ?? 0}px ${infoBlockContent?.image?.positionY ?? 0}px`
   }
-
-  const [laptopScale, setLaptopScale] = useState<number>(1);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 1366) {
-        setLaptopScale(0.67);
-      } else {
-        setLaptopScale(1);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const laptopScale = useMainPageContext();
 
   return (
     <div 

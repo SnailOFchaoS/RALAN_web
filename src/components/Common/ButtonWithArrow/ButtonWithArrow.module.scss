@@ -13,8 +13,13 @@
 }
 
 .buttonText {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding-right: 72px;
 	font-family: var(--tactic-sans-bold), sans-serif;
 	font-weight: bold;
+	text-wrap: nowrap;
 	color: #fffff0;
 	transition: transform 0.3s ease;
 }
@@ -51,7 +56,7 @@
 }
 
 .buttonWrapper:hover .buttonText {
-	transform: translateX(30px);
+	transform: translateX(40px);
 }
 
 .buttonWrapper:hover .arrowContainer.arrowRight {
@@ -62,4 +67,44 @@
 .buttonWrapper:hover .arrowContainer.arrowLeft {
 	transform: translateX(60px) translateY(-50%);
 	opacity: 1;
+}
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .buttonWrapper {
+		border-radius: 50px * 0.67;
+		padding-left: 20px * 0.67;
+	}
+
+	.buttonText {
+		padding-right: 72px * 0.67;
+	}
+	
+	.arrowContainer {
+		width: 40px * 0.67;
+		height: 24px * 0.67;
+	}
+	
+	.arrowContainer.arrowRight {
+		right: 20px * 0.67;
+	}
+	
+	.arrowContainer.arrowLeft {
+		left: -40px * 0.67;
+	}
+	
+	.buttonWrapper:hover {
+		padding-left: 40px * 0.67;
+	}
+	
+	.buttonWrapper:hover .buttonText {
+		transform: translateX(40px * 0.67);
+	}
+	
+	.buttonWrapper:hover .arrowContainer.arrowRight {
+		transform: translateX(60px * 0.67) translateY(-50%);
+	}
+	
+	.buttonWrapper:hover .arrowContainer.arrowLeft {
+		transform: translateX(60px * 0.67) translateY(-50%);
+	}
 }

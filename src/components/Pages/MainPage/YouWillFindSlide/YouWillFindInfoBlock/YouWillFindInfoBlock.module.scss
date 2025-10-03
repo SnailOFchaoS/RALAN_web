@@ -29,7 +29,7 @@
 
     .image{
       object-fit: cover;
-      transform-origin: center;
+      transform-origin: top left;
       max-width: unset;
       max-height: unset;
       pointer-events: none;
@@ -53,6 +53,10 @@
     .imageBlock{
       width: 380px * 0.67;
       border-radius: 40px * 0.67;
+  
+      .image{
+        transform: scale(0.67);
+      }
     }
   }
 }
