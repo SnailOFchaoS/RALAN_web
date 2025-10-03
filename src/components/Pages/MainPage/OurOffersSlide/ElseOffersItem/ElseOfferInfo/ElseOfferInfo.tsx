@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 import InfoBlock from '@/components/Common/InfoBlock/InfoBlock';
 import { ElseOfferInterface } from '@/components/Common/types';
