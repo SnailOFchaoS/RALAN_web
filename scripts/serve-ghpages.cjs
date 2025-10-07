@@ -19,5 +19,3 @@ app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Serving ${OUT_DIR} at http://localhost:${PORT}${BASE_PATH}/`);
 });
-
-
