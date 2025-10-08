@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from './FrameContent.module.scss';
 
 interface FrameComponentProps {
-  topContent: React.ReactNode,
-  bottomContent: React.ReactNode,
-  children: React.ReactNode,
+  topContent: React.ReactNode;
+  bottomContent: React.ReactNode;
+  children: React.ReactNode;
+  onContainerReady: (rect: DOMRect) => void;
+  frameContainerRef: React.RefObject<HTMLDivElement | null>; // Добавили новый prop
 }
 
-const FrameComponent = ({ topContent, bottomContent, children }: FrameComponentProps) => {
+const FrameComponent = ({ topContent, bottomContent, children, onContainerReady, frameContainerRef }: FrameComponentProps) => {
+  useEffect(() => {
+    if (frameContainerRef && frameContainerRef.current) {
+      const rect = frameContainerRef.current.getBoundingClientRect();
+      onContainerReady(rect);
+    }
+  }, [onContainerReady, frameContainerRef]);
+
   return (
-    <div className={styles.frameContainer}>
+    <div className={styles.frameContainer} ref={frameContainerRef}>
       <div className={styles.topElement}>
         {topContent}
       </div>
