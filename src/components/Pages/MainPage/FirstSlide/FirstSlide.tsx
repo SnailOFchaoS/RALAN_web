@@ -28,14 +28,12 @@ const FirstSlide = () => {
 
   const [frameContainerRect, setFrameContainerRect] = useState<RectData | null>(null);
 
-  const firstSlideWrapper = firstSlideWrapperRef.current;
-
   useEffect(() => {
     if (
       !mainImageRef.current ||
       !firstSlideWrapperRef.current ||
       !frameContainerRect ||
-      !frameContainerRef.current //  Теперь ждем frameContainerRef
+      !frameContainerRef.current
     ) {
       return;
     }
@@ -53,30 +51,30 @@ const FirstSlide = () => {
 
     console.log("frameContainerRect:", frameContainerRect)
 
-    gsap.to(mainImage, {
-      scrollTrigger: {
-        trigger: firstSlideWrapper,
-        start: "top top",
-        end: "+=500vh",
-        pin: true,
-        scrub: 2,
-        onEnter: () => {
-          preventScroll();
-        },
-        onLeave: () => {
-          allowScroll();
-        },
-        onLeaveBack: () => {
-          allowScroll();
-        },
+    const scrollTriggerOptions = {
+      trigger: firstSlideWrapper,
+      start: "top top",
+      end: "+=700vh",
+      pin: true,
+      scrub: 2,
+      onEnter: () => {
+        preventScroll();
       },
-      scaleX: frameContainerRect.width / mainImage.offsetWidth, // Масштабируем по ширине
-      scaleY: frameContainerRect.height / mainImage.offsetHeight, 
-      transformOrigin: `${frameContainerRect.top + frameContainerRect.width/2 + 16}px ${frameContainerRect.height/2}px`,
-      // Вычисляем top и left пропорционально ширине
-      // width: frameContainerRect.width,
-      // height: frameContainerRect.height,
-      borderRadius: `${100}px`,
+      onLeave: () => {
+        allowScroll();
+      },
+      onLeaveBack: () => {
+        allowScroll();
+      },
+    }
+
+    gsap.to(mainImage, {
+      scrollTrigger: scrollTriggerOptions,
+      x: frameContainerRect.left,
+      y: frameContainerRect.top,
+      width: frameContainerRect.width,
+      height: frameContainerRect.height,
+      borderRadius: `${100 * laptopScale}px`,
       immediateRender: false,
       onComplete: () => {
         allowScroll();
@@ -89,11 +87,9 @@ const FirstSlide = () => {
   }, [
     frameContainerRect?.width,
     frameContainerRect?.height,
-    laptopScale,
     frameContainerRef
   ]);
 
-  // Callback для FrameComponent
   const handleContainerReady = useCallback((rect: DOMRect) => {
     const roundedRect: RectData = {
       top: Math.round(rect.top),
