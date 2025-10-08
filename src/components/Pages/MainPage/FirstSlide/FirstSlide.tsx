@@ -76,6 +76,10 @@ const FirstSlide = () => {
       height: frameContainerRect.height,
       borderRadius: `${100 * laptopScale}px`,
       immediateRender: false,
+      onUpdate: function() {
+        const brightnessValue = this.progress() * 0.5 + 0.5;
+        (mainImage as HTMLElement).style.setProperty('filter', `brightness(${brightnessValue})`);
+      },
       onComplete: () => {
         allowScroll();
       },
