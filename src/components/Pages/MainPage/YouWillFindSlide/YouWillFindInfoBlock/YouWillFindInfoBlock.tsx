@@ -11,7 +11,7 @@ const YouWillFindInfoBlock: React.FC<{ infoBlockContent: YouWillFindInfoBlockPro
   const imagePosition = {
     objectPosition: `${infoBlockContent?.image?.positionX ?? 0}px ${infoBlockContent?.image?.positionY ?? 0}px`
   }
-  const laptopScale = useMainPageContext();
+  const laptopScale = useMainPageContext().laptopScale;
 
   return (
     <div 

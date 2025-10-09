@@ -10,7 +10,7 @@ const MySlider = () => {
   const [slideWidth, setSlideWidth] = useState<number>(0)
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const slideRef = useRef<HTMLDivElement | null>(null);
-  const laptopScale = useMainPageContext();
+  const laptopScale = useMainPageContext().laptopScale;
 
   const slideCount = offersAll.length;
 

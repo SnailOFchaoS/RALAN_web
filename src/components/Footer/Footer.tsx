@@ -9,7 +9,7 @@ import telegramIcon from '../../../assets/swg/telegram.svg'
 import styles from './Footer.module.scss'
 
 const Footer: React.FC = () => {
-  const laptopScale = useMainPageContext();
+  const laptopScale = useMainPageContext().laptopScale;
 
   return (
     <div className={styles.footerWrapper}>

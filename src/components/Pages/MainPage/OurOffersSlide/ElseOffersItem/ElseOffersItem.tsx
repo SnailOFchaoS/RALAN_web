@@ -7,7 +7,7 @@ import { ElseOfferInterface } from '@/components/Common/types';
 
 const ElseOffersItem: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({mirror = false, data}) => {
 	const [isOpened, setIsOpened] = useState<boolean>(false)
-	const laptopScale = useMainPageContext();
+	const laptopScale = useMainPageContext().laptopScale;
 
 	return (
 		<div className={styles.youWillFindInfoWrapper}>

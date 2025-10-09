@@ -10,7 +10,7 @@ interface buttonInterFace {
 
 const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize}) => {
 
-	const laptopScale = useMainPageContext();
+	const laptopScale = useMainPageContext().laptopScale;
 
 	return (
 		<div 
