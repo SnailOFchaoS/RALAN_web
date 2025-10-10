@@ -58,9 +58,6 @@ const FirstSlide = () => {
       end: `+=${1400 * laptopScale}vh`,
       pin: true,
       scrub: 2,
-      markers: true,
-
-      onEnter: () => preventScroll(),
     }
 
     const timeLine = gsap.timeline({
@@ -68,8 +65,6 @@ const FirstSlide = () => {
     });
 
     setCurrentTimeLine(timeLine)
-
-    // if(!currentTimeLine) return;
 
     timeLine.to(titleTextRef.current, {opacity: 0,}, 0);
     timeLine.to(infoTextRef.current, {opacity: 0,}, 0);
@@ -80,7 +75,7 @@ const FirstSlide = () => {
       height: frameContainerRect.height,
       borderRadius: `${100 * laptopScale}px`,
       immediateRender: false,
-      onUpdate: function() {
+      onUpdate: function() {2
         const brightnessValue = this.progress() * 0.5 + 0.5;
         (mainImage as HTMLElement).style.setProperty('filter', `brightness(${brightnessValue})`);
       },
@@ -89,7 +84,10 @@ const FirstSlide = () => {
     timeLine.to(mainImage, {
       width: 0,
       height: 0,
-    }, 1)
+      x: `${frameContainerRect?.width / 2 + frameContainerRect.left }px`,
+      y: `${frameContainerRect?.height / 2 + frameContainerRect.top }px`,
+      transformOrigin: "top center", 
+    }, ">")
 
 
     return () => {
@@ -117,7 +115,6 @@ const FirstSlide = () => {
         <Image
           src={fistSlidePhoto}
           alt=''
-          // fill={true}
           className={styles.image}
           style={{objectFit: "cover"}}
         />
