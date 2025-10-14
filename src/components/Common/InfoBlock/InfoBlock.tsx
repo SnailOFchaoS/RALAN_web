@@ -6,7 +6,7 @@ import styles from "./InfoBlock.module.scss"
 
 const InfoBlock = ({data, title, block}: InfoBlockProps) => {
 
-  const laptopScale = useMainPageContext();
+  const laptopScale = useMainPageContext().laptopScale;
 
   const titleStyles: CSSProperties = {
     color: title?.color ?? '#1A2344',

@@ -1,17 +1,19 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, RefObject } from 'react';
 
-// 1. Создаем контекст. Начальное значение может быть любым (null, undefined, или значение по умолчанию)
-const MainPageContext = createContext<number>(1);
+interface MainPageContextType {
+  laptopScale: number;
+  mainPageRef: RefObject<HTMLDivElement | null>;
+}
 
-// 2. Создаем кастомный хук для удобного использования
+const MainPageContext = createContext<MainPageContextType | null>(null);
+
 export const useMainPageContext = () => {
   const context = useContext(MainPageContext);
-  if (context === undefined) {
-    throw new Error('useExampleContext must be used within an ExampleProvider');
+  if (context === null) {
+    throw new Error('useMainPageContext must be used within a MainPageProvider');
   }
   return context;
 };
 
-// 3. Экспортируем провайдер и сам контекст (если он нужен для объявления типа)
 export const MainPageProvider = MainPageContext.Provider;
 export default MainPageContext;

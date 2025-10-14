@@ -10,14 +10,15 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 455px;
-    height: 152px;
+    width: 341px;
+    height: 114px;
     background-color: #FFFFF0;
     border-radius: 100px;
     border: 2px solid #FFFFF0;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10;
   }
 
   .bottomElement {
@@ -36,7 +37,7 @@
   }
 
   .topElement {
-    top: -78px;
+    top: -57px;
   }
 
   .bottomElement {
@@ -56,9 +57,9 @@
     border-radius: 67px;
 
     .topElement {
-      width: 305px;
-      height: 102px;
-      top: -60px;
+      width: 341px * 0.67;
+      height: 114px * 0.67;
+      top: -57px * 0.67;
     }
 
     .bottomElement {

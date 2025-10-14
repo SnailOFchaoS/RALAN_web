@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Background from "@/components/Background/Background";
 import FirstSlide from "./FirstSlide/FirstSlide";
@@ -19,6 +19,7 @@ export default function MainPage() {
   };
 
   const [laptopScale, setLaptopScale] = useState<number>(1);
+  const mainPageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -36,8 +37,8 @@ export default function MainPage() {
 	}, []);
 
   return (
-    <MainPageProvider value={laptopScale}>
-      <div className={styles.scaleWrapper}>
+    <MainPageProvider value={{laptopScale, mainPageRef}}>
+      <div className={styles.scaleWrapper} ref={mainPageRef}>
         <Background {...mainBackgroundProps} />
         <FirstSlide/>
         <AboutUsSlide/>
