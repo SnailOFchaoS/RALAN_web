@@ -11,6 +11,7 @@ import Footer from "@/components/Footer/Footer";
 import { MainPageProvider } from "./context";
 
 import styles from './MainPage.module.scss'
+import NavigationMenu from "@/components/Common/NavigationMenu/NavigationMenu";
 
 export default function MainPage() {
 
@@ -39,6 +40,7 @@ export default function MainPage() {
   return (
     <MainPageProvider value={{laptopScale, mainPageRef}}>
       <div className={styles.scaleWrapper} ref={mainPageRef}>
+        <NavigationMenu/>
         <Background {...mainBackgroundProps} />
         <FirstSlide/>
         <AboutUsSlide/>
