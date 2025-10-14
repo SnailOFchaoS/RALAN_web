@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback, useLayoutEffect } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -8,6 +8,7 @@ import FrameComponent from "./FrameContent/FrameContent";
 import TopContent from "./TopContent/TopContent"
 import BottomContent from "./BottomContent/BottomContent";
 import { useMainPageContext } from '../context';
+import { firstSlideAnimation } from './animation';
 
 import styles from "./FirstSlide.module.scss";
 
@@ -44,14 +45,6 @@ const FirstSlide = () => {
     const mainImage = mainImageRef.current;
     const firstSlideWrapper = firstSlideWrapperRef.current;
 
-    const preventScroll = () => {
-      document.body.style.overflow = 'hidden';
-    };
-
-    const allowScroll = () => {
-      document.body.style.overflow = '';
-    };
-
     const scrollTriggerOptions = {
       trigger: firstSlideWrapper,
       start: "top top",
@@ -66,29 +59,14 @@ const FirstSlide = () => {
 
     setCurrentTimeLine(timeLine)
 
-    timeLine.to(titleTextRef.current, {opacity: 0,}, 0);
-    timeLine.to(infoTextRef.current, {opacity: 0,}, 0);
-    timeLine.to(mainImage, {
-      x: frameContainerRect.left,
-      y: frameContainerRect.top,
-      width: frameContainerRect.width,
-      height: frameContainerRect.height,
-      borderRadius: `${100 * laptopScale}px`,
-      immediateRender: false,
-      onUpdate: function() {2
-        const brightnessValue = this.progress() * 0.5 + 0.5;
-        (mainImage as HTMLElement).style.setProperty('filter', `brightness(${brightnessValue})`);
-      },
-    }, 0);
-
-    timeLine.to(mainImage, {
-      width: 0,
-      height: 0,
-      x: `${frameContainerRect?.width / 2 + frameContainerRect.left }px`,
-      y: `${frameContainerRect?.height / 2 + frameContainerRect.top }px`,
-      transformOrigin: "top center", 
-    }, ">")
-
+    firstSlideAnimation({
+      timeLine, 
+      titleTextRef, 
+      infoTextRef, 
+      mainImage, 
+      frameContainerRect,
+      laptopScale,
+    })
 
     return () => {
       ScrollTrigger.getAll().forEach(st => st.kill());
@@ -143,103 +121,3 @@ const FirstSlide = () => {
 };
 
 export default FirstSlide;
-
-
-
-      // onLeave: () => allowScroll(),
-      // onLeave: () => { // <-- Добавляем колбэк onLeave
-      //   handleFirstSlideLeave(); // Вызываем функцию для запуска второй анимации
-      // },
-      // onLeaveBack: () => allowScroll(),
-      
-      
-
-// // FirstSlide.tsx
-// import React, { useRef, useEffect } from 'react';
-// import gsap from "gsap";
-// import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-// import { useMainPageContext } from '../../context';
-
-// import styles from "./FirstSlide.module.scss";
-
-// gsap.registerPlugin(ScrollTrigger);
-
-// const FirstSlide = () => {
-//   const mainImageRef = useRef<HTMLDivElement>(null);
-//   const firstSlideWrapperRef = useRef<HTMLDivElement>(null);
-//   const titleTextRef = useRef<HTMLDivElement>(null);
-//   const infoTextRef = useRef<HTMLDivElement>(null);
-//   const laptopScale = useMainPageContext().laptopScale;
-
-//   useEffect(() => {
-//     if (!mainImageRef.current || !firstSlideWrapperRef.current || !titleTextRef.current || !infoTextRef.current) return;
-
-//     const mainImage = mainImageRef.current;
-//     const firstSlideWrapper = firstSlideWrapperRef.current;
-
-//     const slideHeight = 700 * laptopScale;
-
-//     const scrollTriggerOptions = {
-//       trigger: firstSlideWrapper,
-//       start: "top top",
-//       end: `+=${slideHeight}vh`,
-//       pin: true,
-//       scrub: 2,
-//       // markers: true // для отладки ScrollTrigger
-//     };
-
-//     gsap.to(titleTextRef.current, {
-//       scrollTrigger: scrollTriggerOptions,
-//       opacity: 0,
-//     });
-
-//     gsap.to(infoTextRef.current, {
-//       scrollTrigger: scrollTriggerOptions,
-//       opacity: 0,
-//     });
-
-//     const mainImageAnimation = gsap.to(mainImage, {
-//       scrollTrigger: scrollTriggerOptions,
-//       x: 100,
-//       y: 100,
-//       width: "50%",
-//       height: "50%",
-//       onUpdate: function() {
-//         const brightnessValue = this.progress() * 0.5 + 0.5;
-//         (mainImage as HTMLElement).style.setProperty('filter', `brightness(${brightnessValue})`);
-//       },
-//     });
-
-//     //Сохраняем триггер
-//     const firstSlideScrollTrigger = mainImageAnimation.scrollTrigger;
-//     firstSlideScrollTrigger.addEventListener('onLeave',()=> {
-//           console.log('first slide over')
-//     })
-
-
-//     return () => {
-//       ScrollTrigger.getAll().forEach(st => st.kill());
-//     };
-//   }, [laptopScale]);
-
-//   return (
-//     <div className={styles.firstSlideWrapper} ref={firstSlideWrapperRef}>
-//       <div className={styles.mainImage} ref={mainImageRef}>
-        
-//       </div>
-//       <div className={styles.contentWrapper}>
-//         <div className={styles.mainContent} ref={titleTextRef}>
-//           <div className={styles.titleText}>
-//             ПОДГОТОВКА, СТРАТEГИЯ, ПОБЕДА
-//           </div>
-//           <div className={styles.infoText} ref={infoTextRef}>
-//             Поможем раскрыть ваш потенциал и достичь поставленных целей.<br/>
-//             Начните тренировки сейчас.
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default FirstSlide;

@@ -1,16 +1,15 @@
-import React, { useRef, useEffect, use } from 'react';
-import gsap from "gsap";
+import React, { useRef, useEffect } from 'react';
 import { useMainPageContext } from '../../context';
+import { frameContentAnimation } from '../animation';
 
 import styles from './FrameContent.module.scss';
-
 
 interface FrameComponentProps {
   topContent: React.ReactNode;
   bottomContent: React.ReactNode;
   children: React.ReactNode;
   onContainerReady: (rect: DOMRect) => void;
-  frameContainerRef: React.RefObject<HTMLDivElement | null>; // Добавили новый propgsap.Timeline
+  frameContainerRef: React.RefObject<HTMLDivElement | null>;
   timeLine: gsap.core.Timeline | null,
 }
 
@@ -35,28 +34,14 @@ const FrameComponent = ({
   
 
   useEffect(()=> {
-    console.log("timeLine", timeLine)
-
     if(!timeLine || !bottomContentRef) return;
-    const rect = frameContainerRef.current?.getBoundingClientRect();
-    console.log('rect:', rect)
-    if(!rect) return;
 
-    timeLine.to(frameContainerRef.current, {
-      width: 0,
-      height: 0,
-      y: `${rect?.height / 2 }px`,
-    }, "<")
-
-    timeLine.to(bottomContentRef.current, {
-      width: 0,
-    }, "<")
-
-    timeLine.to(topContentRef.current, {
-      scale: 2,
-      ease: "power2.inOut"
-    }, "<")
-
+    frameContentAnimation({
+      timeLine, 
+      frameContainerRef, 
+      bottomContentRef, 
+      topContentRef
+    })
 
   },[timeLine])
 

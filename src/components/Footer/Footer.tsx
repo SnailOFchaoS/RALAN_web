@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 import { useMainPageContext } from "../Pages/MainPage/context";
-import ralanLogoRed from '../../../assets/swg/logo_with_text_red.svg'
-import stravaIcon from '../../../assets/swg/strava.svg'
-import intervalsIcon from '../../../assets/swg/intervals.svg'
-import telegramIcon from '../../../assets/swg/telegram.svg'
+import ralanLogoRed from '../../../assets/svg/logo_with_text_red.svg'
+import stravaIcon from '../../../assets/svg/strava.svg'
+import intervalsIcon from '../../../assets/svg/intervals.svg'
+import telegramIcon from '../../../assets/svg/telegram.svg'
 
 import styles from './Footer.module.scss'
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logoWithText from '../../../../../../assets/swg/logo_with_text.svg';
+import logoWithText from '../../../../../../assets/svg/logo_with_text.svg';
 
 import styles from './TopContent.module.scss';
 
