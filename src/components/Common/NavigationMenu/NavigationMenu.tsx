@@ -11,7 +11,6 @@ import styles from "./NavigationMenu.module.scss"
 const NavigationMenu = ({}) => {
 	const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
 	const context = useMainPageContext();
-	console.log('context:', context)
 
 	const handleCloseModal = useCallback(() => {
     setIsModalOpened(false);

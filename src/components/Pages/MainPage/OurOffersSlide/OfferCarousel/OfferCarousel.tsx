@@ -15,7 +15,6 @@ const MySlider = () => {
   const slideCount = offersAll.length;
 
   const nextSlide = () => {
-    console.log("nextSlide:")
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slideCount);
   };
 

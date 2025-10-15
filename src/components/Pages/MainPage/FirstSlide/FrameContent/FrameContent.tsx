@@ -1,4 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import { useMainPageContext } from '../../context';
 import { frameContentAnimation } from '../animation';
 
@@ -27,44 +30,6 @@ const FrameComponent = ({
   let context = useMainPageContext()
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting) {
-
-            if(context && context.setIsMenuVisible){
-              context.setIsMenuVisible(false)
-            }
-
-            console.log("topElement became visible")
-          } else{
-            if(context && context.setIsMenuVisible){
-              context.setIsMenuVisible(true)
-            }
-            console.log("topElement became invisible")
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0,
-      }
-    );
-
-    const topElement = topContentRef.current;
-    if (topElement) {
-      observer.observe(topElement);
-    }
-
-    return () => {
-      if (topElement) {
-        observer.unobserve(topElement);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     if (frameContainerRef && frameContainerRef.current) {
       const rect = frameContainerRef.current.getBoundingClientRect();
       onContainerReady(rect);
@@ -72,14 +37,53 @@ const FrameComponent = ({
   }, [onContainerReady, frameContainerRef]);
   
   useEffect(()=> {
-    if(!timeLine || !bottomContentRef) return;
+    const logoRect = topContentRef.current?.getBoundingClientRect();
+    if(!timeLine || !bottomContentRef || !logoRect || !context) return;
+
+    const logoTimeline = gsap.timeline();
+
+    const logoScrollTrigger = ScrollTrigger.create({
+      animation: logoTimeline,
+      trigger: topContentRef.current,
+      start: "top top",
+      end: `${logoRect.height += 100}px`, 
+      scrub: 2,
+      markers: true,
+
+      onLeave: () => {
+        if(context && context.setIsMenuVisible){
+          context.setIsMenuVisible(true)
+        }
+        if (topContentRef.current) {
+          topContentRef.current.style.display = 'none';
+        }
+      },
+
+      onEnterBack: () => {
+        if(context && context.setIsMenuVisible){
+          context.setIsMenuVisible(false)
+        }
+        if (topContentRef.current) {
+          topContentRef.current.style.display = 'flex';
+        }
+      },
+    });
+
+    logoScrollTrigger.disable();
 
     frameContentAnimation({
       timeLine, 
+      logoTimeline,
       frameContainerRef, 
       bottomContentRef, 
       topContentRef
     })
+
+    timeLine.then(() => {
+      console.log("Global timeline completed. Enabling logoTimeline ScrollTrigger.");
+      logoScrollTrigger.enable();
+      logoScrollTrigger.refresh();
+  });
 
   },[timeLine])
 

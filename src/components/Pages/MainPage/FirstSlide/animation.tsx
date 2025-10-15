@@ -1,3 +1,5 @@
+import { gsap } from "gsap";
+
 interface RectData {
 	top: number;
 	left: number;
@@ -16,10 +18,12 @@ interface firstSlideAnimationProps {
 
 interface frameContentAnimationProps {
 	timeLine: gsap.core.Timeline;
+  logoTimeline: gsap.core.Timeline;
 	frameContainerRef: React.RefObject<HTMLDivElement | null>;
 	bottomContentRef: React.RefObject<HTMLDivElement | null>;
 	topContentRef: React.RefObject<HTMLDivElement | null>;
 }
+
 
 export const firstSlideAnimation = ({
 	timeLine, 
@@ -58,6 +62,7 @@ export const firstSlideAnimation = ({
 
 export const frameContentAnimation = ({
 	timeLine, 
+  logoTimeline,
 	frameContainerRef, 
 	bottomContentRef, 
 	topContentRef
@@ -65,7 +70,9 @@ export const frameContentAnimation = ({
 
 	const rect = frameContainerRef.current?.getBoundingClientRect();
 
-	if(!rect) return;
+	if(!rect || !topContentRef.current) return;
+
+  const logoRect = topContentRef.current?.getBoundingClientRect();
 
 	timeLine.to(frameContainerRef.current, {
 		width: 0,
@@ -81,6 +88,14 @@ export const frameContentAnimation = ({
 		scale: 2,
 		ease: "power2.inOut"
 	}, "<")
+
+  logoTimeline.to(topContentRef.current, {
+    width: `84px`,
+    height: `38.5px`,
+    y: `${logoRect.height += 138.5}px`,
+    opacity: 0.5,
+    ease: "power2.inOut",
+  })
 
 	return;
 }

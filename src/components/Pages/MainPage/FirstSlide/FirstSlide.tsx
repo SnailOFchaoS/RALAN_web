@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import Image from "next/image";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 import fistSlidePhoto from '../../../../../assets/png/fist_slide_photo.png';
 import FrameComponent from "./FrameContent/FrameContent";
@@ -11,8 +10,6 @@ import { useMainPageContext } from '../context';
 import { firstSlideAnimation } from './animation';
 
 import styles from "./FirstSlide.module.scss";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface RectData {
     top: number;
@@ -51,6 +48,7 @@ const FirstSlide = () => {
       end: `+=${1400 * laptopScale}vh`,
       pin: true,
       scrub: 2,
+      markers: true,
     }
 
     const timeLine = gsap.timeline({

@@ -1,6 +1,10 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { tacticSansBold, tacticSansRegular, tacticSansMedium, montserrat } from "@/fonts/fonts";
+import { gsap } from "gsap";
+import {ScrollTrigger} from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger);
 
 function App({ Component, pageProps }: AppProps) {
   return (
