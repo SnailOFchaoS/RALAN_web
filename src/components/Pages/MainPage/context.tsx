@@ -3,6 +3,8 @@ import { createContext, useContext, RefObject } from 'react';
 interface MainPageContextType {
   laptopScale: number;
   mainPageRef: RefObject<HTMLDivElement | null>;
+  isMenuVisible?: boolean;
+  setIsMenuVisible?: (isMenuVisible: boolean) => void;
 }
 
 const MainPageContext = createContext<MainPageContextType | null>(null);

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useMainPageContext } from '../../context';
 import { frameContentAnimation } from '../animation';
 
@@ -21,9 +21,48 @@ const FrameComponent = ({
   frameContainerRef,
   timeLine,
 }: FrameComponentProps) => {
-  const laptopScale = useMainPageContext().laptopScale;
   const bottomContentRef = useRef<HTMLDivElement>(null);
   const topContentRef = useRef<HTMLDivElement>(null);
+
+  let context = useMainPageContext()
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+
+            if(context && context.setIsMenuVisible){
+              context.setIsMenuVisible(false)
+            }
+
+            console.log("topElement became visible")
+          } else{
+            if(context && context.setIsMenuVisible){
+              context.setIsMenuVisible(true)
+            }
+            console.log("topElement became invisible")
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0,
+      }
+    );
+
+    const topElement = topContentRef.current;
+    if (topElement) {
+      observer.observe(topElement);
+    }
+
+    return () => {
+      if (topElement) {
+        observer.unobserve(topElement);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (frameContainerRef && frameContainerRef.current) {
@@ -32,7 +71,6 @@ const FrameComponent = ({
     }
   }, [onContainerReady, frameContainerRef]);
   
-
   useEffect(()=> {
     if(!timeLine || !bottomContentRef) return;
 

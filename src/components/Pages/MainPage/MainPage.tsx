@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 
 import Background from "@/components/Background/Background";
 import FirstSlide from "./FirstSlide/FirstSlide";
@@ -20,6 +20,7 @@ export default function MainPage() {
   };
 
   const [laptopScale, setLaptopScale] = useState<number>(1);
+  const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
   const mainPageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -38,7 +39,7 @@ export default function MainPage() {
 	}, []);
 
   return (
-    <MainPageProvider value={{laptopScale, mainPageRef}}>
+    <MainPageProvider value={{laptopScale, mainPageRef, isMenuVisible, setIsMenuVisible}}>
       <div className={styles.scaleWrapper} ref={mainPageRef}>
         <NavigationMenu/>
         <Background {...mainBackgroundProps} />
