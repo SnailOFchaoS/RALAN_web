@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useMainPageContext } from '../../context';
 import { frameContentAnimation } from '../animation';
@@ -13,7 +13,7 @@ interface FrameComponentProps {
   children: React.ReactNode;
   onContainerReady: (rect: DOMRect) => void;
   frameContainerRef: React.RefObject<HTMLDivElement | null>;
-  timeLine: gsap.core.Timeline | null,
+  // timeLine: gsap.core.Timeline | undefined,
 }
 
 const FrameComponent = ({ 
@@ -22,7 +22,7 @@ const FrameComponent = ({
   children, 
   onContainerReady, 
   frameContainerRef,
-  timeLine,
+  // timeLine,
 }: FrameComponentProps) => {
   const bottomContentRef = useRef<HTMLDivElement>(null);
   const topContentRef = useRef<HTMLDivElement>(null);
@@ -38,54 +38,66 @@ const FrameComponent = ({
   
   useEffect(()=> {
     const logoRect = topContentRef.current?.getBoundingClientRect();
-    if(!timeLine || !bottomContentRef || !logoRect || !context) return;
+    if(!context.firstSlideTimeline || !bottomContentRef || !logoRect || !context) return;
 
-    const logoTimeline = gsap.timeline();
-
-    const logoScrollTrigger = ScrollTrigger.create({
-      animation: logoTimeline,
-      trigger: topContentRef.current,
-      start: "top top",
-      end: `${logoRect.height += 100}px`, 
-      scrub: 2,
-      markers: true,
-
-      onLeave: () => {
-        if(context && context.setIsMenuVisible){
-          context.setIsMenuVisible(true)
-        }
-        if (topContentRef.current) {
-          topContentRef.current.style.display = 'none';
-        }
-      },
-
-      onEnterBack: () => {
-        if(context && context.setIsMenuVisible){
-          context.setIsMenuVisible(false)
-        }
-        if (topContentRef.current) {
-          topContentRef.current.style.display = 'flex';
-        }
-      },
-    });
-
-    logoScrollTrigger.disable();
-
-    frameContentAnimation({
-      timeLine, 
-      logoTimeline,
-      frameContainerRef, 
-      bottomContentRef, 
-      topContentRef
+    const logoTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: topContentRef.current,
+        start: 'top top',
+        end: '+=100px',
+        scrub: 2,
+        // markers: true,
+      }
     })
 
-    timeLine.then(() => {
-      console.log("Global timeline completed. Enabling logoTimeline ScrollTrigger.");
-      logoScrollTrigger.enable();
-      logoScrollTrigger.refresh();
-  });
+    frameContentAnimation({
+      context, 
+      frameContainerRef, 
+      bottomContentRef, 
+      topContentRef,
+      laptopScale: context.laptopScale,
+    })
 
-  },[timeLine])
+  },[context.firstSlideTimeline])
+
+  // useEffect(() => {
+  //   if(!topContentRef){
+  //     return;
+  //   }
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+
+  //         if (!entry.isIntersecting) {
+  //           if(context && context.setIsMenuVisible){
+  //             context.setIsMenuVisible(true)
+  //           }
+  //         }
+  //         else{
+  //           if(context && context.setIsMenuVisible){
+  //             context.setIsMenuVisible(false)
+  //           }
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       rootMargin: '0px',
+  //       threshold: 0,
+  //     }
+  //   );
+
+  //   const target = topContentRef.current;
+  //   if (target) {
+  //     observer.observe(target);
+  //   }
+
+  //   return () => {
+  //     if (target) {
+  //       observer.unobserve(target);
+  //     }
+  //   };
+  // }, []);
 
   return (
     <div className={styles.frameContainer} ref={frameContainerRef}>

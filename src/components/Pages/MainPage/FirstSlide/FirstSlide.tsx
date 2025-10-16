@@ -7,7 +7,7 @@ import FrameComponent from "./FrameContent/FrameContent";
 import TopContent from "./TopContent/TopContent"
 import BottomContent from "./BottomContent/BottomContent";
 import { useMainPageContext } from '../context';
-import { firstSlideAnimation } from './animation';
+import { firstSlideAnimation, getScrollTriggerOptions } from './animation';
 
 import styles from "./FirstSlide.module.scss";
 
@@ -24,9 +24,10 @@ const FirstSlide = () => {
   const frameContainerRef = useRef<HTMLDivElement>(null);
   const titleTextRef = useRef<HTMLDivElement>(null);
   const infoTextRef = useRef<HTMLDivElement>(null);
-  const laptopScale = useMainPageContext()?.laptopScale ?? 1;
+  const context = useMainPageContext();
+  const laptopScale = context?.laptopScale ?? 1;
 
-  const [currentTimeLine, setCurrentTimeLine] = useState<gsap.core.Timeline | null>(null)
+  // const [currentTimeLine, setCurrentTimeLine] = useState<gsap.core.Timeline | null>(null)
   const [frameContainerRect, setFrameContainerRect] = useState<RectData | null>(null);
 
   useEffect(() => {
@@ -39,32 +40,17 @@ const FirstSlide = () => {
       return;
     }
 
-    const mainImage = mainImageRef.current;
     const firstSlideWrapper = firstSlideWrapperRef.current;
 
-    const scrollTriggerOptions = {
-      trigger: firstSlideWrapper,
-      start: "top top",
-      end: `+=${1400 * laptopScale}vh`,
-      pin: true,
-      scrub: 2,
-      markers: true,
-    }
-
+    const scrollTriggerOptions = getScrollTriggerOptions({context, firstSlideWrapper, laptopScale});
+    
     const timeLine = gsap.timeline({
       scrollTrigger:{...scrollTriggerOptions}
     });
-
-    setCurrentTimeLine(timeLine)
-
-    firstSlideAnimation({
-      timeLine, 
-      titleTextRef, 
-      infoTextRef, 
-      mainImage, 
-      frameContainerRect,
-      laptopScale,
-    })
+    
+    if (context && context.setFirstSlideTimeline) {
+      context.setFirstSlideTimeline(timeLine);
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach(st => st.kill());
@@ -74,6 +60,25 @@ const FirstSlide = () => {
     frameContainerRect?.height,
     frameContainerRef,
   ]);
+
+  useEffect(()=> {
+    if(context.firstSlideTimeline){
+
+      if(!mainImageRef.current || !frameContainerRect) return;
+
+      firstSlideAnimation({
+        context, 
+        titleTextRef, 
+        infoTextRef, 
+        mainImage: mainImageRef.current, 
+        frameContainerRect,
+        laptopScale,
+      })
+  
+    }
+  }, [
+    context.firstSlideTimeline
+  ])
 
   const handleContainerReady = useCallback((rect: DOMRect) => {
     const roundedRect: RectData = {
@@ -101,7 +106,7 @@ const FirstSlide = () => {
           bottomContent={<BottomContent />}
           onContainerReady={handleContainerReady}
           frameContainerRef={frameContainerRef} 
-          timeLine={currentTimeLine}
+          // timeLine={context.firstSlideTimeline}
         >
           <div className={styles.mainContent} >
             <div className={styles.titleText} ref={titleTextRef}>
