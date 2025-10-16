@@ -21,6 +21,7 @@ const NavigationMenu = ({}) => {
 			
 		}
 	}, [context.isMenuVisible])
+	
 
 	return (
 		<>

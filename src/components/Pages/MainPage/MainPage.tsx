@@ -21,8 +21,6 @@ export default function MainPage() {
 
   const [laptopScale, setLaptopScale] = useState<number>(1);
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
-  const [firstSlideTimeline, setFirstSlideTimeline] = useState<any>(null);
-  const [logoTimeline, setLogoTimeline] = useState<any>(null);
   const mainPageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -41,14 +39,7 @@ export default function MainPage() {
 	}, []);
 
   return (
-    <MainPageProvider value={{
-      laptopScale, 
-      mainPageRef, 
-      isMenuVisible, 
-      setIsMenuVisible,
-      firstSlideTimeline, setFirstSlideTimeline,
-      logoTimeline, setLogoTimeline,
-    }}>
+    <MainPageProvider value={{laptopScale, mainPageRef, isMenuVisible, setIsMenuVisible}}>
       <div className={styles.scaleWrapper} ref={mainPageRef}>
         <NavigationMenu/>
         <Background {...mainBackgroundProps} />
