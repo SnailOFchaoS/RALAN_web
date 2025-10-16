@@ -54,6 +54,7 @@ export const firstSlideAnimation = ({
 		x: `${frameContainerRect?.width / 2 + frameContainerRect.left }px`,
 		y: `${frameContainerRect?.height / 2 + frameContainerRect.top }px`,
 		transformOrigin: "top center", 
+    ease: "power2.inOut",
 	}, ">")
 
 	return ;
@@ -71,19 +72,21 @@ export const frameContentAnimation = ({
 
 	if(!rect || !topContentRef.current) return;
 
-  const logoRect = topContentRef.current?.getBoundingClientRect();
 	timeLine.to(frameContainerRef.current, {
 		width: 0,
 		height: 0,
 		y: `${rect?.height / 2 }px`,
+    ease: "power2.inOut",
 	}, "<")
 
 	timeLine.to(bottomContentRef.current, {
 		width: 0,
+    ease: "power2.inOut",
 	}, "<")
 
 	timeLine.to(topContentRef.current, {
 		scale: 2,
+    y: `${rect?.height / 2 }px`,
 		ease: "power2.inOut",
 	}, "<")
 

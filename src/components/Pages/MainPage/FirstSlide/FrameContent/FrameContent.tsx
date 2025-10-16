@@ -32,16 +32,7 @@ const FrameComponent = ({
   // const [topContentScrollTrigger, setTopContentScrollTrigger] = useState<any>(null)
 
   let context = useMainPageContext()
-  // useEffect(()=> {
-  //   if(topContentScrollTrigger){
-  //     if(isFinished){
-  //       topContentScrollTrigger.enable();
-  //       topContentScrollTrigger.refresh();
-  //     }else{
-  //       topContentScrollTrigger.disable();
-  //     } 
-  //   }
-  // }, [isFinished])
+
 
 
   useEffect(() => {
@@ -102,10 +93,11 @@ const FrameComponent = ({
     const topContentScrollTrigger = ScrollTrigger.create({
       trigger: topContentRef.current,
       pin: true,
-      pinSpacing: false, // Отключаем добавление отступов
+      // pinSpacing: false, // Отключаем добавление отступов
       pinReparent: true, // Перемещаем элемент в body во время закрепления
       start: self => {
         const previousTrigger = self.previous();
+        console.log("previousTrigger:", previousTrigger)
         if (previousTrigger) {
           return previousTrigger.end;
         } else {
@@ -118,46 +110,24 @@ const FrameComponent = ({
     })
 
 
-    // timeLine.then(()=> {
-    //   const topContentScrollTrigger = ScrollTrigger.create({
-    //     trigger: topContentRef.current,
-    //     pin: true,
-    //     pinSpacing: false, // Отключаем добавление отступов
-    //     pinReparent: true, // Перемещаем элемент в body во время закрепления
-    //     start: "top top", // Закрепление начинается, когда верх элемента достигает верха окна просмотра
-    //     end: "+=500", // Закрепление заканчивается через 500px прокрутки после start
-    //     scrub: true,
-    //     markers: true, // Для отладки
-    //     // onEnterBack: ()=> {
-    //     //   topContentScrollTrigger.kill();
-    //     // }
-    //   });
-    // })
-  //         topContentRef
-  //   })
-
-  //   timeLine.then(() => {
-  //     console.log("Global timeline completed. Enabling logoTimeline ScrollTrigger.");
-  //     topContentScrollTrigger.enable();
-  //     topContentScrollTrigger.refresh();
-  // });
 
   },[timeLine])
 
   return (
-    <div className={styles.frameContainer} ref={frameContainerRef}>
-      {/* <div className={styles.topContentContainer}> */}
-        <div className={styles.topElement} ref={topContentRef}>
-          {topContent}
-        {/* </div> */}
+    <>
+      <div className={styles.topElement} ref={topContentRef}>
+        {topContent}
       </div>
-      <div className={styles.bottomElement} ref={bottomContentRef}>
-        {bottomContent}
+      <div className={styles.frameContainer} ref={frameContainerRef}>
+        <div className={styles.bottomElement} ref={bottomContentRef}>
+          {bottomContent}
+        </div>
+        <div className={styles.content}>
+          {children}
+        </div>
       </div>
-      <div className={styles.content}>
-        {children}
-      </div>
-    </div>
+    </>
+    
   );
 };
 
@@ -210,3 +180,40 @@ export default FrameComponent;
   // });
 
   // logoScrollTrigger.disable();
+
+
+      // timeLine.then(()=> {
+    //   const topContentScrollTrigger = ScrollTrigger.create({
+    //     trigger: topContentRef.current,
+    //     pin: true,
+    //     pinSpacing: false, // Отключаем добавление отступов
+    //     pinReparent: true, // Перемещаем элемент в body во время закрепления
+    //     start: "top top", // Закрепление начинается, когда верх элемента достигает верха окна просмотра
+    //     end: "+=500", // Закрепление заканчивается через 500px прокрутки после start
+    //     scrub: true,
+    //     markers: true, // Для отладки
+    //     // onEnterBack: ()=> {
+    //     //   topContentScrollTrigger.kill();
+    //     // }
+    //   });
+    // })
+  //         topContentRef
+  //   })
+
+  //   timeLine.then(() => {
+  //     console.log("Global timeline completed. Enabling logoTimeline ScrollTrigger.");
+  //     topContentScrollTrigger.enable();
+  //     topContentScrollTrigger.refresh();
+  // });
+
+
+    // useEffect(()=> {
+  //   if(topContentScrollTrigger){
+  //     if(isFinished){
+  //       topContentScrollTrigger.enable();
+  //       topContentScrollTrigger.refresh();
+  //     }else{
+  //       topContentScrollTrigger.disable();
+  //     } 
+  //   }
+  // }, [isFinished])
