@@ -4,8 +4,6 @@ import gsap from "gsap";
 
 import fistSlidePhoto from '../../../../../assets/png/fist_slide_photo.png';
 import FrameComponent from "./FrameContent/FrameContent";
-import TopContent from "./TopContent/TopContent"
-import BottomContent from "./BottomContent/BottomContent";
 import { useMainPageContext } from '../context';
 import { firstSlideAnimation } from './animation';
 
@@ -25,7 +23,6 @@ const FirstSlide = () => {
   const titleTextRef = useRef<HTMLDivElement>(null);
   const infoTextRef = useRef<HTMLDivElement>(null);
   const laptopScale = useMainPageContext()?.laptopScale ?? 1;
-  // const context = useMainPageContext();
 
   const [currentTimeLine, setCurrentTimeLine] = useState<gsap.core.Timeline | null>(null)
   const [frameContainerRect, setFrameContainerRect] = useState<RectData | null>(null);
@@ -107,12 +104,11 @@ const FirstSlide = () => {
       </div>
       <div className={styles.contentWrapper}>
         <FrameComponent
-          topContent={<TopContent />}
-          bottomContent={<BottomContent />}
           onContainerReady={handleContainerReady}
           frameContainerRef={frameContainerRef} 
           timeLine={currentTimeLine}
           isFinished={isFinished}
+          mainImageRef={mainImageRef}
         >
           <div className={styles.mainContent} >
             <div className={styles.titleText} ref={titleTextRef}>

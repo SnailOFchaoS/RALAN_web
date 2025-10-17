@@ -1,18 +1,23 @@
 .topElement{
   position: absolute;
   left: 50%;
-  // top: -50%;
   top: 52px;
   transform: translateX(-50%);
-  width: 341px;
-  height: 114px;
-  background-color: #FFFFF0;
-  border-radius: 100px;
-  border: 2px solid #FFFFF0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 10;
+
+  .topElementContent{
+    position: relative;
+    overflow: hidden;
+    padding: 0 22px;
+    width: 341px;
+    height: 114px;
+    background-color: #FFFFF0;
+    border-radius: 100px;
+    border: 2px solid #FFFFF0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .frameContainer {
@@ -49,18 +54,21 @@
   }
 }
 
-/* Laptop adaptations */
 @media (max-width: 1366px) and (max-height: 820px) {
-  .topElement {
-    width: 341px * 0.67;
-    height: 114px * 0.67;
-    top: -52px * 0.67;
+
+  .topElement{
+    top: 52px * 0.67;
+  
+    .topElementContent{
+      width: 341px * 0.67;
+      height: 114px * 0.67;
+      padding: 0 24px * 0.67 - 2;
+    }
   }
 
   .frameContainer {
     border-width: 3px;
     border-radius: 67px;
-
     
     .bottomElement {
       width: 260px;

@@ -1,5 +1,3 @@
-import { gsap } from "gsap";
-
 interface RectData {
 	top: number;
 	left: number;
@@ -22,6 +20,10 @@ interface frameContentAnimationProps {
 	frameContainerRef: React.RefObject<HTMLDivElement | null>;
 	bottomContentRef: React.RefObject<HTMLDivElement | null>;
 	topContentRef: React.RefObject<HTMLDivElement | null>;
+	laptopScale: number;
+	mainLogoImageRef: React.RefObject<HTMLDivElement | null>;
+	mainLogoTextRef: React.RefObject<HTMLDivElement | null>;
+	mainLogoArrowRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export const firstSlideAnimation = ({
@@ -62,15 +64,21 @@ export const firstSlideAnimation = ({
 
 export const frameContentAnimation = ({
 	timeLine, 
-  // logoTimeline,
+  logoTimeline,
 	frameContainerRef, 
 	bottomContentRef, 
 	topContentRef,
+	laptopScale,
+	mainLogoImageRef,
+	mainLogoTextRef,
+	mainLogoArrowRef,
 }: frameContentAnimationProps) => {
 
 	const rect = frameContainerRef.current?.getBoundingClientRect();
+	
+	if(!rect || !topContentRef.current || !logoTimeline) return;
 
-	if(!rect || !topContentRef.current) return;
+	const topContentRect = topContentRef.current?.getBoundingClientRect();
 
 	timeLine.to(frameContainerRef.current, {
 		width: 0,
@@ -90,6 +98,29 @@ export const frameContentAnimation = ({
 		ease: "power2.inOut",
 	}, "<")
 
+	logoTimeline.to(topContentRef.current, {
+		width: `${168 / 2 * laptopScale}px`,
+		height: `${77 / 2 * laptopScale}px`,
+		x: (topContentRect.width - 168 / 2 * laptopScale) / 2,
+		top: `-140px`,
+		padding: `0 ${13 / 2 * laptopScale - 2}px`,
+	}, 0)
+
+	logoTimeline.to(mainLogoImageRef.current, {
+		width: `${66 / 2 * laptopScale}px`,
+		height: `${66 / 2 * laptopScale}px`,
+		x: (topContentRect.width - 168 / 2 * laptopScale) / 2 - 66 / 2 * laptopScale - 8 * laptopScale,
+	}, '<')
+
+	logoTimeline.to(mainLogoTextRef.current, {
+		x: 200 * laptopScale,
+	}, '<')
+
+	logoTimeline.to(mainLogoArrowRef.current, {
+		width: `${41 / 2 * laptopScale}px`,
+		height: `${41 / 2 * laptopScale}px`,
+		x: -388 * laptopScale,
+	}, '<')
 
 	return;
 }

@@ -1,4 +1,4 @@
-import { useCallback, useState, memo, useEffect } from "react";
+import { useCallback, useState, memo, useEffect, useRef } from "react";
 import gsap from "gsap";
 
 import NavigationMenuButton from "./NavigationMenuButton/NavigationMenuButton";
@@ -10,6 +10,7 @@ import styles from "./NavigationMenu.module.scss"
 
 const NavigationMenu = ({}) => {
 	const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
+	const bottomContentRef = useRef<HTMLDivElement>(null);
 	const context = useMainPageContext();
 
 	const handleCloseModal = useCallback(() => {
@@ -29,7 +30,13 @@ const NavigationMenu = ({}) => {
 				<div 
 					className={styles.navigationMenuClosedWrapper}
 					onClick={() => {setIsModalOpened(!isModalOpened)}}
-					style={!context.isMenuVisible ? {display: 'none'} : {}}
+					style={!context.isMenuVisible ? 
+						{
+							opacity: '0',
+						} : {
+							pointerEvents: `auto`,
+							cursor: 'pointer',
+						}}
 				>
 					<NavigationMenuButton/>
 				</div>
