@@ -27,8 +27,6 @@ const FirstSlide = () => {
   const [currentTimeLine, setCurrentTimeLine] = useState<gsap.core.Timeline | null>(null)
   const [frameContainerRect, setFrameContainerRect] = useState<RectData | null>(null);
 
-  const [isFinished, setIsFinished] = useState<boolean>(false);
-
   useEffect(() => {
     if (
       !mainImageRef.current ||
@@ -48,14 +46,6 @@ const FirstSlide = () => {
       end: `+=${1400 * laptopScale}vh`,
       pin: true,
       scrub: 2,
-      markers: true,
-      onLeave: () => {
-        setIsFinished(true)
-      },
-  
-      onEnterBack: () => {
-        setIsFinished(false)
-      },
     }
 
     const timeLine = gsap.timeline({
@@ -107,7 +97,6 @@ const FirstSlide = () => {
           onContainerReady={handleContainerReady}
           frameContainerRef={frameContainerRef} 
           timeLine={currentTimeLine}
-          isFinished={isFinished}
           mainImageRef={mainImageRef}
         >
           <div className={styles.mainContent} >

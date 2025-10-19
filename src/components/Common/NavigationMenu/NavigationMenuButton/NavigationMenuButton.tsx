@@ -6,12 +6,14 @@ import navigationButtonArrowIcon from '../../../../../assets/svg/navigation_butt
 
 import styles from './NavigationMenuButton.module.scss'
 
-const NavigationMenuButton = () => {
+const NavigationMenuButton = ({isOpen}:{isOpen: boolean}) => {
 
 	const laptopScale = useMainPageContext().laptopScale;
 
 	return (
-		<div className={styles.navigationMenuButton}>
+		<div className={styles.navigationMenuButton}
+      style={!isOpen? {boxShadow: `0 0 10px 0 rgba(0, 0, 0, 0.25)`} : {}}
+    >
 			<Image
 				alt='logo'
 				width={66 * laptopScale}

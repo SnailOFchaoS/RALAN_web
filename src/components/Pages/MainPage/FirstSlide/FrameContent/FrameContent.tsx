@@ -14,7 +14,6 @@ interface FrameComponentProps {
   onContainerReady: (rect: DOMRect) => void;
   frameContainerRef: React.RefObject<HTMLDivElement | null>;
   timeLine: gsap.core.Timeline | null,
-  isFinished: boolean,
   mainImageRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -23,7 +22,6 @@ const FrameComponent = ({
   onContainerReady,
   frameContainerRef,
   timeLine,
-  isFinished,
   mainImageRef,
 }: FrameComponentProps) => {
   const bottomContentRef = useRef<HTMLDivElement>(null);
@@ -32,8 +30,6 @@ const FrameComponent = ({
 
   let context = useMainPageContext()
   const topContentTimeline = gsap.timeline();
-
-  const [currentTimeLine, setCurrentTimeLine] = useState<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
     if (frameContainerRef && frameContainerRef.current) {
@@ -52,30 +48,25 @@ const FrameComponent = ({
       animation: topContentTimeline,
       trigger: logoElementRef.current,
       pin: true,
-
       pinReparent: true,
       start: self => {
         const previousTrigger = self.previous();
 
         if (previousTrigger) {
-          console.log("previousTrigger:", previousTrigger.end)
-          return previousTrigger.end + 65;
+          return previousTrigger.end + 107 * context.laptopScale;
         } else {
           return "top top";
         }
       },
-      end: "+=500",
-      scrub: true,
-      markers: true,
+      end: `+=${747 * context.laptopScale}`,
+      scrub: 0.5,
 
       onUpdate: (self) => {
-        console.log(self.progress)
         if(self.progress >= 0.95 && !context?.isMenuVisible && context?.setIsMenuVisible){
           context.setIsMenuVisible(true)
         }
 
         if(self.progress < 0.95 && context?.setIsMenuVisible){
-          console.log("check:", self.progress)
           context.setIsMenuVisible(false)
         }
       },
@@ -135,7 +126,7 @@ const FrameComponent = ({
       topContentTimeline.kill();
     };
 
-  }, [timeLine, currentTimeLine])
+  }, [timeLine])
 
   return (
     <>

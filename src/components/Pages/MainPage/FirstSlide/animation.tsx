@@ -102,13 +102,12 @@ export const frameContentAnimation = ({
 		width: `${168 / 2 * laptopScale}px`,
 		height: `${77 / 2 * laptopScale}px`,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2,
-		top: `-140px`,
+		top: `-${209 * laptopScale}px`,
 		padding: `0 ${13 / 2 * laptopScale - 2}px`,
 	}, 0)
 
 	logoTimeline.to(mainLogoImageRef.current, {
-		width: `${66 / 2 * laptopScale}px`,
-		height: `${66 / 2 * laptopScale}px`,
+    scale: 0.35,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2 - 66 / 2 * laptopScale - 8 * laptopScale,
 	}, '<')
 
@@ -119,7 +118,7 @@ export const frameContentAnimation = ({
 	logoTimeline.to(mainLogoArrowRef.current, {
 		width: `${41 / 2 * laptopScale}px`,
 		height: `${41 / 2 * laptopScale}px`,
-		x: -388 * laptopScale,
+		x: -386 * laptopScale,
 	}, '<')
 
 	return;

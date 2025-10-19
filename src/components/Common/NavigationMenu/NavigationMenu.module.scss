@@ -2,7 +2,7 @@
 	display: flex;
 	position: fixed;
 	z-index: 9;
-	top: 65px;
+	top: 18px;
 	left: 50%;
 	transform: translateX(-50%);
 	pointer-events: none;
@@ -11,6 +11,6 @@
 
 @media (max-width: 1366px) and (max-height: 820px) {
   .navigationMenuClosedWrapper {
-    top: 65px * 0.67;
+    top: 18px * 0.67;
   }
 }

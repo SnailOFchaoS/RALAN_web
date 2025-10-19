@@ -1,51 +1,99 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import gsap from "gsap";
 
 import styles from './Modal.module.scss'
 
-const Modal = ({ isOpen, onClose, children }: any) => {
-   const [mounted, setMounted] = useState(false);
-   const [rootDiv, setRootDiv] = useState<HTMLDivElement | null>(null);
-   const modalRef = useRef<HTMLDivElement>(null);
+const Modal = ({ isOpen, onClose, children, needBgAnimation = true }: any) => {
+  const rootDivRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const timeLineRef = useRef<gsap.core.Timeline>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-   useEffect(() => {
-      if(!isOpen){
-         return;
-      }
-         
-      if(document.getElementById('modal-root')){
-         setRootDiv(document.getElementById('modal-root') as HTMLDivElement);
-      } else{
-         const div = document.createElement('div');
-         div.setAttribute('id', 'modal-root');
-         document.body.appendChild(div);
-         setRootDiv(div);
-      }
-      
-      setMounted(true);
+  useEffect(() => {
+    let modalRoot = document.getElementById('modal-root') as HTMLDivElement;
+    if (!modalRoot) {
+      modalRoot = document.createElement('div');
+      modalRoot.setAttribute('id', 'modal-root');
+      document.body.appendChild(modalRoot);
+    }
+    rootDivRef.current = modalRoot;
+    setIsMounted(true);
 
-      return () => {
-         setMounted(false);
-      };
-   }, [isOpen]); 
-   
+    return () => {
+      setIsMounted(false);
+    };
+  }, []);
 
-   useEffect(() => {
-      if(!rootDiv || !mounted)
-         return;
-   }, [rootDiv])
+  useEffect(() => {
+    if (!modalRef.current || !isMounted) return;
 
-   if(!isOpen){
-     return null; 
-   }
+    const timeLine = gsap.timeline({
+      onReverseComplete: () => {
+        onClose && onClose();
+      },
+    });
+    timeLineRef.current = timeLine;
 
-   return mounted && rootDiv
-      ? createPortal(
-         <div className={styles.modalOverlay} onClick={onClose} ref={modalRef}>
-            {children}
-         </div>
-         , rootDiv)
-      : null;
+    if (isOpen && needBgAnimation) {
+      timeLine.fromTo(
+        modalRef.current,
+        {
+          backgroundColor: `rgba(26, 35, 68, 0)`,
+          backdropFilter: `blur(0px)`
+        },
+        {
+          backgroundColor: `rgba(26, 35, 68, 0.5)`,
+          backdropFilter: `blur(10px)`,
+          duration: 0.5,
+          ease: "power2.out",
+          immediateRender: false,
+        }
+      );
+    } else if (needBgAnimation) {
+      timeLine.to(
+        modalRef.current,
+        {
+          backgroundColor: `rgba(26, 35, 68, 0)`,
+          backdropFilter: `blur(0px)`,
+          duration: 0.5,
+          ease: "power2.in",
+          immediateRender: false,
+        }
+      );
+    }
+
+    return () => {
+      timeLine.kill();
+    };
+  }, [isOpen, isMounted, needBgAnimation]);
+
+  const onCliseClick = (event: React.MouseEvent) => {
+    if(event.target === modalRef.current){
+        if (needBgAnimation && timeLineRef.current) {
+          timeLineRef.current.reverse();
+        } else {
+          onClose && onClose();
+        }
+    }
+  }
+
+  return isMounted && rootDivRef.current
+    ? createPortal(
+      <div
+        className={styles.modalOverlay}
+        onClick={onCliseClick}
+        ref={modalRef}
+        style={{
+          opacity: isOpen ? 1 : 0,
+          pointerEvents: isOpen ? "auto" : "none",
+        }}
+      >
+        {children}
+      </div>,
+      rootDivRef.current
+    )
+    : null;
 };
 
 export default Modal;
