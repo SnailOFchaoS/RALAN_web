@@ -3,6 +3,7 @@ import Image from "next/image"
 import InfoBlock from "../../../Common/InfoBlock/InfoBlock"
 import {aboutUsInfo} from "../constants"
 import aboutUsPhoto from '../../../../../assets/png/about_us_photo.png';
+import Galery from "./Galery/Galery";
 
 import styles from "./AboutUsSlide.module.scss"
 
@@ -38,11 +39,12 @@ const AboutUsSlide = () => {
         ))} 
       </div>
       <div className={styles.imageBlock}>
-        <Image 
+        <Galery/>
+        {/* <Image 
           src={aboutUsPhoto}
           alt='About US'
           className={styles.image}
-        />    
+        />     */}
       </div>
     </div>
   );
