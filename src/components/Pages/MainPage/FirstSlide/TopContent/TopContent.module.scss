@@ -1,16 +1,75 @@
 .topContentWrapper{
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  flex-direction: row;
+  gap: 10px;
 }
 
-.logoImage {
-  width: 100%;
+.logoWrapper{
+  display: flex;
+  width: 80px;
+  height: 80px;
+
+  .logoImage {
+    width: 100%;
+    height: 100%;
+  }
+  
+}
+
+.logoTextWrapper{
+  display: flex;
+  width: 203px;
   height: auto;
+  
+  .logoText { 
+    width: 100%;
+    height: auto;
+  }
+}
+
+.logoArrowWrapper{
+  display: flex;
+  position: absolute;
+  width: 41px;
+  left: 441px;
+  height: auto;
+  
+  .logoArrow { 
+    width: 100%;
+    height: auto;
+  }
 }
 
 @media (max-width: 1366px) {
   .topContentWrapper{
-    padding: 0 18px;
+    gap: 10px * 0.67;
+  }
+
+  .logoImageWrapper{
+    width: 80px * 0.67;
+    height: 80px * 0.67;
+
+    .logoImage {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .logoTextWrapper{
+    width: 203px * 0.67;
+
+    .logoText { 
+      width: 100%;
+    }
+  }
+
+  .logoArrowWrapper{
+    width: 41px * 0.67;
+    left: 441px * 0.67;
+    
+    .logoArrow { 
+      width: 100%;
+    }
   }
 }

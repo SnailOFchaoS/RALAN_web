@@ -16,9 +16,14 @@ interface firstSlideAnimationProps {
 
 interface frameContentAnimationProps {
 	timeLine: gsap.core.Timeline;
+  logoTimeline?: gsap.core.Timeline;
 	frameContainerRef: React.RefObject<HTMLDivElement | null>;
 	bottomContentRef: React.RefObject<HTMLDivElement | null>;
 	topContentRef: React.RefObject<HTMLDivElement | null>;
+	laptopScale: number;
+	mainLogoImageRef: React.RefObject<HTMLDivElement | null>;
+	mainLogoTextRef: React.RefObject<HTMLDivElement | null>;
+	mainLogoArrowRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export const firstSlideAnimation = ({
@@ -51,6 +56,7 @@ export const firstSlideAnimation = ({
 		x: `${frameContainerRect?.width / 2 + frameContainerRect.left }px`,
 		y: `${frameContainerRect?.height / 2 + frameContainerRect.top }px`,
 		transformOrigin: "top center", 
+    ease: "power2.inOut",
 	}, ">")
 
 	return ;
@@ -58,29 +64,62 @@ export const firstSlideAnimation = ({
 
 export const frameContentAnimation = ({
 	timeLine, 
+  logoTimeline,
 	frameContainerRef, 
 	bottomContentRef, 
-	topContentRef
+	topContentRef,
+	laptopScale,
+	mainLogoImageRef,
+	mainLogoTextRef,
+	mainLogoArrowRef,
 }: frameContentAnimationProps) => {
 
 	const rect = frameContainerRef.current?.getBoundingClientRect();
+	
+	if(!rect || !topContentRef.current || !logoTimeline) return;
 
-	if(!rect) return;
+	const topContentRect = topContentRef.current?.getBoundingClientRect();
 
 	timeLine.to(frameContainerRef.current, {
 		width: 0,
 		height: 0,
 		y: `${rect?.height / 2 }px`,
+    ease: "power2.inOut",
 	}, "<")
 
 	timeLine.to(bottomContentRef.current, {
 		width: 0,
+    ease: "power2.inOut",
 	}, "<")
 
 	timeLine.to(topContentRef.current, {
 		scale: 2,
-		ease: "power2.inOut"
+    y: `${rect?.height / 2 }px`,
+		ease: "power2.inOut",
 	}, "<")
+
+	logoTimeline.to(topContentRef.current, {
+		width: `${168 / 2 * laptopScale}px`,
+		height: `${77 / 2 * laptopScale}px`,
+		x: (topContentRect.width - 168 / 2 * laptopScale) / 2,
+		top: `-${209 * laptopScale}px`,
+		padding: `0 ${13 / 2 * laptopScale - 2}px`,
+	}, 0)
+
+	logoTimeline.to(mainLogoImageRef.current, {
+    scale: laptopScale === 1 ? 0.35 : 0.41,
+		x: (topContentRect.width - 168 / 2 * laptopScale) / 2 - 66 / 2 * laptopScale - 8 * laptopScale,
+	}, '<')
+
+	logoTimeline.to(mainLogoTextRef.current, {
+		x: 200 * laptopScale,
+	}, '<')
+
+	logoTimeline.to(mainLogoArrowRef.current, {
+		width: `${41 / 2 * laptopScale}px`,
+		height: `${41 / 2 * laptopScale}px`,
+		x: -386 * laptopScale,
+	}, '<')
 
 	return;
 }

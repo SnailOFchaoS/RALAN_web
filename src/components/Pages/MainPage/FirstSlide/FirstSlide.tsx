@@ -1,18 +1,13 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import Image from "next/image";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 import fistSlidePhoto from '../../../../../assets/png/fist_slide_photo.png';
 import FrameComponent from "./FrameContent/FrameContent";
-import TopContent from "./TopContent/TopContent"
-import BottomContent from "./BottomContent/BottomContent";
 import { useMainPageContext } from '../context';
 import { firstSlideAnimation } from './animation';
 
 import styles from "./FirstSlide.module.scss";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface RectData {
     top: number;
@@ -54,7 +49,7 @@ const FirstSlide = () => {
     }
 
     const timeLine = gsap.timeline({
-      scrollTrigger:{...scrollTriggerOptions}
+      scrollTrigger:{...scrollTriggerOptions},
     });
 
     setCurrentTimeLine(timeLine)
@@ -99,11 +94,10 @@ const FirstSlide = () => {
       </div>
       <div className={styles.contentWrapper}>
         <FrameComponent
-          topContent={<TopContent />}
-          bottomContent={<BottomContent />}
           onContainerReady={handleContainerReady}
           frameContainerRef={frameContainerRef} 
           timeLine={currentTimeLine}
+          mainImageRef={mainImageRef}
         >
           <div className={styles.mainContent} >
             <div className={styles.titleText} ref={titleTextRef}>

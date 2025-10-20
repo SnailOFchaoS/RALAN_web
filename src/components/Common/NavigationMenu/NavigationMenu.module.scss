@@ -1,0 +1,16 @@
+.navigationMenuClosedWrapper{
+	display: flex;
+	position: fixed;
+	z-index: 9;
+	top: 18px;
+	left: 50%;
+	transform: translateX(-50%);
+	pointer-events: none;
+	cursor: default;
+}
+
+@media (max-width: 1366px) and (max-height: 820px) {
+  .navigationMenuClosedWrapper {
+    top: 18px * 0.67;
+  }
+}
