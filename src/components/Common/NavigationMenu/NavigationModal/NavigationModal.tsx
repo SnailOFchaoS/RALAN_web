@@ -9,7 +9,22 @@ import { useMainPageContext } from "@/components/Pages/MainPage/context";
 
 import styles from './NavigationModal.module.scss'
 
-const NavigationModal = ({ isOpen, setIsModalOpened, onCloseClick, navigationData }: any) => {
+interface NavigationModalProps{
+  isOpen: boolean, 
+  setIsModalOpened: (isOpen: boolean) => void, 
+  onCloseClick: boolean,
+  navigationData: {
+    text: string,
+    ref: React.RefObject<HTMLDivElement | null>,
+  }[] | undefined,
+}
+
+const NavigationModal = ({ 
+  isOpen, 
+  setIsModalOpened, 
+  onCloseClick, 
+  navigationData 
+}: NavigationModalProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null)
   const logoTextRef = useRef<HTMLDivElement>(null)
@@ -36,7 +51,7 @@ const NavigationModal = ({ isOpen, setIsModalOpened, onCloseClick, navigationDat
       height: `0px`,
       width: `${168 * context.laptopScale}px`,
       x: `${(336 - 168) * context.laptopScale / 2}px`,
-      y: `-30px`
+      y: `${-30 * context.laptopScale}px`
     }, {
       height: `${456 * context.laptopScale}px`,
       width: `${336 * context.laptopScale}px`,
@@ -49,11 +64,11 @@ const NavigationModal = ({ isOpen, setIsModalOpened, onCloseClick, navigationDat
       height: `${77 * context.laptopScale}px`,
       width: `${168 * context.laptopScale}px`,
       top: `${-48 * context.laptopScale}px`,
-      padding: `0 13px`,
+      padding: `0 ${13 * context.laptopScale}px`,
     }, {
       height: `${100 * context.laptopScale}px`,
       width: `${296 * context.laptopScale}px`,
-      padding: `0 24px`,
+      padding: `0 ${24 * context.laptopScale}px`,
     }, 0)
 
     timeLine.fromTo(logoImageRef.current, {
@@ -161,7 +176,7 @@ const NavigationModal = ({ isOpen, setIsModalOpened, onCloseClick, navigationDat
       </div>
       <div className={styles.content} ref={contentRef}>
         <div className={styles.modalRow} />
-        {navigationData.map((element: any, id: number) => (
+        {navigationData?.map((element: any, id: number) => (
           <div
             className={styles.modalRow}
             key={id}

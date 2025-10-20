@@ -148,7 +148,10 @@
       .modalRow{
         height: 63px * 0.67;
         min-height: 63px * 0.67;
-  
+
+        .text{
+          font-size: 20px * 0.67;
+        }
       }
     }
     

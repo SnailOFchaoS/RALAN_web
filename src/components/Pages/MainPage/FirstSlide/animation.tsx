@@ -107,7 +107,7 @@ export const frameContentAnimation = ({
 	}, 0)
 
 	logoTimeline.to(mainLogoImageRef.current, {
-    scale: 0.35,
+    scale: laptopScale === 1 ? 0.35 : 0.41,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2 - 66 / 2 * laptopScale - 8 * laptopScale,
 	}, '<')
 
