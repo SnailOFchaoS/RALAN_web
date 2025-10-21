@@ -53,7 +53,7 @@ const FrameComponent = ({
         const previousTrigger = self.previous();
 
         if (previousTrigger) {
-          const position = 145 * context.laptopScale;
+          const position = context.laptopScale === 1 ? 107 : 145 * context.laptopScale;
           return previousTrigger.end + position;
         } else {
           return "top top";

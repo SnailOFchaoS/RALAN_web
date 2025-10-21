@@ -3,7 +3,7 @@ import Image from "next/image"
 import InfoBlock from "../../../Common/InfoBlock/InfoBlock"
 import {aboutUsInfo} from "../constants"
 import aboutUsPhoto from '../../../../../assets/png/about_us_photo.png';
-import Galery from "./Galery/Galery";
+import Galery from "./Gallery/Gallery";
 
 import styles from "./AboutUsSlide.module.scss"
 
