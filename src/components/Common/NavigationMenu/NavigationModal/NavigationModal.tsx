@@ -100,6 +100,8 @@ const NavigationModal = ({
   }, [isOpen])
 
   useEffect(() => {
+    if(!isOpen) 
+      return;
 
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
