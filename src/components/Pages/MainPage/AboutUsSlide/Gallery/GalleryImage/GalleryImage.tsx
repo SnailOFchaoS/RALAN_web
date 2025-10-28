@@ -58,11 +58,10 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 
   const handleMouseLeave = () => {
     if (hoverAnimationRef.current) {
-			setHoveredIndex(null)
       hoverAnimationRef.current.reverse();
+			setHoveredIndex(null)
     }
   };
-
 
 	const needAnimation = (index: number) => {
 		if(hoveredIndex == null)
@@ -71,40 +70,45 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 		if(index === hoveredIndex)
 			return null;
 
-		if(index !== 4)
-			return null;
+		const rowDiff = Math.floor(index / 3) - Math.floor(hoveredIndex / 3);
+		const columnDiff = index % 3 - hoveredIndex % 3;
 
 		if(hoveredIndex < 6){
-			const rowDiff = Math.floor(index / 3) - Math.floor(hoveredIndex / 3);
 			if(rowDiff <= 1 && rowDiff >= 0){
 				if(hoveredIndex % 3 < 2){
 					if(index % 3 > hoveredIndex % 3){
-						console.log('right');
 						return "right";
 					}
-					if(index % 3 === hoveredIndex % 3)
-						console.log('bottom');
-						return "bottom"
 				}
 				if(hoveredIndex % 3 === 2){
 					if(index % 3 < hoveredIndex % 3){
-						console.log('left');
 						return "left";
 					}
-					if(index % 3 === hoveredIndex % 3)
-						console.log('bottom');
-						return "bottom"
 				}
+			}
+			if(columnDiff === 0 && rowDiff > 0){
+				return "bottom";
 			}
 		}
 			
 		if(hoveredIndex >= 6){
 			const rowDiff = Math.floor(index / 3) - Math.floor(hoveredIndex / 3);
-			if(rowDiff <= 1 && rowDiff >= 0){
-
+			if(rowDiff <= 0 && rowDiff >= -1){
+				if(hoveredIndex % 3 < 2){
+					if(index % 3 > hoveredIndex % 3){;
+						return "right";
+					}
+				}
+				if(hoveredIndex % 3 === 2){
+					if(index % 3 < hoveredIndex % 3){
+						return "left";
+					}
+				}
+			}
+			if(columnDiff === 0 && rowDiff < 0){
+				return "top";
 			}
 		}
-			// return 'left'
 
 		return null;
 	}
@@ -117,7 +121,13 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
     if (imageRef.current) {
       const currentElement = imageRef.current;
 
-      hoverAnimationRef.current = gsap.to(currentElement, {
+      hoverAnimationRef.current = gsap.fromTo(currentElement, {
+				x:0,
+				y:0,
+				width: itemWidth,
+        height: itemHeight,
+				borderRadius: 40,
+			}, {
         x: getNewPosition(index).leftPosition,
         y: getNewPosition(index).topPosition,
         width: enlargedWidth,
@@ -129,28 +139,40 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
         paused: true,
       });
 
-			accompanyingRightAnimationRef.current = gsap.to(currentElement, {
+			accompanyingRightAnimationRef.current = gsap.fromTo(currentElement,{
+				x: 0,
+				y: 0,
+			}, {
 				x: itemWidth + gapHorizontal,
 				duration: 0.3,
         ease: "power2.out",
 				paused: true,
 			})
 
-			accompanyingLeftAnimationRef.current = gsap.to(currentElement, {
+			accompanyingLeftAnimationRef.current = gsap.fromTo(currentElement,{
+				x: 0,
+				y: 0,
+			}, {
 				x: -1 * (itemWidth + gapHorizontal),
 				duration: 0.3,
         ease: "power2.out",
 				paused: true,
 			})
 
-			accompanyingTopAnimationRef.current = gsap.to(currentElement, {
+			accompanyingTopAnimationRef.current = gsap.fromTo(currentElement,{
+				x: 0,
+				y: 0,
+			}, {
 				y: -1 * (itemHeight + gapVertical),
 				duration: 0.3,
         ease: "power2.out",
 				paused: true,
 			})
 
-			accompanyingBottomAnimationRef.current = gsap.to(currentElement, {
+			accompanyingBottomAnimationRef.current = gsap.fromTo(currentElement,{
+				x: 0,
+				y: 0,
+			}, {
 				y: itemHeight + gapVertical,
 				duration: 0.3,
         ease: "power2.out",
@@ -159,18 +181,18 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
     }
 
     return () => {
-      hoverAnimationRef.current?.revert()
+      hoverAnimationRef.current?.revert();
       hoverAnimationRef.current?.kill();
-			accompanyingRightAnimationRef.current?.revert()
+			accompanyingRightAnimationRef.current?.revert();
       accompanyingRightAnimationRef.current?.kill();
-			accompanyingLeftAnimationRef.current?.revert()
+			accompanyingLeftAnimationRef.current?.revert();
       accompanyingLeftAnimationRef.current?.kill();
-			accompanyingTopAnimationRef.current?.revert()
+			accompanyingTopAnimationRef.current?.revert();
       accompanyingTopAnimationRef.current?.kill();
-			accompanyingBottomAnimationRef.current?.revert()
+			accompanyingBottomAnimationRef.current?.revert();
       accompanyingBottomAnimationRef.current?.kill();
     };
-  }, [contex])
+  }, [contex.laptopScale])
 
 	useEffect(() => {
 		if(
@@ -196,10 +218,15 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 			accompanyingBottomAnimationRef.current.play();
 			return;
 		}
+		if(animetionPosition === 'top'){
+			accompanyingTopAnimationRef.current.play();
+			return;
+		}
 
 		accompanyingLeftAnimationRef.current.reverse();
 		accompanyingRightAnimationRef.current.reverse();
 		accompanyingBottomAnimationRef.current.reverse();
+		accompanyingTopAnimationRef.current.reverse();
 
 		return ;
 	}, [hoveredIndex])
