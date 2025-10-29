@@ -21,6 +21,8 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 	const accompanyingLeftAnimationRef = useRef<GSAPTween | null>(null);
 	const accompanyingTopAnimationRef = useRef<GSAPTween | null>(null);
 	const accompanyingBottomAnimationRef = useRef<GSAPTween | null>(null);
+	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const animationDelay = 100;
 
 	const contex = useMainPageContext();
 
@@ -50,17 +52,27 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 	}
 
 	const handleMouseEnter = () => {
-    if (hoverAnimationRef.current) {
-			setHoveredIndex(index)
-      hoverAnimationRef.current.play();
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
+
+    timeoutRef.current = setTimeout(() => {
+      if (hoverAnimationRef.current) {
+				setHoveredIndex(index);
+      }
+    }, animationDelay);
   };
 
-  const handleMouseLeave = () => {
-    if (hoverAnimationRef.current) {
-      hoverAnimationRef.current.reverse();
-			setHoveredIndex(null)
+	const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
+
+    timeoutRef.current = setTimeout(() => {
+      if (hoverAnimationRef.current) {
+				setHoveredIndex(null);
+      }
+    }, animationDelay);
   };
 
 	const needAnimation = (index: number) => {
@@ -137,6 +149,18 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
         ease: "power2.out",
         zIndex: 2,
         paused: true,
+				onStart: () => {
+					setIsAnimationPlay(true)
+				},
+				onComplete: () => {
+					setIsAnimationPlay(false)
+				},
+				onReverseStart: () => {
+					setIsAnimationPlay(true)
+				},
+				onReverseComplete: () => {
+					setIsAnimationPlay(false)
+				}
       });
 
 			accompanyingRightAnimationRef.current = gsap.fromTo(currentElement,{
@@ -191,6 +215,9 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
       accompanyingTopAnimationRef.current?.kill();
 			accompanyingBottomAnimationRef.current?.revert();
       accompanyingBottomAnimationRef.current?.kill();
+			if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
   }, [contex.laptopScale])
 
@@ -199,11 +226,23 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 			!accompanyingRightAnimationRef.current ||
 			!accompanyingLeftAnimationRef.current ||
 			!accompanyingTopAnimationRef.current ||
-			!accompanyingBottomAnimationRef.current
+			!accompanyingBottomAnimationRef.current ||
+			!hoverAnimationRef.current
 		){
 			return;
 		}
 
+		if(isAnimationPlay){
+			return;
+		}
+
+		if(index === hoveredIndex){
+			hoverAnimationRef.current.play();
+		}
+		else{
+			hoverAnimationRef.current.reverse();
+		}
+		
 		const animetionPosition = needAnimation(index);
 
 		if(animetionPosition === 'left'){
