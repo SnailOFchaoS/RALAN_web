@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo, useCallback } from "react";
 import Image, { StaticImageData } from "next/image";
 import gsap from "gsap";
+
 import { useMainPageContext } from "../../../context";
 
 import styles from "./GalleryImage.module.scss"
@@ -16,70 +17,63 @@ interface GalleryImageProps{
 
 const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationPlay, setIsAnimationPlay}: GalleryImageProps) => {
 	const imageRef = useRef<HTMLDivElement>(null);
-  const hoverAnimationRef = useRef<GSAPTween | null>(null);
-	const accompanyingRightAnimationRef = useRef<GSAPTween | null>(null);
-	const accompanyingLeftAnimationRef = useRef<GSAPTween | null>(null);
-	const accompanyingTopAnimationRef = useRef<GSAPTween | null>(null);
-	const accompanyingBottomAnimationRef = useRef<GSAPTween | null>(null);
+  const animationRefs = useRef<Record<string, GSAPTween | null>>({
+    hover: null,
+    right: null,
+    left: null,
+    top: null,
+    bottom: null,
+  });
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const animationDelay = 100;
+	const animationDelay = 100;
 
-	const contex = useMainPageContext();
+	const context = useMainPageContext();
 
-	const itemWidth = 244 * contex.laptopScale;
-	const itemHeight = 196 * contex.laptopScale;
-	const enlargedWidth = 508 * contex.laptopScale;
-	const enlargedHeight = 416 * contex.laptopScale;
-	const gapHorizontal = 20 * contex.laptopScale;
-	const gapVertical = 24 * contex.laptopScale;
+	const itemWidth = useMemo(() => 244 * context.laptopScale, [context.laptopScale]);
+	const itemHeight = useMemo(() => 196 * context.laptopScale, [context.laptopScale]);
+	const enlargedWidth = useMemo(() => 508 * context.laptopScale, [context.laptopScale]);
+	const enlargedHeight = useMemo(() => 416 * context.laptopScale, [context.laptopScale]);
+	const gapHorizontal = useMemo(() => 20 * context.laptopScale, [context.laptopScale]);
+	const gapVertical = useMemo(() => 24 * context.laptopScale, [context.laptopScale]);
 
-	const getPosition = (index: number) => {
-		const leftPosition = (index % 3) * (itemWidth + gapHorizontal);
-		const topPosition = Math.floor(index / 3) * (itemHeight + gapVertical);
+	const getPosition = useCallback((index: number) => {
 		return {
-			leftPosition,
-			topPosition,
+			leftPosition: (index % 3) * (itemWidth + gapHorizontal),
+			topPosition: Math.floor(index / 3) * (itemHeight + gapVertical),
 		};
-	}
+	}, [itemWidth, itemHeight, gapHorizontal, gapVertical]);
 
-	const getNewPosition = (index: number) => {
-		const topPosition = index >= 6 ? -1 * (enlargedHeight + gapVertical) / 2 : 0;
-		const leftPosition = (index % 3 === 2) ? -1 * (enlargedWidth + gapHorizontal) / 2 : 0;
+	const getNewPosition = useCallback((index: number) => {
 		return {
-			leftPosition,
-			topPosition,
+			leftPosition: (index % 3 === 2) ? -1 * (enlargedWidth + gapHorizontal) / 2 : 0,
+			topPosition: index >= 6 ? -1 * (enlargedHeight + gapVertical) / 2 : 0,
 		};
-	}
+	}, [enlargedWidth, enlargedHeight, gapHorizontal, gapVertical]);
 
-	const handleMouseEnter = () => {
+	const handleMouseEnter = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-
     timeoutRef.current = setTimeout(() => {
-      if (hoverAnimationRef.current) {
-				setHoveredIndex(index);
+      if (animationRefs.current.hover) {
+        setHoveredIndex(index);
       }
     }, animationDelay);
-  };
+  }, [index, setHoveredIndex]);
 
-	const handleMouseLeave = () => {
+	const handleMouseLeave = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-
     timeoutRef.current = setTimeout(() => {
-      if (hoverAnimationRef.current) {
-				setHoveredIndex(null);
+      if (animationRefs.current.hover) {
+        setHoveredIndex(null);
       }
     }, animationDelay);
-  };
+  }, [setHoveredIndex]);
 
-	const needAnimation = (index: number) => {
-		if(hoveredIndex == null)
-			return null;
-
-		if(index === hoveredIndex)
+	const needAnimation = useCallback((index: number) => {
+		if(hoveredIndex == null || index === hoveredIndex) 
 			return null;
 
 		const rowDiff = Math.floor(index / 3) - Math.floor(hoveredIndex / 3);
@@ -87,203 +81,98 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 
 		if(hoveredIndex < 6){
 			if(rowDiff <= 1 && rowDiff >= 0){
-				if(hoveredIndex % 3 < 2){
-					if(index % 3 > hoveredIndex % 3){
-						return "right";
-					}
+				if(hoveredIndex % 3 < 2 && index % 3 > hoveredIndex % 3){
+					return "right";
 				}
-				if(hoveredIndex % 3 === 2){
-					if(index % 3 < hoveredIndex % 3){
-						return "left";
-					}
+				if(hoveredIndex % 3 === 2 && index % 3 < hoveredIndex % 3){
+					return "left";
 				}
 			}
-			if(columnDiff === 0 && rowDiff > 0){
-				return "bottom";
-			}
+			if(columnDiff === 0 && rowDiff > 0) return "bottom";
 		}
-			
 		if(hoveredIndex >= 6){
 			const rowDiff = Math.floor(index / 3) - Math.floor(hoveredIndex / 3);
 			if(rowDiff <= 0 && rowDiff >= -1){
-				if(hoveredIndex % 3 < 2){
-					if(index % 3 > hoveredIndex % 3){;
-						return "right";
-					}
+				if(hoveredIndex % 3 < 2 && index % 3 > hoveredIndex % 3){
+					return "right";
 				}
-				if(hoveredIndex % 3 === 2){
-					if(index % 3 < hoveredIndex % 3){
-						return "left";
-					}
+				if(hoveredIndex % 3 === 2 && index % 3 < hoveredIndex % 3){
+					return "left";
 				}
 			}
-			if(columnDiff === 0 && rowDiff < 0){
-				return "top";
-			}
+			if(columnDiff === 0 && rowDiff < 0) return "top";
 		}
 
 		return null;
-	}
+	}, [hoveredIndex]);
 
 	useEffect(() => {
-		if(!contex.laptopScale){
-			return ;
-		}
+		if (!context.laptopScale) return;
 
-    if (imageRef.current) {
-      const currentElement = imageRef.current;
+		if (!imageRef.current) return;
 
-      hoverAnimationRef.current = gsap.fromTo(currentElement, {
-				x:0,
-				y:0,
-				width: itemWidth,
-        height: itemHeight,
-				borderRadius: 40,
-			}, {
-        x: getNewPosition(index).leftPosition,
-        y: getNewPosition(index).topPosition,
-        width: enlargedWidth,
-        height: enlargedHeight,
-				borderRadius: 60,
-        duration: 0.3,
-        ease: "power2.out",
-        zIndex: 2,
-        paused: true,
-				onStart: () => {
-					setIsAnimationPlay(true)
-				},
-				onComplete: () => {
-					setIsAnimationPlay(false)
-				},
-				onReverseStart: () => {
-					setIsAnimationPlay(true)
-				},
-				onReverseComplete: () => {
-					setIsAnimationPlay(false)
-				}
-      });
-
-			accompanyingRightAnimationRef.current = gsap.fromTo(currentElement,{
-				x: 0,
-				y: 0,
-			}, {
-				x: itemWidth + gapHorizontal,
-				duration: 0.3,
-        ease: "power2.out",
-				paused: true,
-			})
-
-			accompanyingLeftAnimationRef.current = gsap.fromTo(currentElement,{
-				x: 0,
-				y: 0,
-			}, {
-				x: -1 * (itemWidth + gapHorizontal),
-				duration: 0.3,
-        ease: "power2.out",
-				paused: true,
-			})
-
-			accompanyingTopAnimationRef.current = gsap.fromTo(currentElement,{
-				x: 0,
-				y: 0,
-			}, {
-				y: -1 * (itemHeight + gapVertical),
-				duration: 0.3,
-        ease: "power2.out",
-				paused: true,
-			})
-
-			accompanyingBottomAnimationRef.current = gsap.fromTo(currentElement,{
-				x: 0,
-				y: 0,
-			}, {
-				y: itemHeight + gapVertical,
-				duration: 0.3,
-        ease: "power2.out",
-				paused: true,
-			})
-    }
-
-    return () => {
-      hoverAnimationRef.current?.revert();
-      hoverAnimationRef.current?.kill();
-			accompanyingRightAnimationRef.current?.revert();
-      accompanyingRightAnimationRef.current?.kill();
-			accompanyingLeftAnimationRef.current?.revert();
-      accompanyingLeftAnimationRef.current?.kill();
-			accompanyingTopAnimationRef.current?.revert();
-      accompanyingTopAnimationRef.current?.kill();
-			accompanyingBottomAnimationRef.current?.revert();
-      accompanyingBottomAnimationRef.current?.kill();
-			if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [contex.laptopScale])
+		const el = imageRef.current;
+		animationRefs.current.hover = gsap.fromTo(el, {
+			x:0,
+			y:0,
+			width: itemWidth,
+			height: itemHeight,
+			borderRadius: 40,
+		}, {
+			x: getNewPosition(index).leftPosition,
+			y: getNewPosition(index).topPosition,
+			width: enlargedWidth,
+			height: enlargedHeight,
+			borderRadius: 60,
+			duration: 0.3,
+			ease: "power2.out",
+			zIndex: 2,
+			paused: true,
+			onStart: () => setIsAnimationPlay(true),
+			onComplete: () => setIsAnimationPlay(false),
+			onReverseStart: () => setIsAnimationPlay(true),
+			onReverseComplete: () => setIsAnimationPlay(false),
+		});
+		const configs = [
+      { key: "right", x: itemWidth + gapHorizontal, y: 0 },
+      { key: "left", x: -1 * (itemWidth + gapHorizontal), y: 0 },
+      { key: "top", x: 0, y: -1 * (itemHeight + gapVertical) },
+      { key: "bottom", x: 0, y: itemHeight + gapVertical },
+    ];
+    configs.forEach(({key, x, y}) => {
+      animationRefs.current[key] = gsap.fromTo(el, { x: 0, y: 0 }, { x, y, duration: 0.3, ease: "power2.out", paused: true });
+    });
+		return () => {
+      Object.values(animationRefs.current).forEach(anim => { anim?.revert(); anim?.kill(); });
+			if (timeoutRef.current) clearTimeout(timeoutRef.current);
+		};
+	}, [context.laptopScale, itemWidth, itemHeight, enlargedWidth, enlargedHeight, gapHorizontal, gapVertical, index, getNewPosition, setIsAnimationPlay]);
 
 	useEffect(() => {
-		if(
-			!accompanyingRightAnimationRef.current ||
-			!accompanyingLeftAnimationRef.current ||
-			!accompanyingTopAnimationRef.current ||
-			!accompanyingBottomAnimationRef.current ||
-			!hoverAnimationRef.current
-		){
-			return;
-		}
+		const anims = animationRefs.current;
+		if (!anims.right || !anims.left || !anims.top || !anims.bottom || !anims.hover) return;
+		if (isAnimationPlay) return;
+		if (index === hoveredIndex) anims.hover.play();
+		else anims.hover.reverse();
+		const pos = needAnimation(index);
+		if (pos && anims[pos]) { anims[pos]!.play(); return; }
+		["left", "right", "bottom", "top"].forEach(key => anims[key]?.reverse());
+	}, [hoveredIndex, isAnimationPlay, index, needAnimation]);
 
-		if(isAnimationPlay){
-			return;
-		}
-
-		if(index === hoveredIndex){
-			hoverAnimationRef.current.play();
-		}
-		else{
-			hoverAnimationRef.current.reverse();
-		}
-		
-		const animetionPosition = needAnimation(index);
-
-		if(animetionPosition === 'left'){
-			accompanyingLeftAnimationRef.current.play();
-			return;
-		}
-		if(animetionPosition === 'right'){
-			accompanyingRightAnimationRef.current.play();
-			return;
-		}
-		if(animetionPosition === 'bottom'){
-			accompanyingBottomAnimationRef.current.play();
-			return;
-		}
-		if(animetionPosition === 'top'){
-			accompanyingTopAnimationRef.current.play();
-			return;
-		}
-
-		accompanyingLeftAnimationRef.current.reverse();
-		accompanyingRightAnimationRef.current.reverse();
-		accompanyingBottomAnimationRef.current.reverse();
-		accompanyingTopAnimationRef.current.reverse();
-
-		return ;
-	}, [hoveredIndex])
-	
 	return (
 		<div
 			ref={imageRef}
 			key={index}
 			className={styles.galleryItem}
 			style={{
-				position: 'absolute',
+				position: "absolute",
 				left: getPosition(index).leftPosition,
 				top: getPosition(index).topPosition,
 				width: itemWidth,
 				height: itemHeight,
 			}}
 			onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+			onMouseLeave={handleMouseLeave}
 		>
 			<Image
 				src={image}
