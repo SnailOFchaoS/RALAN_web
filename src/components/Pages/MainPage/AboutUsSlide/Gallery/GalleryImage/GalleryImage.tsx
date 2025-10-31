@@ -13,9 +13,18 @@ interface GalleryImageProps{
 	setHoveredIndex: (hoveredIndex: number | null) => void;
 	isAnimationPlay: boolean;
 	setIsAnimationPlay: (isAnimationPlay: boolean) => void;
+	isShowingAnimationComplete: boolean;
 }
 
-const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationPlay, setIsAnimationPlay}: GalleryImageProps) => {
+const GalleryImage = ({
+	image, 
+	index, 
+	hoveredIndex, 
+	setHoveredIndex, 
+	isAnimationPlay, 
+	setIsAnimationPlay,
+	isShowingAnimationComplete
+}: GalleryImageProps) => {
 	const imageRef = useRef<HTMLDivElement>(null);
   const animationRefs = useRef<Record<string, GSAPTween | null>>({
     hover: null,
@@ -25,7 +34,7 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
     bottom: null,
   });
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-	const animationDelay = 100;
+	const animationDelay = 150;
 
 	const context = useMainPageContext();
 
@@ -50,27 +59,35 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 		};
 	}, [enlargedWidth, enlargedHeight, gapHorizontal, gapVertical]);
 
-	const handleMouseEnter = useCallback(() => {
+	const handleMouseEnter = () => {
+    if (isAnimationPlay) {
+      return;
+    }
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
+
     timeoutRef.current = setTimeout(() => {
+      if (isAnimationPlay) {
+        return;
+      }
       if (animationRefs.current.hover) {
         setHoveredIndex(index);
       }
     }, animationDelay);
-  }, [index, setHoveredIndex]);
+  };
 
-	const handleMouseLeave = useCallback(() => {
+	const handleMouseLeave = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
+
     timeoutRef.current = setTimeout(() => {
       if (animationRefs.current.hover) {
         setHoveredIndex(null);
       }
     }, animationDelay);
-  }, [setHoveredIndex]);
+  };
 
 	const needAnimation = useCallback((index: number) => {
 		if(hoveredIndex == null || index === hoveredIndex) 
@@ -109,6 +126,8 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
 	useEffect(() => {
 		if (!context.laptopScale) return;
 
+		if(!isShowingAnimationComplete) return;
+
 		if (!imageRef.current) return;
 
 		const el = imageRef.current;
@@ -146,7 +165,19 @@ const GalleryImage = ({image, index, hoveredIndex, setHoveredIndex, isAnimationP
       Object.values(animationRefs.current).forEach(anim => { anim?.revert(); anim?.kill(); });
 			if (timeoutRef.current) clearTimeout(timeoutRef.current);
 		};
-	}, [context.laptopScale, itemWidth, itemHeight, enlargedWidth, enlargedHeight, gapHorizontal, gapVertical, index, getNewPosition, setIsAnimationPlay]);
+	}, [
+		context.laptopScale, 
+		itemWidth, 
+		itemHeight, 
+		enlargedWidth, 
+		enlargedHeight, 
+		gapHorizontal, 
+		gapVertical, 
+		index, 
+		getNewPosition, 
+		setIsAnimationPlay, 
+		isShowingAnimationComplete
+	]);
 
 	useEffect(() => {
 		const anims = animationRefs.current;

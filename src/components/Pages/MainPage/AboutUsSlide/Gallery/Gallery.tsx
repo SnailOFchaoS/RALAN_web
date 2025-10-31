@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import GalleryImage from './GalleryImage/GalleryImage';
-
 import styles from './Gallery.module.scss';
 
 import image1 from '../../../../../../assets/png/galery_1.png';
@@ -17,28 +18,83 @@ import image10 from '../../../../../../assets/png/galery_10.png';
 import image11 from '../../../../../../assets/png/galery_11.png';
 import image12 from '../../../../../../assets/png/galery_12.png';
 
-
 const images = [
   image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12
 ];
 
+interface GalleryProps {
+  prevViewport: string | null;
+}
 
-const Gallery = () => {
+const Gallery = ({ prevViewport }: GalleryProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isAnimationPlay, setIsAnimationPlay] = useState<boolean>(false);
+  const [isShowingAnimationComplete, setIsShowingAnimationComplete] = useState<boolean>(false)
   const galleryRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<HTMLDivElement[]>([]);
+  const batchTriggersRef = useRef<ScrollTrigger[] | null>(null);
+
+  useEffect(() => {
+    const items = itemRefs.current.filter(Boolean);
+    
+    if (!items.length) return;
+    
+    if(prevViewport !== 'isBelowViewport') return;
+
+    setIsShowingAnimationComplete(false)
+
+    gsap.set(items, { opacity: 0, y: 132 });
+    const triggers: ScrollTrigger[] = items.map((el, index) => {
+      return ScrollTrigger.create({
+        trigger: el,
+        start: () => `bottom bottom-=${Math.min(index, 6) * 50}`,
+        onEnter: () => {
+          gsap.fromTo(el,{
+            opacity: 0,
+            y: 132,
+          }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            onComplete: () => {
+              if(index === 6){
+                setIsShowingAnimationComplete(true)
+              }
+            }
+          });
+        },
+      });
+    });
+
+    batchTriggersRef.current = triggers;
+
+    return () => {
+      batchTriggersRef.current?.forEach((st) => st.kill());
+      batchTriggersRef.current = null;
+    };
+  }, [prevViewport]);
 
   return (
     <div className={styles.gallery} ref={galleryRef}>
       {images.map((image, index) => (
-        <GalleryImage
-          image = {image}
-          index = {index}
-          hoveredIndex = {hoveredIndex}
-          setHoveredIndex = {setHoveredIndex}
-          isAnimationPlay = {isAnimationPlay}
-          setIsAnimationPlay = {setIsAnimationPlay}
-        />
+        <div
+          key={index}
+          ref={(el) => {
+            if (el) itemRefs.current[index] = el;
+          }}
+          style={{ position: 'relative' }}
+        >
+          <GalleryImage
+            image = {image}
+            index = {index}
+            hoveredIndex = {hoveredIndex}
+            setHoveredIndex = {setHoveredIndex}
+            isAnimationPlay = {isAnimationPlay}
+            setIsAnimationPlay = {setIsAnimationPlay}
+            isShowingAnimationComplete = {isShowingAnimationComplete}
+          />
+        </div>
       ))}
     </div>
   );

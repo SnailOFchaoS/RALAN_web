@@ -3,15 +3,42 @@ import {aboutUsInfo} from "../constants"
 import Galery from "./Gallery/Gallery";
 
 import styles from "./AboutUsSlide.module.scss"
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useElementViewportStatus } from "@/components/Common/hooks/hooks";
 
 const AboutUsSlide = () => {
   const textInfoBlockRef = useRef<HTMLDivElement>(null);
-  const {isBelowViewport, isVisible} = useElementViewportStatus(textInfoBlockRef, 0)
+  const {isBelowViewport, isVisible, isAboveViewport} = useElementViewportStatus(textInfoBlockRef, 0)
+  const [prevViewport, setPrevViewport] = useState<string | null>(null)
   const timeLine = useRef(gsap.timeline());
+  const imageBlockRef = useRef<HTMLDivElement>(null);
 
+  useEffect(()=> {
+
+    if(isVisible && (prevViewport === null)){
+      setPrevViewport('isBelowViewport')
+      gsap.set(imageBlockRef.current, {
+        opacity: 1,
+      })
+    }
+    if(!isVisible && (prevViewport === 'isBelowViewport' || prevViewport === 'isAboveViewport')){
+      setPrevViewport('isVisible')
+      gsap.set(imageBlockRef.current, {
+        opacity: 0,
+      })
+    }
+    if(isVisible && prevViewport === 'isVisible'){
+      setPrevViewport('isAboveViewport')
+      gsap.set(imageBlockRef.current, {
+        opacity: 1,
+      })
+    }
+    if(isBelowViewport){
+      setPrevViewport(null)
+    }
+
+  }, [isBelowViewport, isAboveViewport, isVisible])
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -19,29 +46,23 @@ const AboutUsSlide = () => {
     const elem = textInfoBlockRef.current;
 
     if (!elem) return;
-    console.log("isBelowViewport:", isBelowViewport)
 
-    if(isVisible)return;
+    if(prevViewport !== 'isBelowViewport') return;
 
-    // Начальное состояние
     gsap.set(elem, { height: 156 });
 
-    // Очистим предыдущие
     timeLine.current.clear();
 
-    // Основная анимация
     timeLine.current.to(elem, {
       height: 856 * 0.67 / 2,
-      // ease: "power2.out",
       scrollTrigger: {
         trigger: elem,
         start: "bottom bottom",
         end: "+=209",
         scrub: 1.5,
-        markers: true,
-        onLeave(self){
-          self.kill()
-          gsap.fromTo(elem,{
+        onLeave: (self: any) => {
+          self.kill();
+          gsap.fromTo(elem, {
             height: 856 * 0.67 / 2,
           }, {
             height: 856 * 0.67,
@@ -52,9 +73,9 @@ const AboutUsSlide = () => {
       },
     });
     return () => {
-      timeLine.current.kill();
+      timeLine.current?.kill();
     };
-  }, [isVisible]);
+  }, [prevViewport]);
 
   return (
     <div className={styles.aboutUsSlideWrapper}>
@@ -86,8 +107,10 @@ const AboutUsSlide = () => {
           </div>
         ))} 
       </div>
-      <div className={styles.imageBlock}>
-        <Galery/>
+      <div className={styles.imageBlock} ref={imageBlockRef}>
+        <Galery
+          prevViewport={prevViewport}
+        />
       </div>
     </div>
   );
