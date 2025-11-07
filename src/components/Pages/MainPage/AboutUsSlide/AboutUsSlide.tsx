@@ -15,7 +15,6 @@ const AboutUsSlide = () => {
   const imageBlockRef = useRef<HTMLDivElement>(null);
 
   useEffect(()=> {
-
     if(isVisible && (prevViewport === null)){
       setPrevViewport('isBelowViewport')
       gsap.set(imageBlockRef.current, {

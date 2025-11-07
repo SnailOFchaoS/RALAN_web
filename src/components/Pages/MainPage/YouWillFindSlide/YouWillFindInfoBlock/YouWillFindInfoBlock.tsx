@@ -1,4 +1,6 @@
+import { useEffect, useReducer, useRef, useState } from 'react';
 import Image from 'next/image';
+import gsap from 'gsap';
 
 import InfoBlock from '@/components/Common/InfoBlock/InfoBlock'
 import {YouWillFindInfoBlockProps} from "@/components/Common/types"
@@ -6,12 +8,68 @@ import {YouWillFindInfoBlockProps} from "@/components/Common/types"
 import styles from './YouWillFindInfoBlock.module.scss'
 import { useMainPageContext } from '../../context';
 
-const YouWillFindInfoBlock: React.FC<{ infoBlockContent: YouWillFindInfoBlockProps }> = ({ infoBlockContent }) => {
 
+interface YouWillFindInfoProps {
+  infoBlockContent: YouWillFindInfoBlockProps,
+  openedBlocks: number[],
+  index: number,
+}
+
+const YouWillFindInfoBlock: React.FC<YouWillFindInfoProps> = ({ 
+  infoBlockContent, 
+  openedBlocks, 
+  index 
+}) => {
+  // const [isOpened, setIsOpened] = useState<boolean>(openedBlocks?.includes(index))
   const imagePosition = {
     objectPosition: `${infoBlockContent?.image?.positionX ?? 0}px ${infoBlockContent?.image?.positionY ?? 0}px`
   }
   const laptopScale = useMainPageContext().laptopScale;
+  const blockRef = useRef<HTMLDivElement | null>(null)
+  const animationRef = useRef<GSAPTween>(null)
+
+  useEffect(()=> {
+    animationRef.current = gsap.fromTo(blockRef.current, {
+      height: 0,
+      opacity: 0,
+      margin: 0,
+      padding: 0,
+    }, {
+      height: `${560 * laptopScale}px`,
+      duration: 0.5,
+      paused: true,
+
+      onReverseComplete: () => {
+        if(blockRef.current){
+          blockRef.current.style.opacity = "0"
+          blockRef.current.style.padding = "0"
+        }
+      },
+      onStart: ()=> {
+        if(blockRef.current){
+          blockRef.current.style.opacity = "1"
+          blockRef.current.style.padding = `${32 * laptopScale}px`
+        }
+      }
+    })
+
+    return () => {
+      animationRef?.current?.kill()
+    }
+  }, [laptopScale])
+
+  useEffect(()=> {
+    console.log("here")
+    if(!animationRef.current) return;
+
+    if(openedBlocks.includes(index)){
+      console.log("check")
+      animationRef.current.play()
+    }
+    else{
+      animationRef.current.reverse()
+    }
+  }, [openedBlocks])
 
   return (
     <div 
@@ -19,6 +77,7 @@ const YouWillFindInfoBlock: React.FC<{ infoBlockContent: YouWillFindInfoBlockPro
       style={{
         backgroundColor: infoBlockContent.openedColor
       }}
+      ref={blockRef}
     >
       <div className={styles.textBlock}>
         {infoBlockContent.textInfo?.map((element: {title?: string, text?: string}, index) => {

@@ -83,7 +83,10 @@ const Gallery = ({ prevViewport }: GalleryProps) => {
           ref={(el) => {
             if (el) itemRefs.current[index] = el;
           }}
-          style={{ position: 'relative' }}
+          style={{ 
+            position: 'relative', 
+            opacity: 0,
+          }}
         >
           <GalleryImage
             image = {image}

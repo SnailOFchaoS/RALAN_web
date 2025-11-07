@@ -60,6 +60,8 @@ const GalleryImage = ({
 	}, [enlargedWidth, enlargedHeight, gapHorizontal, gapVertical]);
 
 	const handleMouseEnter = () => {
+		if(!isShowingAnimationComplete) return;
+
     if (isAnimationPlay) {
       return;
     }
@@ -78,6 +80,8 @@ const GalleryImage = ({
   };
 
 	const handleMouseLeave = () => {
+		if(!isShowingAnimationComplete) return;
+
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
