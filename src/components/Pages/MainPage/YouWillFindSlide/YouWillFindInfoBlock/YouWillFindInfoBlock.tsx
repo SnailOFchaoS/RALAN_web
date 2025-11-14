@@ -10,20 +10,25 @@ import { useMainPageContext } from '../../context';
 
 
 interface YouWillFindInfoProps {
-  infoBlockContent: YouWillFindInfoBlockProps,
-  openedBlocks: number[],
-  index: number,
+  infoBlockContent: YouWillFindInfoBlockProps;
+  openedBlocks: number[];
+  index: number;
+  setChangedColorBlocks: (data: number[]) => void;
+  changedColorBlocks: number[];
 }
 
 const YouWillFindInfoBlock: React.FC<YouWillFindInfoProps> = ({ 
   infoBlockContent, 
   openedBlocks, 
-  index 
+  index,
+  setChangedColorBlocks,
+  changedColorBlocks,
 }) => {
-  // const [isOpened, setIsOpened] = useState<boolean>(openedBlocks?.includes(index))
+
   const imagePosition = {
     objectPosition: `${infoBlockContent?.image?.positionX ?? 0}px ${infoBlockContent?.image?.positionY ?? 0}px`
   }
+  const [isOpened, setIsOpened] = useState<boolean>(false)
   const laptopScale = useMainPageContext().laptopScale;
   const blockRef = useRef<HTMLDivElement | null>(null)
   const animationRef = useRef<GSAPTween>(null)
@@ -43,12 +48,14 @@ const YouWillFindInfoBlock: React.FC<YouWillFindInfoProps> = ({
         if(blockRef.current){
           blockRef.current.style.opacity = "0"
           blockRef.current.style.padding = "0"
+          setIsOpened(false)
         }
       },
       onStart: ()=> {
         if(blockRef.current){
           blockRef.current.style.opacity = "1"
           blockRef.current.style.padding = `${32 * laptopScale}px`
+          setIsOpened(true)
         }
       }
     })
@@ -57,6 +64,12 @@ const YouWillFindInfoBlock: React.FC<YouWillFindInfoProps> = ({
       animationRef?.current?.kill()
     }
   }, [laptopScale])
+
+  useEffect(()=> {
+    setChangedColorBlocks(isOpened ? 
+      [...changedColorBlocks, index] : 
+      changedColorBlocks?.filter((elem: number) => elem !== index))
+  }, [isOpened])
 
   useEffect(()=> {
     console.log("here")

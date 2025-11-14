@@ -11,6 +11,7 @@ import styles from "./YouWillFindSlide.module.scss"
 const YouWillFindSlide = () => {
   const slideRef = useRef<HTMLDivElement | null>(null)
   const [openedBlocks, setOpenedBlocks] = useState<number[]>([])
+  const [changedColorBlocks, setChangedColorBlocks] = useState<number[]>([])
 
   return (
     <div className={styles.youWillFindSlideWrapper} ref={slideRef}>
@@ -29,6 +30,8 @@ const YouWillFindSlide = () => {
               subtitle = {element}
               openedBlocks = {openedBlocks}
               setOpenedBlocks = {setOpenedBlocks}
+              changedColorBlocks={changedColorBlocks}
+              setChangedColorBlocks={setChangedColorBlocks}
               slideRef = {slideRef}
               index = {index}
             />
@@ -36,16 +39,9 @@ const YouWillFindSlide = () => {
               infoBlockContent={element}
               openedBlocks={openedBlocks}
               index={element.id}
+              setChangedColorBlocks={setChangedColorBlocks}
+              changedColorBlocks={changedColorBlocks}
             />
-            {/* {
-              openedBlocks.includes(element.id) && (
-                <YouWillFindInfoBlock
-                  infoBlockContent={element}
-                  openedBlocks={openedBlocks}
-                  // index={element.id}
-                />
-              )
-            } */}
           </div>
         );
       })}

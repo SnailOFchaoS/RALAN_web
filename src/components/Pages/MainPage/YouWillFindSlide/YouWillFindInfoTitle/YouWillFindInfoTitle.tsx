@@ -32,12 +32,15 @@ const YouWillFindInfo = ({
   subtitle, 
   openedBlocks, 
   setOpenedBlocks,
+  changedColorBlocks,
+  setChangedColorBlocks,
   slideRef,
   index
 }: YouWillFindInfoTitleProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
   const [prevViewport, setPrevViewport] = useState<string | null>(null)
   const [animationFinished, setAnimationFinished] = useState<boolean>(false)
+  const [isColored, setIsColored] = useState<boolean>(false)
   const infoBlockRef = useRef<HTMLDivElement | null>(null)
   const textBlockRef = useRef<HTMLDivElement | null>(null)
   const subArrowRef = useRef<HTMLDivElement | null>(null)
@@ -56,6 +59,10 @@ const YouWillFindInfo = ({
       hoverAnimatioRef.current.play();
     }
   }
+
+  useEffect(()=> {
+    setIsColored(changedColorBlocks.find(element => element === subtitle.id) ? true : false)
+  }, [changedColorBlocks])
 
   const handleMouseLeave = () => {
 
@@ -93,6 +100,7 @@ const YouWillFindInfo = ({
       }
       setIsOpened(false)
       setOpenedBlocks([])
+      setChangedColorBlocks([])
       setPrevViewport(null)
     }
 
@@ -116,7 +124,7 @@ const YouWillFindInfo = ({
       ease: "power2.out",
       duration: 2,
     }, '<').fromTo(newArrowBlockRef.current, {
-      y: -200,
+      y: -300 * laptopScale,
     }, {
       y: 0,
       ease: "power2.out",
@@ -158,7 +166,7 @@ const YouWillFindInfo = ({
       hoverAnimatioRef.current = gsap.fromTo(newArrowBlockRef.current, {
         y: 0
       }, {
-        y: 193,
+        y: 275 * laptopScale,
         duration: 1,
         ease: "power2.out",
         paused: true,
@@ -166,7 +174,7 @@ const YouWillFindInfo = ({
     } 
     else {
       hoverAnimatioRef.current = gsap.fromTo(newArrowBlockRef.current, {
-        y: 193,
+        y: 275 * laptopScale,
       }, {
         y: 0,
         duration: 1,
@@ -210,16 +218,16 @@ const YouWillFindInfo = ({
         <div 
           className={styles.subArrowContainer}
           style={{
-            backgroundColor: isOpened ? subtitle.openedColor : '#A8DADC',
-            top: '-184px',
+            backgroundColor: isColored ? subtitle.openedColor : '#A8DADC',
+            top: `${-262 * laptopScale}px`,
             transform: isOpened ? 'rotate(180deg)' : 'none',
           }}
         />
         <div 
           className={styles.subArrowContainer}
           style={{
-            backgroundColor: isOpened ? subtitle.openedColor : '#A8DADC',
-            top: `9px`,
+            backgroundColor: isColored ? subtitle.openedColor : '#A8DADC',
+            top: `${13 * laptopScale}px`,
             transform: isOpened ? 'rotate(180deg)' : 'none'
           }}
         />
@@ -230,7 +238,7 @@ const YouWillFindInfo = ({
         ref={infoBlockRef}
         onClick={() => onTitleClick()}
         style={{
-          borderBottom: isOpened ? 'none' : '3px solid #A8DADC',
+          borderBottom: isColored ? 'none' : '3px solid #A8DADC',
           overflow: `hidden`,
         }}
       >
@@ -248,7 +256,7 @@ const YouWillFindInfo = ({
                   <p 
                     className={styles.subtitle}
                     style={{
-                      color: subtitle.id !== element.id ? undefined : isOpened ? subtitle.openedColor : '#A8DADC'
+                      color: subtitle.id !== element.id ? undefined : isColored ? subtitle.openedColor : '#A8DADC'
                     }}
                   >
                     {element.title}
@@ -263,7 +271,7 @@ const YouWillFindInfo = ({
           <p 
             className={styles.title}
             style={{
-              color: isOpened ? subtitle.openedColor : '#A8DADC'
+              color: isColored ? subtitle.openedColor : '#A8DADC'
             }}
           >
             {subtitle.title}
