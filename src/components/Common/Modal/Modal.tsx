@@ -4,7 +4,14 @@ import gsap from "gsap";
 
 import styles from './Modal.module.scss'
 
-const Modal = ({ isOpen, onClose, children, needBgAnimation = true }: any) => {
+interface ModalProps {
+  isOpen: boolean, 
+  onClose: () => void, 
+  children: React.ReactNode, 
+  needBgAnimation: boolean,
+}
+
+const Modal = ({ isOpen, onClose, children, needBgAnimation = true }: ModalProps) => {
   const rootDivRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const timeLineRef = useRef<gsap.core.Timeline>(null);

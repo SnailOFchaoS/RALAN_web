@@ -39,6 +39,10 @@ export interface YouWillFindInfoTitleProps {
   subtitle: YouWillFindInfoBlockProps;
   openedBlocks: number[];
   setOpenedBlocks: (blocks: number[]) => void;
+  changedColorBlocks: number[];
+  setChangedColorBlocks: (blocks: number[]) => void;
+  slideRef: any;
+  index: number;
 }
 
 export interface personDataInterface{

@@ -9,14 +9,16 @@ import { useMainPageContext } from "@/components/Pages/MainPage/context";
 
 import styles from './NavigationModal.module.scss'
 
+interface NavigationDataInterface{
+  text: string,
+  ref: React.RefObject<HTMLElement>,
+}
+
 interface NavigationModalProps{
   isOpen: boolean, 
   setIsModalOpened: (isOpen: boolean) => void, 
   onCloseClick: boolean,
-  navigationData: {
-    text: string,
-    ref: React.RefObject<HTMLDivElement | null>,
-  }[] | undefined,
+  navigationData: NavigationDataInterface[] | undefined,
 }
 
 const NavigationModal = ({ 
@@ -98,6 +100,8 @@ const NavigationModal = ({
   }, [isOpen])
 
   useEffect(() => {
+    if(!isOpen) 
+      return;
 
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
@@ -176,7 +180,7 @@ const NavigationModal = ({
       </div>
       <div className={styles.content} ref={contentRef}>
         <div className={styles.modalRow} />
-        {navigationData?.map((element: any, id: number) => (
+        {navigationData?.map((element: NavigationDataInterface, id: number) => (
           <div
             className={styles.modalRow}
             key={id}

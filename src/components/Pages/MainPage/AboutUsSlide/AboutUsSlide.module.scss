@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
-  
-  padding: 32px 178px 0px 178px;
+  justify-content: center;
+  padding-top: 200px;
 
   .textInfoBlock{
     display: flex;
+    overflow: hidden;
     flex-direction: column;
     width: 772px;
     padding: 60px 32px;
@@ -19,6 +20,7 @@
       flex-direction: column;
       justify-content: flex-start;
       min-height: 166px;
+      gap: 35px;
     }
   }
 
@@ -27,44 +29,29 @@
     position: relative;
     width: 772px;
     height: 856px;
-    border-radius: 60px;
-    background-color: #fffff0;
-      
-    .image {
-      object-fit: cover;
-      object-position: -644px -364px;
-      transform-origin: top left;
-      max-width: unset;
-      max-height: unset;
-      pointer-events: none;
-    }
+    background-color: transparent;
   }
 }
 
 @media (max-width: 1366px) and (max-height: 820px) {
-  .aboutUsSlideWrapper {
-    padding: 21px 120px 0 120px;
-    gap: 14px;
-
-    .textInfoBlock {
-      width: 517px;
-      padding: 40px 21px;
-      border-radius: 40px;
-      gap: 13px;
-
+  .aboutUsSlideWrapper{
+    gap: 20px * 0.67;
+  
+    .textInfoBlock{
+      width: 772px * 0.67;
+      padding: 60px * 0.67 32px * 0.67;
+      border-radius: 60px * 0.67;
+      gap: 20px * 0.67;
+  
       .contentRow{
-        min-height: 111px;
+        min-height: 166px * 0.67;
+        gap: 35px * 0.67;
       }
     }
-
+  
     .imageBlock{
-      width: 517px;
-      height: 573px;
-      border-radius: 40px;
-
-      .image{
-        transform: scale(0.67);
-      }
+      width: 772px * 0.67;
+      height: 856px * 0.67;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import YouWillFindInfoTitle from "./YouWillFindInfoTitle/YouWillFindInfoTitle";
 import YouWillFindInfoBlock from "./YouWillFindInfoBlock/YouWillFindInfoBlock";
@@ -9,11 +9,12 @@ import styles from "./YouWillFindSlide.module.scss"
 
 
 const YouWillFindSlide = () => {
-
+  const slideRef = useRef<HTMLDivElement | null>(null)
   const [openedBlocks, setOpenedBlocks] = useState<number[]>([])
+  const [changedColorBlocks, setChangedColorBlocks] = useState<number[]>([])
 
   return (
-    <div className={styles.youWillFindSlideWrapper}>
+    <div className={styles.youWillFindSlideWrapper} ref={slideRef}>
       <div className={styles.titleLine}>
         <p className={styles.titleText}>
           ВАС ЖДЁТ
@@ -29,14 +30,18 @@ const YouWillFindSlide = () => {
               subtitle = {element}
               openedBlocks = {openedBlocks}
               setOpenedBlocks = {setOpenedBlocks}
+              changedColorBlocks={changedColorBlocks}
+              setChangedColorBlocks={setChangedColorBlocks}
+              slideRef = {slideRef}
+              index = {index}
             />
-            {
-              openedBlocks.includes(element.id) && (
-                <YouWillFindInfoBlock
-                  infoBlockContent={element}
-                />
-              )
-            }
+            <YouWillFindInfoBlock
+              infoBlockContent={element}
+              openedBlocks={openedBlocks}
+              index={element.id}
+              setChangedColorBlocks={setChangedColorBlocks}
+              changedColorBlocks={changedColorBlocks}
+            />
           </div>
         );
       })}
