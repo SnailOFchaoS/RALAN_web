@@ -11,7 +11,7 @@ import styles from './NavigationModal.module.scss'
 
 interface NavigationDataInterface{
   text: string,
-  ref: React.RefObject<HTMLElement>,
+  ref: React.RefObject<HTMLDivElement | null>,
 }
 
 interface NavigationModalProps{
@@ -43,9 +43,9 @@ const NavigationModal = ({
 
     const timeLine = gsap.timeline({
       onReverseComplete: () => {
-        setIsModalOpened(false)
+        setIsModalOpened(false);
+        setIsReversing(false);
       },
-
     });
     timeLineRef.current = timeLine;
 
@@ -127,6 +127,7 @@ const NavigationModal = ({
   useEffect(() => {
     if (onCloseClick) {
       if (timeLineRef.current) {
+        setIsReversing(true);
         timeLineRef.current.reverse();
       }
     }
@@ -134,19 +135,21 @@ const NavigationModal = ({
 
   const onLogoClicked = () => {
     if (timeLineRef.current) {
+      setIsReversing(true);
       timeLineRef.current.reverse();
     }
   }
 
-  const scrollToSection = (sectionRef: React.RefObject<HTMLElement>) => {
+  const scrollToSection = (sectionRef: React.RefObject<HTMLDivElement | null>) => {
     sectionRef.current?.scrollIntoView({ behavior: 'smooth' });
     if (timeLineRef.current) {
+      setIsReversing(true);
       timeLineRef.current.reverse();
     }
   };
 
   return (
-    <div className={styles.navigationModalWrapper} >
+    <div className={styles.navigationModalWrapper} style={{ pointerEvents: isOpen && !onCloseClick && !isReversing ? 'auto' : 'none' }}>
       <div className={styles.topContentWrapper}>
         <div
           className={styles.topElement}
@@ -185,7 +188,11 @@ const NavigationModal = ({
             className={styles.modalRow}
             key={id}
           >
-            <p className={styles.text} onClick={() => { scrollToSection(element.ref) }}>
+            <p 
+              className={styles.text} 
+              onClick={() => { scrollToSection(element.ref) }}
+              style={{ pointerEvents: isOpen && !onCloseClick && !isReversing ? 'auto' : 'none' }}
+            >
               {element.text}
             </p>
           </div>

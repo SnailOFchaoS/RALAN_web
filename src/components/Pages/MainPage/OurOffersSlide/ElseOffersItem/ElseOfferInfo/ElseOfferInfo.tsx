@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
 import InfoBlock from '@/components/Common/InfoBlock/InfoBlock';
-import { ElseOfferInterface } from '@/components/Common/types';
 import ButtonWithArrow from '@/components/Common/ButtonWithArrow/ButtonWithArrow';
+import { ElseOfferInfoProps } from './ElseOfferInfo.types';
 
 import styles from './ElseOfferInfo.module.scss'
 
-const ElseOfferInfo: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({mirror = false, data}) => {
+const ElseOfferInfo: React.FC<ElseOfferInfoProps> = ({mirror = false, data, onDetailsClick}) => {
 
 	const imagePosition = {
 		objectPosition: `${data.image?.positionX ?? 0}px ${data.image?.positionY ?? 0}px`
@@ -45,19 +45,20 @@ const ElseOfferInfo: React.FC<{mirror?: boolean, data: ElseOfferInterface}> = ({
 					</div>
 				)
 			})}
-			<div 
-				className={styles.blockLine}
-				style={{
-					justifyContent: 'center',
-					alignItems: 'flex-end',
-				}}
-			>
-				<ButtonWithArrow
-					text='ПОДРОБНЕЕ'
-					size={{width: 412, height: 85}}
-					fontSize={24}
-				/>
-			</div>
+		<div 
+			className={styles.blockLine}
+			style={{
+				justifyContent: 'center',
+				alignItems: 'flex-end',
+			}}
+		>
+			<ButtonWithArrow
+				text='ПОДРОБНЕЕ'
+				size={{width: 412, height: 85}}
+				fontSize={24}
+				onClick={onDetailsClick}
+			/>
+		</div>
 		</div>
 	);
 }

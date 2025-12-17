@@ -67,13 +67,15 @@ const Footer: React.FC = () => {
               width={50 * laptopScale}
               height={50 * laptopScale}
             />
-            <Image
-              alt='telegram'
-              src={telegramIcon}
-              className={styles.icon}
-              width={50 * laptopScale}
-              height={50 * laptopScale}
-            />
+            <a href="https://t.me/ralanpro" target="_blank" rel="noopener noreferrer">
+              <Image
+                alt='telegram'
+                src={telegramIcon}
+                className={styles.icon}
+                width={50 * laptopScale}
+                height={50 * laptopScale}
+              />
+            </a>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@
   flex-direction: row;
   gap: 20px;
   justify-content: center;
-  padding-top: 200px;
+  margin-top: 300px;
 
   .textInfoBlock{
     display: flex;
@@ -36,6 +36,7 @@
 @media (max-width: 1366px) and (max-height: 820px) {
   .aboutUsSlideWrapper{
     gap: 20px * 0.67;
+    margin-top: 300px * 0.67;
   
     .textInfoBlock{
       width: 772px * 0.67;

@@ -1,32 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import {gsap} from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { YouWillFindInfoTitleProps } from "@/components/Common/types";
 import { useElementViewportStatus } from "@/components/Common/hooks/hooks";
 import { useMainPageContext } from "../../context";
+import { YOU_WILL_FIND_ANIMATION_VALUES, YOU_WILL_FIND_SUBTITLES } from "../../constants";
 
 import styles from "./YouWillFindInfoTitle.module.scss"
-
-interface SubtitleItem {
-  id: number;
-  title: string;
-}
-
-const allSubtitles: SubtitleItem[] = [
-  {
-    id: 1,
-    title: "подготовка"
-  },
-  {
-    id: 2,
-    title: "стратегия"
-  },
-  {
-    id: 3,
-    title: "победа"
-  },
-]
 
 const YouWillFindInfo = ({
   subtitle, 
@@ -37,20 +18,49 @@ const YouWillFindInfo = ({
   slideRef,
   index
 }: YouWillFindInfoTitleProps) => {
-  const [isOpened, setIsOpened] = useState<boolean>(false)
+  const [isOpened, setIsOpened] = useState(false)
   const [prevViewport, setPrevViewport] = useState<string | null>(null)
-  const [animationFinished, setAnimationFinished] = useState<boolean>(false)
-  const [isColored, setIsColored] = useState<boolean>(false)
+  const [animationFinished, setAnimationFinished] = useState(false)
+  
   const infoBlockRef = useRef<HTMLDivElement | null>(null)
-  const textBlockRef = useRef<HTMLDivElement | null>(null)
   const subArrowRef = useRef<HTMLDivElement | null>(null)
   const newArrowBlockRef = useRef<HTMLDivElement | null>(null)
   const hoverAnimatioRef = useRef<GSAPTween>(null)
+  const timeLineRef = useRef<gsap.core.Timeline | null>(null)
+  
   const {isBelowViewport, isVisible, isAboveViewport} = useElementViewportStatus(slideRef, 0)
   const laptopScale = useMainPageContext().laptopScale;
-  const timeLine = gsap.timeline()
 
-  const handleMouseEnter = () => {
+  const isColored = useMemo(() => 
+    changedColorBlocks.includes(subtitle.id), 
+    [changedColorBlocks, subtitle.id]
+  );
+  
+  const scaledValues = useMemo(() => ({
+    infoBlockWidth: YOU_WILL_FIND_ANIMATION_VALUES.INFO_BLOCK_WIDTH * laptopScale,
+    subArrowXStart: YOU_WILL_FIND_ANIMATION_VALUES.SUB_ARROW_X_START * laptopScale,
+    subArrowXEnd: YOU_WILL_FIND_ANIMATION_VALUES.SUB_ARROW_X_END * laptopScale,
+    newArrowYStart: YOU_WILL_FIND_ANIMATION_VALUES.NEW_ARROW_Y_START * laptopScale,
+    hoverY: YOU_WILL_FIND_ANIMATION_VALUES.HOVER_Y * laptopScale,
+    arrowTopOffset: YOU_WILL_FIND_ANIMATION_VALUES.ARROW_TOP_OFFSET * laptopScale,
+    arrowBottomOffset: YOU_WILL_FIND_ANIMATION_VALUES.ARROW_BOTTOM_OFFSET * laptopScale,
+  }), [laptopScale]);
+
+  const setFinalAnimationState = useCallback(() => {
+    if(infoBlockRef.current){
+      gsap.set(infoBlockRef.current, { width: scaledValues.infoBlockWidth })
+    }
+    if(subArrowRef.current){
+      gsap.set(subArrowRef.current, { x: scaledValues.subArrowXEnd })
+    }
+    if(newArrowBlockRef.current){
+      gsap.set(newArrowBlockRef.current, { y: 0 })
+      newArrowBlockRef.current.style.opacity = '1'
+    }
+    setAnimationFinished(true)
+  }, [scaledValues])
+
+  const handleMouseEnter = useCallback(() => {
     if(!animationFinished || !hoverAnimatioRef.current) return;
 
     if (hoverAnimatioRef.current.progress() !== 0) {
@@ -58,23 +68,15 @@ const YouWillFindInfo = ({
     } else {
       hoverAnimatioRef.current.play();
     }
-  }
+  }, [animationFinished])
 
-  useEffect(()=> {
-    setIsColored(changedColorBlocks.find(element => element === subtitle.id) ? true : false)
-  }, [changedColorBlocks])
-
-  const handleMouseLeave = () => {
-
+  const handleMouseLeave = useCallback(() => {
     if(!animationFinished || !hoverAnimatioRef.current) return;
-
-    gsap.set(newArrowBlockRef.current, {
-      y: 0
-    })
-  }
+    gsap.set(newArrowBlockRef.current, { y: 0 })
+  }, [animationFinished])
 
   useEffect(()=> {
-    if(isVisible && (prevViewport === null)){
+    if(isVisible && prevViewport === null){
       setPrevViewport('isBelowViewport')
     }
     if(!isVisible && (prevViewport === 'isBelowViewport' || prevViewport === 'isAboveViewport')){
@@ -82,17 +84,17 @@ const YouWillFindInfo = ({
     }
     if(isVisible && prevViewport === 'isVisible'){
       if(infoBlockRef.current){
-        gsap.set(infoBlockRef.current, {
-          width: 1247 * laptopScale,
-        })
+        gsap.set(infoBlockRef.current, { width: scaledValues.infoBlockWidth })
       }
       setPrevViewport('isAboveViewport')
     }
+    if(isAboveViewport){
+      timeLineRef.current?.kill();
+      setFinalAnimationState();
+    }
     if(isBelowViewport){
       if(infoBlockRef.current){
-        gsap.set(infoBlockRef.current, {
-          width: 1247 * laptopScale,
-        })
+        gsap.set(infoBlockRef.current, { width: scaledValues.infoBlockWidth })
       }
       if(newArrowBlockRef.current){
         newArrowBlockRef.current.style.top = '0'
@@ -103,97 +105,74 @@ const YouWillFindInfo = ({
       setChangedColorBlocks([])
       setPrevViewport(null)
     }
-
-  }, [isBelowViewport, isAboveViewport, isVisible])
+  }, [isBelowViewport, isAboveViewport, isVisible, scaledValues, setFinalAnimationState, setOpenedBlocks, setChangedColorBlocks])
 
   useEffect(() => {
     if(prevViewport !== 'isBelowViewport') return;
     
     const startPosition = (126 * index + 400) * laptopScale;
+    const timeLine = gsap.timeline();
+    timeLineRef.current = timeLine;
 
-    timeLine.fromTo(infoBlockRef.current, {
-      width: 0,
-    }, {
-      width: 1247 * laptopScale,
-      ease: "power2.out",
-      duration: 2,
-    }).fromTo(subArrowRef.current, {
-      x: 10 * laptopScale,
-    }, {
-      x: 1257 * laptopScale,
-      ease: "power2.out",
-      duration: 2,
-    }, '<').fromTo(newArrowBlockRef.current, {
-      y: -300 * laptopScale,
-    }, {
-      y: 0,
-      ease: "power2.out",
-      duration: 0.5,
-      onStart: ()=> {
-        if(newArrowBlockRef.current){
-          newArrowBlockRef.current.style.opacity = '1'
+    timeLine
+      .fromTo(infoBlockRef.current, 
+        { width: 0 }, 
+        { width: scaledValues.infoBlockWidth, ease: "power2.out", duration: 2 }
+      )
+      .fromTo(subArrowRef.current, 
+        { x: scaledValues.subArrowXStart }, 
+        { x: scaledValues.subArrowXEnd, ease: "power2.out", duration: 2 }, 
+        '<'
+      )
+      .fromTo(newArrowBlockRef.current, 
+        { y: scaledValues.newArrowYStart }, 
+        { 
+          y: 0, 
+          ease: "power2.out", 
+          duration: 0.5,
+          onStart: () => {
+            if(newArrowBlockRef.current) newArrowBlockRef.current.style.opacity = '1'
+          },
+          onComplete: () => setAnimationFinished(true)
         }
-      },
-      onComplete: () => {
-        setAnimationFinished(true)
-      }
-    })
+      )
 
-    const scrollTriggerRef = ScrollTrigger.create({
+    const scrollTriggerInstance = ScrollTrigger.create({
       trigger: infoBlockRef.current,
       start: `bottom bottom +=${startPosition}`,
       animation: timeLine,
-
-      onLeave: ()=> {
-        setAnimationFinished(true)
-      },
-      onEnter: () => {
-        setAnimationFinished(false)
-      }
+      onLeave: () => setAnimationFinished(true),
+      onEnter: () => setAnimationFinished(false)
     })
 
     return () => {
       timeLine.kill();
-      scrollTriggerRef.kill();
+      scrollTriggerInstance.kill();
     }
-  }, [prevViewport])
+  }, [prevViewport, index, laptopScale, scaledValues])
 
   useEffect(()=> {
-
     if(!newArrowBlockRef.current) return;
 
-    if(!isOpened){
-      hoverAnimatioRef.current = gsap.fromTo(newArrowBlockRef.current, {
-        y: 0
-      }, {
-        y: 275 * laptopScale,
-        duration: 1,
-        ease: "power2.out",
-        paused: true,
-      })
-    } 
-    else {
-      hoverAnimatioRef.current = gsap.fromTo(newArrowBlockRef.current, {
-        y: 275 * laptopScale,
-      }, {
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-        paused: true,
-      })
-    }
+    const fromY = isOpened ? scaledValues.hoverY : 0;
+    const toY = isOpened ? 0 : scaledValues.hoverY;
 
-  }, [animationFinished, isOpened])
+    hoverAnimatioRef.current = gsap.fromTo(
+      newArrowBlockRef.current, 
+      { y: fromY }, 
+      { y: toY, duration: 1, ease: "power2.out", paused: true }
+    );
+  }, [animationFinished, isOpened, scaledValues.hoverY])
 
-  const onTitleClick = () => {
+  const onTitleClick = useCallback(() => {
     if(openedBlocks?.includes(subtitle.id)){
-      setOpenedBlocks(openedBlocks?.filter((elem: number) => elem !== subtitle.id))
+      setOpenedBlocks(openedBlocks.filter((elem: number) => elem !== subtitle.id))
       setIsOpened(false)
-      return
+    } else {
+      setOpenedBlocks([...openedBlocks, subtitle.id])
+      setIsOpened(true)
     }
-    setOpenedBlocks([...openedBlocks, subtitle.id])
-    setIsOpened(true)
-  } 
+  }, [openedBlocks, setOpenedBlocks, subtitle.id])
 
   return (
     <div 
@@ -211,15 +190,12 @@ const YouWillFindInfo = ({
         />
       </div>
 
-      <div 
-        className={styles.newArrowBlock} 
-        ref={newArrowBlockRef}
-      >
+      <div className={styles.newArrowBlock} ref={newArrowBlockRef}>
         <div 
           className={styles.subArrowContainer}
           style={{
             backgroundColor: isColored ? subtitle.openedColor : '#A8DADC',
-            top: `${-262 * laptopScale}px`,
+            top: `${scaledValues.arrowTopOffset}px`,
             transform: isOpened ? 'rotate(180deg)' : 'none',
           }}
         />
@@ -227,7 +203,7 @@ const YouWillFindInfo = ({
           className={styles.subArrowContainer}
           style={{
             backgroundColor: isColored ? subtitle.openedColor : '#A8DADC',
-            top: `${13 * laptopScale}px`,
+            top: `${scaledValues.arrowBottomOffset}px`,
             transform: isOpened ? 'rotate(180deg)' : 'none'
           }}
         />
@@ -236,15 +212,15 @@ const YouWillFindInfo = ({
       <div 
         className={styles.youWillFindInfoWrapper}
         ref={infoBlockRef}
-        onClick={() => onTitleClick()}
+        onClick={onTitleClick}
         style={{
           borderBottom: isColored ? 'none' : '3px solid #A8DADC',
           overflow: `hidden`,
         }}
       >
-        <div className={styles.textBlock} ref={textBlockRef}>
+        <div className={styles.textBlock}>
           <div className={styles.allSubtitles}>
-            {allSubtitles.map((element, index) => {
+            {YOU_WILL_FIND_SUBTITLES.map((element, index) => {
               return (
                 <div 
                   style={{

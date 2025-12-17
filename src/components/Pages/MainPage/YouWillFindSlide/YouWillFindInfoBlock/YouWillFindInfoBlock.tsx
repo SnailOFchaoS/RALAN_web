@@ -1,21 +1,12 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 
 import InfoBlock from '@/components/Common/InfoBlock/InfoBlock'
-import {YouWillFindInfoBlockProps} from "@/components/Common/types"
+import { useMainPageContext } from '../../context';
+import { YouWillFindInfoProps } from './YouWillFindInfoBlock.types';
 
 import styles from './YouWillFindInfoBlock.module.scss'
-import { useMainPageContext } from '../../context';
-
-
-interface YouWillFindInfoProps {
-  infoBlockContent: YouWillFindInfoBlockProps;
-  openedBlocks: number[];
-  index: number;
-  setChangedColorBlocks: (data: number[]) => void;
-  changedColorBlocks: number[];
-}
 
 const YouWillFindInfoBlock: React.FC<YouWillFindInfoProps> = ({ 
   infoBlockContent, 

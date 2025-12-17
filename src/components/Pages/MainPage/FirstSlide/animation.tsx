@@ -1,30 +1,4 @@
-interface RectData {
-	top: number;
-	left: number;
-	width: number;
-	height: number;
-}
-
-interface firstSlideAnimationProps {
-	timeLine: gsap.core.Timeline;
-	titleTextRef: React.RefObject<HTMLDivElement | null>;
-	infoTextRef: React.RefObject<HTMLDivElement | null>;
-	mainImage: HTMLDivElement;
-	frameContainerRect: RectData;
-	laptopScale: number;
-}
-
-interface frameContentAnimationProps {
-	timeLine: gsap.core.Timeline;
-  logoTimeline?: gsap.core.Timeline;
-	frameContainerRef: React.RefObject<HTMLDivElement | null>;
-	bottomContentRef: React.RefObject<HTMLDivElement | null>;
-	topContentRef: React.RefObject<HTMLDivElement | null>;
-	laptopScale: number;
-	mainLogoImageRef: React.RefObject<HTMLDivElement | null>;
-	mainLogoTextRef: React.RefObject<HTMLDivElement | null>;
-	mainLogoArrowRef: React.RefObject<HTMLDivElement | null>;
-}
+import { FirstSlideAnimationProps, FrameContentAnimationProps } from './animation.types';
 
 export const firstSlideAnimation = ({
 	timeLine, 
@@ -33,7 +7,7 @@ export const firstSlideAnimation = ({
 	mainImage, 
 	frameContainerRect,
 	laptopScale,
-}: firstSlideAnimationProps) => {
+}: FirstSlideAnimationProps) => {
 
 	timeLine.to(titleTextRef.current, {opacity: 0,}, 0);
 	timeLine.to(infoTextRef.current, {opacity: 0,}, 0);
@@ -72,7 +46,7 @@ export const frameContentAnimation = ({
 	mainLogoImageRef,
 	mainLogoTextRef,
 	mainLogoArrowRef,
-}: frameContentAnimationProps) => {
+}: FrameContentAnimationProps) => {
 
 	const rect = frameContainerRef.current?.getBoundingClientRect();
 	

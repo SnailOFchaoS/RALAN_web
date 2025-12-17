@@ -9,14 +9,10 @@ import OurOffersSlide from "./OurOffersSlide/OurOffersSlide"
 import CallToActionSlide from "./CallToActionSlide/CallToActionSlide";
 import Footer from "@/components/Footer/Footer";
 import { MainPageProvider } from "./context";
+import { NavigationElement } from "./MainPage.types";
 
 import styles from './MainPage.module.scss'
 import NavigationMenu from "@/components/Common/NavigationMenu/NavigationMenu";
-
-interface NavigationElement{
-  text: string,
-  ref: React.RefObject<HTMLDivElement | null>,
-}
 
 export default function MainPage() {
 
