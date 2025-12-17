@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import GalleryImage from './GalleryImage/GalleryImage';
+import { GalleryProps } from './Gallery.types';
 import styles from './Gallery.module.scss';
 
 import image1 from '../../../../../../assets/png/galery_1.png';
@@ -21,10 +22,6 @@ import image12 from '../../../../../../assets/png/galery_12.png';
 const images = [
   image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12
 ];
-
-interface GalleryProps {
-  prevViewport: string | null;
-}
 
 const Gallery = ({ prevViewport }: GalleryProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

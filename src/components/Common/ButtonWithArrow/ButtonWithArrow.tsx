@@ -6,9 +6,10 @@ interface buttonInterFace {
 	text?: string, 
 	size?: {width: number, height: number}
 	fontSize?: number,
+	onClick?: () => void,
 }
 
-const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize}) => {
+const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize, onClick}) => {
 
 	const laptopScale = useMainPageContext().laptopScale;
 
@@ -17,8 +18,10 @@ const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize}) => {
 			className={styles.buttonWrapper}
 			style={{
 				width: size ? `${size?.width * laptopScale}px` : '100%',
-				height: size ? `${size?.height * laptopScale}px` : '100%'
+				height: size ? `${size?.height * laptopScale}px` : '100%',
+				cursor: onClick ? 'pointer' : 'default',
 			}}
+			onClick={onClick}
 		>
 			<p 
 				className={styles.buttonText}

@@ -6,6 +6,28 @@ import winningImage from '../../../../assets/png/winning.png';
 import serviceImage from '../../../../assets/png/service.png';
 import uniformImage from '../../../../assets/png/uniform.png';
 
+export const YOU_WILL_FIND_ANIMATION_VALUES = {
+  INFO_BLOCK_WIDTH: 1247,
+  SUB_ARROW_X_START: 10,
+  SUB_ARROW_X_END: 1257,
+  NEW_ARROW_Y_START: -300,
+  HOVER_Y: 275,
+  ARROW_TOP_OFFSET: -262,
+  ARROW_BOTTOM_OFFSET: 13,
+} as const;
+
+export const ELSE_OFFERS_ANIMATION_VALUES = {
+  HOVER_Y: 246,
+  ARROW_TOP_OFFSET: -200,
+  ARROW_BOTTOM_OFFSET: 46,
+} as const;
+
+export const YOU_WILL_FIND_SUBTITLES = [
+  { id: 1, title: "подготовка" },
+  { id: 2, title: "стратегия" },
+  { id: 3, title: "победа" },
+] as const;
+
 export const aboutUsInfo: InfoBlockProps[] = [
   {
     title:{

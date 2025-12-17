@@ -6,15 +6,9 @@ import fistSlidePhoto from '../../../../../assets/png/fist_slide_photo.png';
 import FrameComponent from "./FrameContent/FrameContent";
 import { useMainPageContext } from '../context';
 import { firstSlideAnimation } from './animation';
+import { RectData } from './animation.types';
 
 import styles from "./FirstSlide.module.scss";
-
-interface RectData {
-    top: number;
-    left: number;
-    width: number;
-    height: number;
-}
 
 const FirstSlide = () => {
   const mainImageRef = useRef<HTMLDivElement>(null);

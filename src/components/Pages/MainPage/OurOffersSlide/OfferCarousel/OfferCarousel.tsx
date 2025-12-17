@@ -1,16 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useMainPageContext } from '../../context';
 
 import CarouselSlide from './CarouselSlider/CarouselSlider';
+import Modal from '@/components/Common/Modal/Modal';
+import ContactFormModal from '@/components/Common/ContactFormModal/ContactFormModal';
 import { offersAll } from '@/pages/api/mockData';
 import styles from './OfferCarousel.module.scss';
 
-const MySlider = () => {
+const OfferCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [slideWidth, setSlideWidth] = useState<number>(0)
+  const [slideWidth, setSlideWidth] = useState<number>(0);
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [onCloseClick, setOnCloseClick] = useState(false);
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const slideRef = useRef<HTMLDivElement | null>(null);
   const laptopScale = useMainPageContext().laptopScale;
+
+  const handleOpenModal = useCallback(() => {
+    setIsModalOpened(true);
+    setOnCloseClick(false);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setOnCloseClick(true);
+  }, []);
+
+  useEffect(() => {
+    if (isModalOpened) {
+      setOnCloseClick(false);
+    }
+  }, [isModalOpened]);
 
   const slideCount = offersAll.length;
 
@@ -56,6 +75,7 @@ const MySlider = () => {
             >
               <CarouselSlide
                 offer={item}
+                onDetailsClick={handleOpenModal}
               />
             </div>
           </div>
@@ -63,8 +83,16 @@ const MySlider = () => {
       </div>
       <button className={`${styles["slider-button"]} ${styles.prev}`} onClick={prevSlide} />
       <button className={`${styles["slider-button"]} ${styles.next}`} onClick={nextSlide} />
+      
+      <Modal isOpen={isModalOpened} onClose={handleCloseModal} needBgAnimation={true}>
+        <ContactFormModal
+          isOpen={isModalOpened}
+          setIsModalOpened={setIsModalOpened}
+          onCloseClick={onCloseClick}
+        />
+      </Modal>
     </div>
   );
 };
 
-export default MySlider;
+export default OfferCarousel;

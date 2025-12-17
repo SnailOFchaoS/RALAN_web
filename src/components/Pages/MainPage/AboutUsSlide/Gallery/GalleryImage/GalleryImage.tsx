@@ -1,20 +1,11 @@
 import { useEffect, useRef, useMemo, useCallback } from "react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import gsap from "gsap";
 
 import { useMainPageContext } from "../../../context";
+import { GalleryImageProps } from "./GalleryImage.types";
 
 import styles from "./GalleryImage.module.scss"
-
-interface GalleryImageProps{
-	image: StaticImageData;
-	index: number;
-	hoveredIndex: number | null;
-	setHoveredIndex: (hoveredIndex: number | null) => void;
-	isAnimationPlay: boolean;
-	setIsAnimationPlay: (isAnimationPlay: boolean) => void;
-	isShowingAnimationComplete: boolean;
-}
 
 const GalleryImage = ({
 	image, 

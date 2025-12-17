@@ -2,7 +2,7 @@
 	display:flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 180px;
+  margin-top: 500px;
 	margin-bottom: 180px;
   width: 100%;
 
@@ -54,7 +54,7 @@
 /* Laptop adaptations */
 @media (max-width: 1366px) {
   .callToActionSlideWrapper{
-		margin-top: 180px * 0.67;
+		margin-top: 500px * 0.67;
 		margin-bottom: 180px * 0.67;
 	
 		.slideLine{

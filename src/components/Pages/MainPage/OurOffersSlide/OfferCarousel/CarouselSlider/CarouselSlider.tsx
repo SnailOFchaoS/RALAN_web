@@ -1,10 +1,9 @@
-import { OfferShort } from '@/components/Common/types';
-
 import ButtonWithArrow from '@/components/Common/ButtonWithArrow/ButtonWithArrow';
+import { CarouselSlideProps } from './CarouselSlider.types';
 
 import styles from './CarouselSlider.module.scss'
 
-const CarouselSlide: React.FC<{offer: OfferShort}> = ({offer}) => {
+const CarouselSlide: React.FC<CarouselSlideProps> = ({offer, onDetailsClick}) => {
 	return (
 		<div className={styles.slideWrapper}>
 			<div className={styles.slideInfoLine}>
@@ -35,6 +34,7 @@ const CarouselSlide: React.FC<{offer: OfferShort}> = ({offer}) => {
 				<ButtonWithArrow
 					text='ПОДРОБНЕЕ'
 					size={{width: 325, height: 73}}
+					onClick={onDetailsClick}
 				/>
 			</div>
 		</div>
