@@ -6,8 +6,10 @@ import styles from "./AboutUsSlide.module.scss"
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useElementViewportStatus } from "@/components/Common/hooks/hooks";
+import { useMainPageContext } from "../context";
 
 const AboutUsSlide = () => {
+  const laptopScale = useMainPageContext().laptopScale;
   const textInfoBlockRef = useRef<HTMLDivElement>(null);
   const {isBelowViewport, isVisible, isAboveViewport} = useElementViewportStatus(textInfoBlockRef, 0)
   const [prevViewport, setPrevViewport] = useState<string | null>(null)
@@ -53,7 +55,7 @@ const AboutUsSlide = () => {
     timeLine.current.clear();
 
     timeLine.current.to(elem, {
-      height: 856 * 0.67 / 2,
+      height: 856 * laptopScale / 2,
       scrollTrigger: {
         trigger: elem,
         start: "bottom bottom",
@@ -62,9 +64,9 @@ const AboutUsSlide = () => {
         onLeave: (self: any) => {
           self.kill();
           gsap.fromTo(elem, {
-            height: 856 * 0.67 / 2,
+            height: 856 * laptopScale / 2,
           }, {
-            height: 856 * 0.67,
+            height: 856 * laptopScale,
             ease: "power2.out",
             duration: 1,
           })

@@ -76,7 +76,7 @@ export const frameContentAnimation = ({
 		width: `${168 / 2 * laptopScale}px`,
 		height: `${77 / 2 * laptopScale}px`,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2,
-		top: `-${209 * laptopScale}px`,
+		top: laptopScale === 1 ? `-222px` : `-${209 * laptopScale}px`,
 		padding: `0 ${13 / 2 * laptopScale - 2}px`,
 	}, 0)
 
