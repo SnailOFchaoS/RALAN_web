@@ -59,7 +59,7 @@ const AboutUsSlide = () => {
       scrollTrigger: {
         trigger: elem,
         start: "bottom bottom",
-        end: "+=209",
+        end: `+=${313 * laptopScale}px`,
         scrub: 1.5,
         onLeave: (self: any) => {
           self.kill();
