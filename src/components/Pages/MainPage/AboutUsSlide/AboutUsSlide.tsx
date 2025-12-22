@@ -5,7 +5,7 @@ import Galery from "./Gallery/Gallery";
 import styles from "./AboutUsSlide.module.scss"
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { useElementViewportStatus } from "@/components/Common/hooks/hooks";
+import { useElementViewportStatus } from "@/components/Common/hooks/ElementViewportStatusHooks";
 import { useMainPageContext } from "../context";
 
 const AboutUsSlide = () => {

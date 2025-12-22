@@ -3,7 +3,7 @@ import {gsap} from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { YouWillFindInfoTitleProps } from "@/components/Common/types";
-import { useElementViewportStatus } from "@/components/Common/hooks/hooks";
+import { useElementViewportStatus } from "@/components/Common/hooks/ElementViewportStatusHooks";
 import { useMainPageContext } from "../../context";
 import { YOU_WILL_FIND_ANIMATION_VALUES, YOU_WILL_FIND_SUBTITLES } from "../../constants";
 
