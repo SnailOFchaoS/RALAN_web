@@ -5,15 +5,11 @@ import Image from "next/image";
 import closeIcon from '../../../../assets/svg/close.svg';
 import { useMainPageContext } from "@/components/Pages/MainPage/context";
 import Input from '@/components/Common/Input/Input';
-import { sendContactForm } from '@/api/telegram';
+import { useAppDispatch, useAppSelector } from '@/components/Common/hooks/ReduxHooks';
+import { resetStatus, submitContactForm } from '@/store/slices/ContactForm';
+import { ContactFormModalProps } from './ContactFormModal.types';
 
 import styles from './ContactFormModal.module.scss'
-
-interface ContactFormModalProps {
-  isOpen: boolean;
-  setIsModalOpened: (isOpen: boolean) => void;
-  onCloseClick: boolean;
-}
 
 interface FormData {
   fullName: string;
@@ -24,7 +20,7 @@ interface FormData {
 const ContactFormModal = ({ 
   isOpen, 
   setIsModalOpened, 
-  onCloseClick 
+  onCloseClick
 }: ContactFormModalProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const timeLineRef = useRef<gsap.core.Timeline>(null);
@@ -32,10 +28,13 @@ const ContactFormModal = ({
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     phone: '',
-    email: ''
+    email: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const dispatch = useAppDispatch();
+  const { isSubmitting, submitStatus, errorMessage } = useAppSelector(
+    (state) => state.contactForm
+  );
 
   const context = useMainPageContext();
 
@@ -76,11 +75,18 @@ const ContactFormModal = ({
     }
   }, [onCloseClick]);
 
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({ fullName: '', phone: '', email: '' });
+      dispatch(resetStatus());
+    }
+  }, [isOpen, dispatch]);
+
+
   const resetForm = useCallback(() => {
     setFormData({ fullName: '', phone: '', email: '' });
-    setIsSubmitting(false);
-    setSubmitStatus('idle');
-  }, []);
+    dispatch(resetStatus());
+  }, [dispatch]);
 
   const handleClose = useCallback(() => {
     if (timeLineRef.current) {
@@ -101,18 +107,8 @@ const ContactFormModal = ({
     
     if (isSubmitting) return;
     
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    const success = await sendContactForm(formData);
-
-    if (success) {
-      handleClose();
-    } else {
-      setSubmitStatus('error');
-      setIsSubmitting(false);
-    }
-  }, [formData, handleClose, isSubmitting]);
+    dispatch(submitContactForm(formData));
+  }, [dispatch, formData, isSubmitting]);
 
   const isInteractive = isOpen && !onCloseClick && !isReversing;
 
@@ -140,7 +136,6 @@ const ContactFormModal = ({
 
         <div className={styles.header}>
           <h2 className={styles.title}>ХОТИТЕ НАЧАТЬ ТРЕНИРОВКИ?</h2>
-          <p className={styles.subtitle}>Заполните форму и мы с вами свяжемся</p>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -177,16 +172,20 @@ const ContactFormModal = ({
             напишите нам в <a href="https://t.me/ralanpro" className={styles.link} target="_blank" rel="noopener noreferrer">telegramm</a>
           </p>
 
-          <button 
-            type="submit" 
-            className={styles.submitButton}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Отправка...' : 'Оставить заявку'}
-          </button>
+          {submitStatus === 'success' ? (
+            <p className={styles.successText}>Заявка успешно отправлена</p>
+          ) : (
+            <button 
+              type="submit" 
+              className={styles.submitButton}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Отправка...' : 'Оставить заявку'}
+            </button>
+          )}
           
           {submitStatus === 'error' && (
-            <p className={styles.errorText}>Ошибка. Попробуйте снова</p>
+            <p className={styles.errorText}>{errorMessage || 'Ошибка. Попробуйте снова'}</p>
           )}
         </form>
       </div>
