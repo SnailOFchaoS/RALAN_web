@@ -5,7 +5,7 @@ import { useMainPageContext } from '@/components/Pages/MainPage/context';
 
 import styles from './CarouselSlider.module.scss'
 
-const CarouselSlide: React.FC<CarouselSlideProps> = ({offer, onDetailsClick}) => {
+const CarouselSlide: React.FC<CarouselSlideProps> = ({offer, onDetailsClick, isActive = false}) => {
 	const { laptopScale } = useMainPageContext();
 	const { ref: offerNameRef } = useAutoFontSize({
 		maxLines: 2,
@@ -13,6 +13,7 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({offer, onDetailsClick}) =>
 		minFontSize: 16 * laptopScale,
 		step: 1,
 		text: offer.offerName,
+		isVisible: isActive,
 	});
 
 	return (

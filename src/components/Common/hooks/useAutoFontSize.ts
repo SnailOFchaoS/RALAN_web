@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { UseAutoFontSizeOptions } from './types';
 
 export const useAutoFontSize = ({
@@ -7,13 +7,21 @@ export const useAutoFontSize = ({
   minFontSize = 12,
   step = 1,
   text,
-}: UseAutoFontSizeOptions) => {
+  isVisible = true,
+}: UseAutoFontSizeOptions & { isVisible?: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [fontSize, setFontSize] = useState(initialFontSize);
+  const [measured, setMeasured] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Измеряем только когда элемент видим и ещё не измерен
+    if (!isVisible || measured) return;
+
     const element = ref.current;
-    if (!element) return;
+    if (!element || !text) return;
+
+    // Проверяем, что элемент имеет размеры
+    if (element.offsetWidth === 0) return;
 
     let currentSize = initialFontSize;
     element.style.fontSize = `${currentSize}px`;
@@ -28,7 +36,13 @@ export const useAutoFontSize = ({
     }
 
     setFontSize(currentSize);
-  }, [initialFontSize, maxLines, minFontSize, step, text]);
+    setMeasured(true);
+  }, [initialFontSize, maxLines, minFontSize, step, text, isVisible, measured]);
+
+  // Сбрасываем measured при изменении текста
+  useLayoutEffect(() => {
+    setMeasured(false);
+  }, [text]);
 
   return { ref, fontSize };
 };
