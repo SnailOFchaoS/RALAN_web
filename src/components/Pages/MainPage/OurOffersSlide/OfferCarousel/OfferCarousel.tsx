@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { useMainPageContext } from '../../context';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 
-import CarouselSlide from './CarouselSlider/CarouselSlider';
 import Modal from '@/components/Common/Modal/Modal';
 import ContactFormModal from '@/components/Common/ContactFormModal/ContactFormModal';
-import { offersAll } from '@/pages/api/mockData';
+import { useAppDispatch, useAppSelector } from '@/components/Common/hooks/ReduxHooks';
+import { fetchOffers } from '@/store/slices/Offers';
+
+import { useMainPageContext } from '../../context';
+import CarouselSlide from './CarouselSlider/CarouselSlider';
 import styles from './OfferCarousel.module.scss';
 
 const OfferCarousel = () => {
@@ -15,6 +17,12 @@ const OfferCarousel = () => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const slideRef = useRef<HTMLDivElement | null>(null);
   const laptopScale = useMainPageContext().laptopScale;
+  const { offers } = useAppSelector((state) => state.offers);
+  const dispatch = useAppDispatch();
+
+  const sortedOffers = useMemo(() => {
+    return [...offers].sort((a, b) => a.price - b.price);
+  }, [offers]);
 
   const handleOpenModal = useCallback(() => {
     setIsModalOpened(true);
@@ -31,7 +39,11 @@ const OfferCarousel = () => {
     }
   }, [isModalOpened]);
 
-  const slideCount = offersAll.length;
+  useEffect(()=>{
+    dispatch(fetchOffers());
+  }, [dispatch]);
+
+  const slideCount = sortedOffers.length;
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slideCount);
@@ -56,7 +68,7 @@ const OfferCarousel = () => {
         ref={sliderRef}
         style={{ transform: `translateX(${transformValue})` }}
       >
-        {offersAll.map((item, index) => (
+        {sortedOffers.map((item, index) => (
           <div
             key={index}
             style={{

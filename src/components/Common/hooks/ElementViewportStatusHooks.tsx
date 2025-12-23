@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { ElementViewportStatus } from "./types";
 
 export function useElementViewportStatus(
   ref: React.RefObject<HTMLElement | null>,
   offset = 0
 ) {
-  const [status, setStatus] = useState({
+  const [status, setStatus] = useState<ElementViewportStatus>({
     isVisible: false,
     isAboveViewport: false,
     isBelowViewport: false,

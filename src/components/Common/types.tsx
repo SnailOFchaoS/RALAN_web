@@ -82,7 +82,7 @@ export interface ElseOfferInterface{
 }
 
 export interface OfferShort{
-  id: number, 
+  id: string, 
   discipline?: string[],
   offerName: string,
   date?: string,

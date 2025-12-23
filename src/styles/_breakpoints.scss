@@ -1,0 +1,92 @@
+// ============================================
+// Breakpoints для устройств Apple
+// ============================================
+
+// Масштабы
+$desktop-scale: 1;
+$laptop-scale: 0.67;
+
+// Breakpoints
+$breakpoint-imac-27: 2560px;      // iMac 27" 5K
+$breakpoint-imac-24: 1920px;      // iMac 24" 4K
+$breakpoint-macbook-pro-16: 1728px;  // MacBook Pro 16"
+$breakpoint-macbook-pro-14: 1512px;  // MacBook Pro 14"
+$breakpoint-macbook-air-13: 1440px;  // MacBook Air 13"
+$breakpoint-macbook-air-11: 1366px;  // MacBook Air 11"
+$breakpoint-macbook-pro-13: 1280px;  // MacBook Pro 13"
+
+// ============================================
+// Миксины для адаптива
+// ============================================
+
+// Laptop и меньше (MacBook Air 13" и меньше)
+@mixin laptop {
+  @media (max-width: $breakpoint-macbook-air-13) {
+    @content;
+  }
+}
+
+// Laptop с учётом высоты (как текущий breakpoint)
+@mixin laptop-short {
+  @media (max-width: 1366px) and (max-height: 820px) {
+    @content;
+  }
+}
+
+// MacBook Pro 14"
+@mixin macbook-pro-14 {
+  @media (max-width: $breakpoint-macbook-pro-14) {
+    @content;
+  }
+}
+
+// MacBook Pro 16"
+@mixin macbook-pro-16 {
+  @media (max-width: $breakpoint-macbook-pro-16) {
+    @content;
+  }
+}
+
+// iMac 24" и больше
+@mixin imac {
+  @media (min-width: $breakpoint-imac-24) {
+    @content;
+  }
+}
+
+// iMac 27" 5K
+@mixin imac-5k {
+  @media (min-width: $breakpoint-imac-27) {
+    @content;
+  }
+}
+
+// ============================================
+// Функция для масштабирования значений
+// ============================================
+
+// Масштабирует значение для laptop
+@function scaled($value) {
+  @return $value * $laptop-scale;
+}
+
+// ============================================
+// Миксин для автоматического масштабирования
+// ============================================
+
+// Применяет стили для desktop и laptop с масштабом
+@mixin responsive-size($property, $desktop-value) {
+  #{$property}: $desktop-value;
+  
+  @include laptop {
+    #{$property}: scaled($desktop-value);
+  }
+}
+
+// Миксин для нескольких свойств с масштабом
+@mixin laptop-scale {
+  @include laptop {
+    @content;
+  }
+}
+

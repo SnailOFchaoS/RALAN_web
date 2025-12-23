@@ -63,11 +63,9 @@ const YouWillFindInfoBlock: React.FC<YouWillFindInfoProps> = ({
   }, [isOpened])
 
   useEffect(()=> {
-    console.log("here")
     if(!animationRef.current) return;
 
     if(openedBlocks.includes(index)){
-      console.log("check")
       animationRef.current.play()
     }
     else{
