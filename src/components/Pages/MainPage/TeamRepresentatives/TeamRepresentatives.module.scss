@@ -1,22 +1,27 @@
+@use 'breakpoints' as *;
+
 .teamRepresentativesWrapper{
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 500px;
   width: 100%;
-  gap: 20px;
+  
+  @include responsive-block((
+    margin-top: 500px,
+    gap: 20px
+  ));
 
   .titleLine{
     display: flex;
     align-items: flex-end;
-    height: 84px;
+    @include responsive-block((height: 84px));
 
     .titleText{
       color: #fffff0;
       text-align: start;
       font-family: var(--tactic-sans-bold), sans-serif;
       font-weight: bold;
-      font-size: 70px;
+      @include responsive-block((font-size: 70px));
     }
   }
 
@@ -26,25 +31,6 @@
     align-content: flex-start;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 20px;
-  }
-}
-
-@media (max-width: 1366px) and (max-height: 820px) {
-  .teamRepresentativesWrapper{
-    margin-top: 500px * 0.67;
-    gap: 20px * 0.67;
-  
-    .titleLine{
-      height: 84px * 0.67;
-  
-      .titleText{
-        font-size: 70px * 0.67;
-      }
-    }
-  
-    .slideLine{
-      gap: 20px * 0.67;
-    }
+    @include responsive-block((gap: 20px));
   }
 }

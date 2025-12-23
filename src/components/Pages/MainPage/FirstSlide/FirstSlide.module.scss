@@ -1,3 +1,5 @@
+@use 'breakpoints' as *;
+
 .firstSlideWrapper{
   position: relative;
 
@@ -11,7 +13,7 @@
     justify-content: center;
     z-index: 1;
     color: white;
-    padding: 108px 178px 205px 178px;
+    @include responsive-4(padding, 108px, 178px, 205px, 178px);
   }
   
   .mainImage{
@@ -40,7 +42,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin: 97px 159px 97px 159px;
+    @include responsive-4(margin, 97px, 159px, 97px, 159px);
     
     .infoText,
     .titleText{
@@ -53,14 +55,17 @@
     .titleText{
       font-family: var(--tactic-sans-bold), sans-serif;
       font-weight: bold;
-      font-size: 70px;
+      @include responsive-block((font-size: 70px));
     }
 
     .infoText{
-      width: 930px;
       font-family: var(--font-montserrat), sans-serif;
       font-weight: Regular;
-      font-size: 30px;
+      
+      @include responsive-block((
+        width: 930px,
+        font-size: 30px
+      ));
     }
   }
 }
@@ -75,19 +80,5 @@
     font-weight: normal;
     font-size: 16px;
     color: #fffff0;
-  }
-}
-
-@media (max-width: 1366px) and (max-height: 820px) {
-  .firstSlideWrapper {
-
-    .contentWrapper { padding: 72px 120px 137px 120px; }
-
-    .mainContent {
-      margin: 65px 106px 65px 106px;
-
-      .titleText { font-size: 47px; }
-      .infoText { width: 623px; font-size: 20px; }
-    }
   }
 }

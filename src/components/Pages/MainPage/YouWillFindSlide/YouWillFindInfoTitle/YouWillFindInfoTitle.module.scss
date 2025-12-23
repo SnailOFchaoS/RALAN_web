@@ -1,12 +1,19 @@
+@use 'breakpoints' as *;
+
 .youWillFindInfoWrapper{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 126px;
-  border-bottom: 3px solid #A8DADC;
   box-sizing: border-box;
   cursor: pointer;
+  
+  @include responsive-block((
+    height: 126px,
+    border-bottom-width: 3px
+  ));
+  border-bottom-style: solid;
+  border-bottom-color: #A8DADC;
 
   .textBlock{
     display: flex;
@@ -16,14 +23,14 @@
     .allSubtitles{
       display: flex;
       flex-direction: row;
-      padding-left: 3px;
+      @include responsive-block((padding-left: 3px));
   
       .subtitle{
         font-family: var(--montserrat), sans-serif;
         font-weight: normal;
-        font-size: 22px;
         color: #fffff0;
         line-height: 1;
+        @include responsive-block((font-size: 22px));
       }
     }
   
@@ -31,9 +38,9 @@
       display: flex;
       font-family: var(--tactic-sans-medium), sans-serif;
       font-weight: normal;
-      font-size: 64px;
       color: #A8DADC;
       line-height: 1;
+      @include responsive-block((font-size: 64px));
     }
   }
 
@@ -42,11 +49,9 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    margin-right: 32px;
+    @include responsive-block((margin-right: 32px));
     
     .arrowContainer {
-      width: 78px;
-      height: 99px; 
       display: inline-block;
       background-color: #a8dadc;
       -webkit-mask-image: url('../../../../../../assets/svg/arrow.svg');
@@ -54,8 +59,12 @@
       mask-repeat: no-repeat;
       mask-size: contain;
       mask-position: center;
+      
+      @include responsive-block((
+        width: 78px,
+        height: 99px
+      ));
     }
-
   }
 }
 
@@ -64,8 +73,7 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  width: 1350px;
-  
+  @include responsive-block((width: 1350px));
 }
 
 .subArrowBlock{
@@ -73,8 +81,6 @@
 
   .subArrowContainer {
     position: absolute;
-    width: 78px;
-    height: 99px; 
     transform: rotate(-90deg);
     display: inline-block;
     background-color: #a8dadc;
@@ -83,18 +89,20 @@
     mask-repeat: no-repeat;
     mask-size: contain;
     mask-position: center;
+    
+    @include responsive-block((
+      width: 78px,
+      height: 99px
+    ));
   }
-
 }
 
 .newArrowBlock{
   position: relative;
-  margin-left: 1137px;
+  @include responsive-block((margin-left: 1137px));
 
   .subArrowContainer {
     position: absolute;
-    width: 78px;
-    height: 99px; 
     display: inline-block;
     background-color: #a8dadc;
     -webkit-mask-image: url('../../../../../../assets/svg/arrow.svg');
@@ -102,59 +110,10 @@
     mask-repeat: no-repeat;
     mask-size: contain;
     mask-position: center;
-  }
-
-}
-
-@media (max-width: 1366px) and (max-height: 820px) {
-  .youWillFindInfoWrapper{
-    height: 126px * 0.67;
-    border-bottom: 3px * 0.67 solid #A8DADC;
-  
-    .textBlock{
-  
-      .allSubtitles{
-        padding-left: 3px * 0.67;
     
-        .subtitle{
-          font-size: 22px * 0.67;
-        }
-      }
-    
-      .title{
-        font-size: 64px * 0.67;
-      }
-    }
-  
-    .arrowBlock{
-      margin-right: 32px * 0.67;
-      
-      .arrowContainer {
-        width: 78px * 0.67;
-        height: 99px * 0.67; 
-      }
-  
-    }
-  }
-
-  .subWrapper{
-    width: 1350px * 0.67;
-  }
-
-  .subArrowBlock{
-  
-    .subArrowContainer {
-      width: 78px * 0.67;
-      height: 99px * 0.67; 
-    }
-  }
-
-  .newArrowBlock{
-    margin-left: 1137px * 0.67;
-  
-    .subArrowContainer {
-      width: 78px * 0.67;
-      height: 99px * 0.67; 
-    }
+    @include responsive-block((
+      width: 78px,
+      height: 99px
+    ));
   }
 }

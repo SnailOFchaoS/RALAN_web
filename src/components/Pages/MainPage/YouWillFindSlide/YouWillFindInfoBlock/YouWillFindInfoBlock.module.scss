@@ -1,14 +1,19 @@
+@use 'breakpoints' as *;
+
 .youWillFindInfoBlockWrapper{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 20px 0;
-  padding: 32px;
   width: 100%;
-  height: 560px;
-  border-radius: 60px;
-  gap: 20px;
   overflow: hidden;
+  
+  @include responsive-block((
+    height: 560px,
+    border-radius: 60px,
+    gap: 20px,
+    padding: 32px
+  ));
+  @include responsive-2(margin, 20px, 0px);
 
   .textBlock{
     display: flex;
@@ -16,17 +21,23 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
-    width: 781px;
-    gap: 20px;
+    
+    @include responsive-block((
+      width: 781px,
+      gap: 20px
+    ));
   }
 
   .imageBlock{
     overflow: hidden;
     position: relative;
-    width: 380px;
     height: 100%;
-    border-radius: 40px;
     background-color: #fffff0;
+    
+    @include responsive-block((
+      width: 380px,
+      border-radius: 40px
+    ));
 
     .image{
       object-fit: cover;
@@ -34,29 +45,9 @@
       max-width: unset;
       max-height: unset;
       pointer-events: none;
-    }
-  }
-}
 
-@media (max-width: 1366px) and (max-height: 820px) {
-  .youWillFindInfoBlockWrapper{
-    margin: 20px * 0.67 0;
-    padding: 32px * 0.67;
-    height: 560px * 0.67;
-    border-radius: 60px * 0.67;
-    gap: 20px * 0.67;
-
-    .textBlock{
-      width: 781px * 0.67;
-      gap: 20px * 0.67;
-    }
-  
-    .imageBlock{
-      width: 380px * 0.67;
-      border-radius: 40px * 0.67;
-  
-      .image{
-        transform: scale(0.67);
+      @include laptops-down {
+        transform: scale($scale-laptop);
       }
     }
   }

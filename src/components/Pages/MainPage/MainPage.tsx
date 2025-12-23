@@ -35,10 +35,26 @@ export default function MainPage() {
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (window.innerWidth <= 1366) {
+			const width = window.innerWidth;
+			
+			if (width >= 2560) {
+				// 4K мониторы
+				setLaptopScale(1);
+			} else if (width > 1600) {
+				// Десктоп (Full HD и стандартный)
+				setLaptopScale(1);
+			} else if (width > 1440) {
+				// Большой ноутбук
+				setLaptopScale(0.67);
+			} else if (width > 1366) {
+				// Средний ноутбук
+				setLaptopScale(0.67);
+			} else if (width > 1280) {
+				// Маленький ноутбук
 				setLaptopScale(0.67);
 			} else {
-				setLaptopScale(1);
+				// Меньше 1280px (планшеты и т.д.)
+				setLaptopScale(0.67);
 			}
 		};
 	
