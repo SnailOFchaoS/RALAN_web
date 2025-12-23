@@ -1,7 +1,6 @@
-import { OfferShort } from '@/components/Common/types';
+import { Offer } from '@/store/slices/Offers/types';
 
 export interface CarouselSlideProps {
-	offer: OfferShort;
+	offer: Offer;
 	onDetailsClick?: () => void;
 }
-
