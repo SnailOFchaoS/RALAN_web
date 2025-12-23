@@ -7,6 +7,7 @@ import { fetchOffers } from '@/store/slices/Offers';
 
 import { useMainPageContext } from '../../context';
 import CarouselSlide from './CarouselSlider/CarouselSlider';
+import SlideWrapper from './SlideWrapper/SlideWrapper';
 import styles from './OfferCarousel.module.scss';
 
 const OfferCarousel = () => {
@@ -69,28 +70,22 @@ const OfferCarousel = () => {
         style={{ transform: `translateX(${transformValue})` }}
       >
         {sortedOffers.map((item, index) => (
-          <div
+          <SlideWrapper
             key={index}
-            style={{
-              minWidth: `${389 * laptopScale}px`,
-              minHeight: '100%',
-            }}
+            index={index}
+            currentIndex={currentIndex}
+            slideCount={slideCount}
+            laptopScale={laptopScale}
+            innerRef={index === 0 ? slideRef : undefined}
           >
-            <div
-              className={`${styles.slide} 
-                ${index === currentIndex ? styles.active : ''} 
-                ${index === (currentIndex - 1 + slideCount) % slideCount ? styles.prev : ''} 
-                ${index === (currentIndex + 1) % slideCount ? styles.next : ''}
-                ${!(index === (currentIndex + 1) || index === (currentIndex - 1) || index === currentIndex) ? styles.nonVisible : ''}
-              `}
-              ref={index === 0 ? slideRef : null}
-            >
+            {(isVisible: boolean) => (
               <CarouselSlide
                 offer={item}
                 onDetailsClick={handleOpenModal}
+                isActive={isVisible}
               />
-            </div>
-          </div>
+            )}
+          </SlideWrapper>
         ))}
       </div>
       <button className={`${styles["slider-button"]} ${styles.prev}`} onClick={prevSlide} />
