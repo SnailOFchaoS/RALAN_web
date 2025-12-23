@@ -8,7 +8,7 @@
   padding: 32px;
   gap: 20px;
 
-  @include laptop {
+  @include laptops-down {
     padding: scaled(32px);
     gap: scaled(20px);
   }
@@ -20,7 +20,7 @@
     width: 325px;
     height: 110px;
 
-    @include laptop {
+    @include laptops-down {
       width: scaled(325px);
       height: scaled(110px);
     }
@@ -41,7 +41,7 @@
       color: #1A2344;
       align-items: center;
 
-      @include laptop {
+      @include laptops-down {
         font-size: scaled(18px);
       }
     }
@@ -53,7 +53,7 @@
       font-weight: 500;
       color: #fffff0;
 
-      @include laptop {
+      @include laptops-down {
         font-size: scaled(30px);
       }
     }
@@ -65,7 +65,7 @@
       font-weight: 500;
       color: #fffff0;
 
-      @include laptop {
+      @include laptops-down {
         font-size: scaled(48px);
       }
     }
@@ -78,7 +78,7 @@
       color: #1A2344;
       align-items: center;
 
-      @include laptop {
+      @include laptops-down {
         font-size: scaled(26px);
       }
     }

@@ -1,110 +1,90 @@
+@use 'breakpoints' as *;
+
 .buttonWrapper {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	background-color: #D91722;
-	border-radius: 50px;
-	justify-content: flex-start;
-	align-items: center;
-	overflow: hidden;
-	transition: padding 0.3s ease;
-	padding-left: 20px;
-	cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  background-color: #D91722;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  transition: padding 0.3s ease;
+  cursor: pointer;
+  
+  @include responsive-block((
+    border-radius: 50px,
+    padding-left: 20px
+  ));
 }
 
 .buttonText {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	padding-right: 72px;
-	font-family: var(--tactic-sans-bold), sans-serif;
-	font-weight: bold;
-	text-wrap: nowrap;
-	color: #fffff0;
-	transition: transform 0.3s ease;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: var(--tactic-sans-bold), sans-serif;
+  font-weight: bold;
+  text-wrap: nowrap;
+  color: #fffff0;
+  transition: transform 0.3s ease;
+  @include responsive-block((padding-right: 72px));
 }
 
 .arrowContainer {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 40px;
-	height: 24px;
-	display: inline-block;
-	background-color: #fffff0;
-	-webkit-mask-image: url('../../../../assets/svg/buttons_arrow.svg');
-	mask-image: url('../../../../assets/svg/buttons_arrow.svg');
-	mask-repeat: no-repeat;
-	mask-size: contain;
-	mask-position: center;
-	transition: transform 0.5s ease, opacity 0.5s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  background-color: #fffff0;
+  -webkit-mask-image: url('../../../../assets/svg/buttons_arrow.svg');
+  mask-image: url('../../../../assets/svg/buttons_arrow.svg');
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  
+  @include responsive-block((
+    width: 40px,
+    height: 24px
+  ));
 }
 
 .arrowContainer.arrowRight {
-	right: 20px;
-	opacity: 1;
+  opacity: 1;
+  @include responsive-block((right: 20px));
 }
 
 .arrowContainer.arrowLeft {
-	left: -40px;
-	opacity: 0; 
+  opacity: 0;
+  @include responsive-block((left: -40px));
 }
 
 .buttonWrapper:hover {
-	padding-left: 40px;
-	justify-content: flex-start;
+  @include responsive-block((padding-left: 40px));
+  justify-content: flex-start;
 }
 
 .buttonWrapper:hover .buttonText {
-	transform: translateX(40px);
+  transform: translateX(40px);
+  
+  @include laptops-down {
+    transform: translateX(scaled(40px));
+  }
 }
 
 .buttonWrapper:hover .arrowContainer.arrowRight {
-	transform: translateX(60px) translateY(-50%);
-	opacity: 0;
+  transform: translateX(60px) translateY(-50%);
+  opacity: 0;
+  
+  @include laptops-down {
+    transform: translateX(scaled(60px)) translateY(-50%);
+  }
 }
 
 .buttonWrapper:hover .arrowContainer.arrowLeft {
-	transform: translateX(60px) translateY(-50%);
-	opacity: 1;
-}
-
-@media (max-width: 1366px) and (max-height: 820px) {
-  .buttonWrapper {
-		border-radius: 50px * 0.67;
-		padding-left: 20px * 0.67;
-	}
-
-	.buttonText {
-		padding-right: 72px * 0.67;
-	}
-	
-	.arrowContainer {
-		width: 40px * 0.67;
-		height: 24px * 0.67;
-	}
-	
-	.arrowContainer.arrowRight {
-		right: 20px * 0.67;
-	}
-	
-	.arrowContainer.arrowLeft {
-		left: -40px * 0.67;
-	}
-	
-	.buttonWrapper:hover {
-		padding-left: 40px * 0.67;
-	}
-	
-	.buttonWrapper:hover .buttonText {
-		transform: translateX(40px * 0.67);
-	}
-	
-	.buttonWrapper:hover .arrowContainer.arrowRight {
-		transform: translateX(60px * 0.67) translateY(-50%);
-	}
-	
-	.buttonWrapper:hover .arrowContainer.arrowLeft {
-		transform: translateX(60px * 0.67) translateY(-50%);
-	}
+  transform: translateX(60px) translateY(-50%);
+  opacity: 1;
+  
+  @include laptops-down {
+    transform: translateX(scaled(60px)) translateY(-50%);
+  }
 }

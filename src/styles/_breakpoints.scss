@@ -1,92 +1,205 @@
 // ============================================
-// Breakpoints для устройств Apple
+// Breakpoints и масштабы для адаптивной верстки
 // ============================================
 
-// Масштабы
-$desktop-scale: 1;
-$laptop-scale: 0.67;
-
-// Breakpoints
-$breakpoint-imac-27: 2560px;      // iMac 27" 5K
-$breakpoint-imac-24: 1920px;      // iMac 24" 4K
-$breakpoint-macbook-pro-16: 1728px;  // MacBook Pro 16"
-$breakpoint-macbook-pro-14: 1512px;  // MacBook Pro 14"
-$breakpoint-macbook-air-13: 1440px;  // MacBook Air 13"
-$breakpoint-macbook-air-11: 1366px;  // MacBook Air 11"
-$breakpoint-macbook-pro-13: 1280px;  // MacBook Pro 13"
+// ============================================
+// МАСШТАБЫ
+// ============================================
+$scale-desktop-4k: 1;          // 4K мониторы (2560px+)
+$scale-desktop: 1;             // Стандартный десктоп (1920px)
+$scale-laptop-large: 0.67;        // Большой ноутбук (1600px-1919px)
+$scale-laptop: 0.67;           // Средний ноутбук (1366px-1599px)
+$scale-laptop-small: 0.67;     // Маленький ноутбук (< 1366px)
 
 // ============================================
-// Миксины для адаптива
+// BREAKPOINTS
 // ============================================
 
-// Laptop и меньше (MacBook Air 13" и меньше)
+// Десктопы
+$bp-4k: 2560px;                // 4K мониторы
+$bp-desktop-large: 1920px;     // Full HD
+$bp-desktop: 1600px;           // Стандартный десктоп
+
+// Ноутбуки
+$bp-laptop-large: 1440px;      // Большой ноутбук / MacBook Air 13"
+$bp-laptop: 1366px;            // Стандартный ноутбук / HD+
+$bp-laptop-small: 1280px;      // Маленький ноутбук / MacBook Pro 13"
+
+// Планшеты (для будущего)
+$bp-tablet: 1024px;
+$bp-tablet-small: 768px;
+
+// Мобильные (для будущего)
+$bp-mobile: 480px;
+$bp-mobile-small: 320px;
+
+// ============================================
+// МИКСИНЫ ДЛЯ ДЕСКТОПОВ
+// ============================================
+
+// 4K и выше (2560px+)
+@mixin desktop-4k {
+  @media (min-width: $bp-4k) {
+    @content;
+  }
+}
+
+// Full HD и выше (1920px+)
+@mixin desktop-large {
+  @media (min-width: $bp-desktop-large) {
+    @content;
+  }
+}
+
+// Стандартный десктоп (1600px - 1919px)
+@mixin desktop {
+  @media (min-width: $bp-desktop) and (max-width: #{$bp-desktop-large - 1}) {
+    @content;
+  }
+}
+
+// ============================================
+// МИКСИНЫ ДЛЯ НОУТБУКОВ
+// ============================================
+
+// Большой ноутбук (1440px - 1599px)
+@mixin laptop-large {
+  @media (max-width: #{$bp-desktop - 1}) and (min-width: $bp-laptop-large) {
+    @content;
+  }
+}
+
+// Средний ноутбук (1366px - 1439px)
 @mixin laptop {
-  @media (max-width: $breakpoint-macbook-air-13) {
+  @media (max-width: #{$bp-laptop-large - 1}) and (min-width: $bp-laptop) {
     @content;
   }
 }
 
-// Laptop с учётом высоты (как текущий breakpoint)
+// Маленький ноутбук (1280px - 1365px)
+@mixin laptop-small {
+  @media (max-width: #{$bp-laptop - 1}) and (min-width: $bp-laptop-small) {
+    @content;
+  }
+}
+
+// ============================================
+// КОМБИНИРОВАННЫЕ МИКСИНЫ (часто используемые)
+// ============================================
+
+// Все ноутбуки (1280px - 1599px)
+@mixin laptops {
+  @media (max-width: #{$bp-desktop - 1}) and (min-width: $bp-laptop-small) {
+    @content;
+  }
+}
+
+// Все ноутбуки и меньше (< 1600px)
+@mixin laptops-down {
+  @media (max-width: #{$bp-desktop - 1}) {
+    @content;
+  }
+}
+
+// Все десктопы (1600px+)
+@mixin desktops {
+  @media (min-width: $bp-desktop) {
+    @content;
+  }
+}
+
+// Средний ноутбук с учётом высоты (оригинальный breakpoint)
 @mixin laptop-short {
-  @media (max-width: 1366px) and (max-height: 820px) {
-    @content;
-  }
-}
-
-// MacBook Pro 14"
-@mixin macbook-pro-14 {
-  @media (max-width: $breakpoint-macbook-pro-14) {
-    @content;
-  }
-}
-
-// MacBook Pro 16"
-@mixin macbook-pro-16 {
-  @media (max-width: $breakpoint-macbook-pro-16) {
-    @content;
-  }
-}
-
-// iMac 24" и больше
-@mixin imac {
-  @media (min-width: $breakpoint-imac-24) {
-    @content;
-  }
-}
-
-// iMac 27" 5K
-@mixin imac-5k {
-  @media (min-width: $breakpoint-imac-27) {
+  @media (max-width: $bp-laptop) and (max-height: 820px) {
     @content;
   }
 }
 
 // ============================================
-// Функция для масштабирования значений
+// ФУНКЦИИ МАСШТАБИРОВАНИЯ
 // ============================================
 
-// Масштабирует значение для laptop
+// Масштаб для среднего ноутбука (0.67)
 @function scaled($value) {
-  @return $value * $laptop-scale;
+  @return $value * $scale-laptop;
+}
+
+// Масштаб для большого ноутбука (0.85)
+@function scaled-lg($value) {
+  @return $value * $scale-laptop-large;
+}
+
+// Масштаб для маленького ноутбука (0.55)
+@function scaled-sm($value) {
+  @return $value * $scale-laptop-small;
+}
+
+// Масштаб для 4K (1.5)
+@function scaled-4k($value) {
+  @return $value * $scale-desktop-4k;
 }
 
 // ============================================
-// Миксин для автоматического масштабирования
+// МИКСИНЫ ДЛЯ АВТОМАТИЧЕСКОГО МАСШТАБИРОВАНИЯ
 // ============================================
 
-// Применяет стили для desktop и laptop с масштабом
-@mixin responsive-size($property, $desktop-value) {
-  #{$property}: $desktop-value;
+// Полное адаптивное масштабирование для одного свойства
+@mixin responsive-size($property, $base-value) {
+  #{$property}: $base-value;
+  
+  @include desktop-4k {
+    #{$property}: scaled-4k($base-value);
+  }
+  
+  @include laptop-large {
+    #{$property}: scaled-lg($base-value);
+  }
   
   @include laptop {
-    #{$property}: scaled($desktop-value);
+    #{$property}: scaled($base-value);
+  }
+  
+  @include laptop-small {
+    #{$property}: scaled-sm($base-value);
   }
 }
 
-// Миксин для нескольких свойств с масштабом
-@mixin laptop-scale {
-  @include laptop {
-    @content;
+// ============================================
+// МИКСИН ДЛЯ ГРУППЫ СВОЙСТВ
+// ============================================
+
+@mixin responsive-block($props) {
+  @each $property, $value in $props {
+    #{$property}: $value;
+  }
+  
+  @include laptops-down {
+    @each $property, $value in $props {
+      #{$property}: scaled($value);
+    }
   }
 }
 
+@mixin responsive-2($property, $value1, $value2) {
+  #{$property}: $value1 $value2;
+  
+  @include laptops-down {
+    #{$property}: scaled($value1) scaled($value2);
+  }
+}
+
+@mixin responsive-4($property, $v1, $v2, $v3, $v4) {
+  #{$property}: $v1 $v2 $v3 $v4;
+  
+  @include laptops-down {
+    #{$property}: scaled($v1) scaled($v2) scaled($v3) scaled($v4);
+  }
+}
+
+@mixin responsive-shadow($x, $y, $blur, $color) {
+  box-shadow: $x $y $blur $color;
+  
+  @include laptops-down {
+    box-shadow: scaled($x) scaled($y) $blur $color;
+  }
+}

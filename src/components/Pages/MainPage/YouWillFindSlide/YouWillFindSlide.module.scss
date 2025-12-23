@@ -1,44 +1,36 @@
+@use 'breakpoints' as *;
+
 .youWillFindSlideWrapper{
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 500px;
-  gap: 32px;
+  
+  @include responsive-block((
+    margin-top: 500px,
+    gap: 32px
+  ));
 
   .titleLine{
     display: flex;
     align-items: flex-end;
-    width: 1246px;
-    height: 84px;
+    
+    @include responsive-block((
+      width: 1246px,
+      height: 84px
+    ));
 
     .titleText{
       color: #fffff0;
       text-align: start;
       font-family: var(--tactic-sans-bold), sans-serif;
       font-weight: bold;
-      font-size: 70px;
+      @include responsive-block((font-size: 70px));
     }
   }
 
   .slideLine{
     display: flex;
     flex-direction: column;
-    width: 1246px;
-  }
-}
-
-@media (max-width: 1366px) and (max-height: 820px) {
-  .youWillFindSlideWrapper {
-    margin-top: 500px * 0.67;
-    gap: 32px * 0.67;
-
-    .titleLine {
-      width: 1246px * 0.67;
-      height: 84px * 0.67;
-
-      .titleText { font-size: 70px * 0.67; }
-    }
-
-    .slideLine { width: 1246px * 0.67; }
+    @include responsive-block((width: 1246px));
   }
 }
