@@ -14,13 +14,11 @@ export const useAutoFontSize = ({
   const [measured, setMeasured] = useState(false);
 
   useLayoutEffect(() => {
-    // Измеряем только когда элемент видим и ещё не измерен
     if (!isVisible || measured) return;
 
     const element = ref.current;
     if (!element || !text) return;
 
-    // Проверяем, что элемент имеет размеры
     if (element.offsetWidth === 0) return;
 
     let currentSize = initialFontSize;
@@ -39,10 +37,16 @@ export const useAutoFontSize = ({
     setMeasured(true);
   }, [initialFontSize, maxLines, minFontSize, step, text, isVisible, measured]);
 
-  // Сбрасываем measured при изменении текста
   useLayoutEffect(() => {
     setMeasured(false);
   }, [text]);
+
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (element && measured) {
+      element.style.fontSize = `${fontSize}px`;
+    }
+  }, [fontSize, measured]);
 
   return { ref, fontSize };
 };
