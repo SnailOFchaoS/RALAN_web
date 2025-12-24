@@ -31,13 +31,13 @@ const ElseOfferInfo: React.FC<ElseOfferInfoProps> = ({mirror = false, data, onDe
 						<InfoBlock
 							title={{
 								text: element.title,
-								blockWidth: 407,
+								blockWidth: 550,
 								fontSize: 26,
 								isRight: mirror,
 							}}
 							data={{
 								text: element.data,
-								blockWidth: 407,
+								blockWidth: 550,
 								fontSize: 18,
 								isRight: mirror,
 							}}

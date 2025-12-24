@@ -1,23 +1,21 @@
 import firstImage from "../../../assets/png/Yan.png"
 import secondImage from "../../../assets/png/Daria.png"
 
-import { personDataInterface, OfferShort } from "@/components/Common/types"
+import { personDataInterface } from "@/components/Common/types"
 
 export const representatives: personDataInterface[] = [
   {
     surname: 'ПЛЮТИНСКИЙ',
     name: 'Ян',
     patronymic: 'Витальевич',
-    descriptionTop: 'осталось место, бахним сюда какую-н будь мотивационную фразу',
-    descriptionBottom: '3-и достижения выше - основные. Здесь можно зассказать о себе, перечислить мнее значимые достижения, сказать еще пару красивых слов. Крч, все, на что хватит места',
+    descriptionTop: 'Начинай  с тем что есть.',
+    descriptionBottom: 'Окончил школу олимпийского резерва,\n12 лет в профессиональном велоспорте,\n8 лет тренерского стажа, основатель и идейный вдохновитель команды RALAN',
     achievements: [
       {
-        text: 'ПОБЕДИТЕЛЬ ТОГО-ТО'
+        text: 'Мастер спорта'
       },{
-        text: 'ЗАНЯЛ N-е МЕСТО ТАМ-ТО'
-      },{
-        text: 'ОДОЛЕЛ ТОТО-ТО'
-      }
+        text: 'Победитель первенства РФ'
+      },
     ],
     image:{
       src: firstImage,
@@ -35,15 +33,15 @@ export const representatives: personDataInterface[] = [
     surname: 'Спирина',
     name: 'Дарья',
     patronymic: 'Васильевна',
-    descriptionTop: 'осталось место, бахним сюда какую-н будь мотивационную фразу',
-    descriptionBottom: '3-и достижения выше - основные. Здесь можно зассказать о себе, перечислить мнее значимые достижения, сказать еще пару красивых слов. Крч, все, на что хватит места',
+    descriptionTop: '',
+    descriptionBottom: 'Мастер спорта, профессиональный гонщик МГСФО',
     achievements: [
       {
-        text: 'ПОБЕДИТЕЛЬ ТОГО-ТО'
+        text: 'Победительница первенства Европы'
       },{
-        text: 'ЗАНЯЛ N-е МЕСТО ТАМ-ТО'
+        text: '7-кратная чемпионка РФ'
       },{
-        text: 'ОДОЛЕЛ ТОТО-ТО'
+        text: 'Призерка мирового первенства'
       }
     ],
     image:{
