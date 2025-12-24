@@ -1,5 +1,7 @@
 import Image from "next/image"
 
+import { useMainPageContext } from "@/components/Pages/MainPage/context";
+
 import { personDataInterface } from "../../types";
 import InfoBlock from "../../InfoBlock/InfoBlock";
 
@@ -9,14 +11,15 @@ const OpenedPersonBlock: React.FC<{
   person: personDataInterface, 
   imageOpenedPosition: React.CSSProperties
 }> = ({person, imageOpenedPosition}) => {
+  const { laptopScale } = useMainPageContext();
   
   return (
     <div className={styles.openedPersonBlock}>
       <div className={styles.textBlock}>
         <div className={styles.textLine}>
           <span className={styles.nameLine}>
+            {person.name}&nbsp;
             <p className={styles.surname}>{person.surname.toUpperCase()}</p>
-            &nbsp;{person.name}&nbsp;{person.patronymic}
           </span>
           <InfoBlock
             data={{
@@ -27,20 +30,12 @@ const OpenedPersonBlock: React.FC<{
             }}
           />
         </div>
-        <div className={styles.textLine}>
-          {person.achievements.map((achievement: {text: string}, index: number) => {
-            return (
-              <InfoBlock
-                key={index}
-                title={{
-                  text: `一${achievement.text.toUpperCase()}`,
-                  color: "#1A2344",
-                  fontSize: 16,
-                  blockWidth: 417,
-                }}
-              />
-            )
-          })}
+        <div className={styles.textLine} style={{gap: 4 * laptopScale}}>
+          {person.achievements.map((achievement: {text: string}, index: number) => (
+            <p key={index} className={styles.achievementItem}>
+              {`一${achievement.text.toUpperCase()}`}
+            </p>
+          ))}
         </div>
         <div className={styles.textLine}>
           <InfoBlock

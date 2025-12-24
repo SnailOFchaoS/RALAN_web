@@ -35,11 +35,24 @@
         font-weight: bold;
         text-align: left;
         color: #457B9D;
-        @include responsive-block((font-size: 16px));
+        @include responsive-block((font-size: 20px));
 
         .surname{
           color: #1A2344
         }
+      }
+
+      .achievementItem{
+        font-family: var(--montserrat), sans-serif;
+        font-weight: 500;
+        text-align: left;
+        line-height: 1.2;
+        color: #1A2344;
+        
+        @include responsive-block((
+          font-size: 20px,
+          width: 417px
+        ));
       }
     }
   }
