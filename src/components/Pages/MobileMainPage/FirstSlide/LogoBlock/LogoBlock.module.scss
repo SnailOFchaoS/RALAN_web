@@ -1,0 +1,35 @@
+.logoContainer {
+  position: absolute;
+  top: 45px; // 71px (padding contentWrapper) - 26px (половина высоты логотипа)
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #FFFFF0;
+  border-radius: 50px;
+  padding: 12px 20px;
+  z-index: 10;
+  
+  .logoImageWrapper {
+    display: flex;
+    align-items: center;
+    
+    .logoImage {
+      width: 32px;
+      height: auto;
+    }
+  }
+  
+  .logoTextWrapper {
+    display: flex;
+    align-items: center;
+    
+    .logoText {
+      width: 100px;
+      height: auto;
+    }
+  }
+}
+
