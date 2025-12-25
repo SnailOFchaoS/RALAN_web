@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import Image from "next/image";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import fistSlidePhoto from '../../../../../assets/png/fist_slide_photo.png';
 import FrameComponent from "./FrameContent/FrameContent";
