@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { useIsMobile } from "@/components/Common/hooks/useIsMobile";
+import Background from "@/components/Background/Background";
 
 import gearsImage from "../../../../assets/svg/gears.svg";
 import styles from "./WebsiteInfoPage.module.scss";
+
 
 const SiteInfoPage = () => {
   const isMobile = useIsMobile();
@@ -13,6 +15,7 @@ const SiteInfoPage = () => {
 
   return (
     <div className={styles.container}>
+      <Background backgroundColor="#1A2344" />
       <h1 className={isMobile ? styles.titleMobile : styles.title}>
         {isMobile ? (
           <>

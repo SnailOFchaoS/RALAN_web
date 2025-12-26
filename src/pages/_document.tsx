@@ -4,7 +4,9 @@ import { tacticSansBold } from "@/fonts/fonts";
 export default function Document() {
   return (
     <Html lang="en" className={tacticSansBold.variable}>
-      <Head />
+      <Head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      </Head>
       <body>
         <Main />
         <NextScript />

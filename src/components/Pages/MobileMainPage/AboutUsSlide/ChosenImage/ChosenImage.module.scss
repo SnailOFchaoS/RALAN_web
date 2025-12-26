@@ -1,0 +1,12 @@
+.chosenImageWrapper {
+	position: relative;
+	width: 238px;
+	height: 230px;
+	background-color: #a8dadc;
+	border-radius: 40px;
+	overflow: hidden;
+}
+
+.image {
+	object-fit: cover;
+}
