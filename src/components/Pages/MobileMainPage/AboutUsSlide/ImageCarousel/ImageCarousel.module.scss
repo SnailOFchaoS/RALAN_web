@@ -1,0 +1,44 @@
+.container {
+  position: relative;
+  width: 115px;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.imageWrapper {
+  position: absolute;
+  left: 0;
+  width: 115px;
+  height: 115px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transform-origin: center center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
