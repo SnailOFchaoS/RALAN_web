@@ -27,8 +27,8 @@ const MobileMainPage = () => {
 				<Background {...mainBackgroundProps} />
 				<FirstSlide />
 				<AboutUsSlide />
-				<OurOffersSlide />
 				<YouWillFindSlide />
+				<OurOffersSlide />
 				<CallToActionSlide />
 			</div>
 		</MainPageProvider>
