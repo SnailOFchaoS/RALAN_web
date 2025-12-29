@@ -1,10 +1,31 @@
-@use 'breakpoints' as *;
-
-.callToActionSlideWrapper{
+.youWillFindSlideWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 852px;
+  padding: 44px 16px 0;
+  box-sizing: border-box;
 
+  .mainTitle {
+    width: 361px;
+    font-family: var(--tactic-sans-bold), sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    color: #FFFFF0;
+    margin: 0 0 68px 0;
+    line-height: 1;
+    text-align: left;
+  }
+
+  .sectionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 361px;
+
+    .sectionWrapper {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }

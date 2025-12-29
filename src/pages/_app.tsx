@@ -14,7 +14,7 @@ import { useIsMobile } from "@/components/Common/hooks/useIsMobile";
 gsap.registerPlugin(ScrollTrigger);
 
 const inDevelopmentDesktop = false;
-const inDevelopmentMobile = true;
+const inDevelopmentMobile = false;
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
