@@ -1,0 +1,88 @@
+.openedContent {
+  display: flex;
+  flex-direction: row;
+  // gap: 8px;
+  width: 100%;
+  height: 289px;
+}
+
+.textSection {
+  display: flex;
+  flex-direction: column;
+  width: 169px;
+  // gap: 8px;
+
+  .nameBlock {
+    display: flex;
+    flex-direction: column;
+    height: 40px;
+    justify-content: center;
+
+    .name {
+      font-family: var(--tactic-sans-bold), sans-serif;
+      font-weight: bold;
+      font-size: 10px;
+      color: #457B9D;
+      margin: 0;
+    }
+
+    .surname {
+      font-family: var(--tactic-sans-bold), sans-serif;
+      font-weight: bold;
+      font-size: 10px;
+      color: #457B9D;
+      margin: 0;
+    }
+
+    .fullName {
+      font-family: var(--tactic-sans-bold), sans-serif;
+      font-weight: bold;
+      font-size: 10px;
+      color: #457B9D;
+      margin: 0;
+    }
+  }
+
+  .quote {
+    font-family: var(--montserrat), sans-serif;
+    font-weight: 500;
+    font-size: 8px;
+    color: #1A2344;
+    margin: 0;
+    height: 40px;
+  }
+
+  .achievements {
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0;
+
+    .achievementItem {
+      font-family: var(--tactic-sans-bold), sans-serif;
+      font-weight: bold;
+      font-size: 7px;
+      color: #000000;
+      margin: 0;
+      height: 27px;
+    }
+  }
+
+  .description {
+    font-family: var(--montserrat), sans-serif;
+    font-weight: 500;
+    font-size: 8px;
+    color: #457B9D;
+    margin: 0;
+    white-space: pre-line;
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 168px;
+  min-height: 200px;
+  border-radius: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
