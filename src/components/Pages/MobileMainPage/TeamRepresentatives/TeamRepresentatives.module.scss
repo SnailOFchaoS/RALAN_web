@@ -18,8 +18,9 @@
   }
 
   .cardsContainer {
-    display: grid;
-    grid-template-columns: repeat(2, 177px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 7px;
     width: 361px;
   }
@@ -41,7 +42,6 @@
     }
 
     &.opened {
-      grid-column: span 2;
       width: 361px;
       height: auto;
       background-color: #FFFFF0;

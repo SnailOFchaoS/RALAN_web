@@ -4,37 +4,9 @@ import { representatives } from '@/pages/api/mockData';
 import { personDataInterface } from '@/components/Common/types';
 import OpenedCard from './OpenedCard/OpenedCard';
 import ClosedCard from './ClosedCard/ClosedCard';
-import { ImageConfig } from './OpenedCard/OpenedCard.types';
-
-import YanImage from '../../../../../assets/png/Yan.png';
-import DariaMobileImage from '../../../../../assets/png/Daria_mobile.png';
+import { MOBILE_IMAGES_CONFIG } from './TeamRepresentatives.constants';
 
 import styles from './TeamRepresentatives.module.scss';
-
-const mobileImagesConfig: ImageConfig[] = [
-  {
-    src: YanImage,
-    width: 275,
-    height: 414,
-    top: -96,
-    left: -54,
-    openedWidth: 275,
-    openedHeight: 414,
-    openedTop: -94,
-    openedLeft: -79
-  },
-  {
-    src: DariaMobileImage,
-    width: 528,
-    height: 352,
-    top: -32,
-    left: -208,
-    openedWidth: 599,
-    openedHeight: 400,
-    openedTop: -21,
-    openedLeft: -255
-  }
-];
 
 const TeamRepresentatives: React.FC = () => {
   const [openedIndexes, setOpenedIndexes] = useState<number[]>([]);
@@ -57,12 +29,12 @@ const TeamRepresentatives: React.FC = () => {
   return (
     <div className={styles.teamRepresentativesWrapper} onClick={handleCloseAll}>
       <h2 className={styles.title}>
-        ПРЕДСТАВИТЕЛИ<br/>КОМАНДЫ
+        ПРЕДСТАВИТЕЛИ КОМАНДЫ
       </h2>
       
       <div className={styles.cardsContainer}>
         {representatives.map((person: personDataInterface, index) => {
-          const imageConfig = mobileImagesConfig[index];
+          const imageConfig = MOBILE_IMAGES_CONFIG[index];
           const isOpened = openedIndexes.includes(index);
           
           return (
