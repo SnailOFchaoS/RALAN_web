@@ -1,8 +1,7 @@
 .firstSlideWrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 100svh;
+  height: 100dvh;
   overflow: hidden;
 
   .backgroundWrapper {
@@ -13,8 +12,6 @@
     height: 100%;
     z-index: 0;
     clip-path: inset(0 0 0 0 round 0);
-    will-change: clip-path, opacity, transform;
-    backface-visibility: hidden;
 
     .backgroundImage {
       position: absolute;
@@ -23,12 +20,6 @@
       width: 100%;
       height: 100%;
       filter: brightness(0.5);
-      will-change: filter;
-
-      img {
-        transform: translateZ(0);
-        backface-visibility: hidden;
-      }
     }
   }
 
@@ -56,9 +47,6 @@
       border-radius: 50px;
       padding: 152px 32px 95px;
       box-sizing: border-box;
-      transform: translateZ(0);
-      will-change: transform, opacity;
-      backface-visibility: hidden;
 
       .mainContent {
         display: flex;
@@ -74,7 +62,6 @@
           flex-direction: column;
           align-items: flex-start;
           gap: 8px;
-          will-change: opacity;
 
           span {
             display: flex;
@@ -95,7 +82,6 @@
           flex-direction: column;
           align-items: flex-start;
           gap: 16px;
-          will-change: opacity;
 
           p {
             font-family: var(--montserrat), sans-serif;

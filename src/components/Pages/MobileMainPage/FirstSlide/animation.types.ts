@@ -19,5 +19,6 @@ export interface MobileFirstSlideAnimationProps {
   frameContainerRect: RectData;
   logoBlockRect: RectData;
   screenHeight: number;
+  screenWidth: number;
 }
 

@@ -87,6 +87,9 @@ const FirstSlide = () => {
       scrollTrigger: { ...scrollTriggerOptions },
     });
 
+    // Используем фактическую высоту wrapper для корректных вычислений на iPhone
+    const wrapperRect = firstSlideWrapperRef.current.getBoundingClientRect();
+
     mobileFirstSlideAnimation({
       timeLine,
       titleTextRef,
@@ -98,7 +101,8 @@ const FirstSlide = () => {
       actionButtonRef,
       frameContainerRect,
       logoBlockRect,
-      screenHeight: window.innerHeight,
+      screenHeight: wrapperRect.height,
+      screenWidth: wrapperRect.width,
     });
 
     return () => {
