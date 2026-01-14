@@ -4,6 +4,7 @@ export const mobileFirstSlideAnimation = ({
   timeLine,
   titleTextRef,
   infoTextRef,
+  backgroundWrapperRef,
   backgroundImageRef,
   frameContainerRef,
   logoBlockRef,
@@ -13,63 +14,86 @@ export const mobileFirstSlideAnimation = ({
   screenHeight,
 }: MobileFirstSlideAnimationProps) => {
 
+  const screenWidth = window.innerWidth;
   const screenCenterY = screenHeight / 2;
   const logoCurrentCenterY = logoBlockRect.top + logoBlockRect.height / 2;
   const logoOffsetToScreenCenter = screenCenterY - logoCurrentCenterY;
 
   const frameCurrentCenterY = frameContainerRect.top + frameContainerRect.height / 2;
   const frameOffsetToScreenCenter = screenCenterY - frameCurrentCenterY;
-  
+
+  const clipTop = frameContainerRect.top;
+  const clipRight = screenWidth - frameContainerRect.left - frameContainerRect.width;
+  const clipBottom = screenHeight - frameContainerRect.top - frameContainerRect.height;
+  const clipLeft = frameContainerRect.left;
+
+  const frameCenterX = frameContainerRect.left + frameContainerRect.width / 2;
+  const frameCenterY = frameContainerRect.top + frameContainerRect.height / 2;
+
+  const offsetToScreenCenterX = screenWidth / 2 - frameCenterX;
+  const offsetToScreenCenterY = screenCenterY - frameCenterY;
+
   timeLine.to(titleTextRef.current, {
     opacity: 0,
+    duration: 0.3,
+    force3D: true,
   }, 0);
   
   timeLine.to(infoTextRef.current, {
     opacity: 0,
+    duration: 0.3,
+    force3D: true,
   }, 0);
 
-  timeLine.to(backgroundImageRef.current, {
-    x: frameContainerRect.left,
-    y: frameContainerRect.top,
-    width: frameContainerRect.width,
-    height: frameContainerRect.height,
-    borderRadius: '50px',
-    immediateRender: false,
-    onUpdate: function() {
-      const brightnessValue = this.progress() * 0.5 + 0.5;
-      if (backgroundImageRef.current) {
-        backgroundImageRef.current.style.setProperty('filter', `brightness(${brightnessValue})`);
-      }
-    },
-  }, 0);
+  timeLine.to(backgroundWrapperRef.current, {
+    clipPath: `inset(${clipTop}px ${clipRight}px ${clipBottom}px ${clipLeft}px round 50px)`,
+    duration: 0.5,
+    ease: "power2.out",
+  }, 0.1);
 
   timeLine.to(backgroundImageRef.current, {
-    width: 0,
-    height: 0,
-    x: `${frameContainerRect.width / 2 + frameContainerRect.left}px`,
-    y: `${screenCenterY}px`,
-    transformOrigin: "center center",
+    filter: 'brightness(1)',
+    duration: 0.5,
+    force3D: true,
+    ease: "power2.out",
+  }, 0.1);
+
+  if (backgroundWrapperRef.current) {
+    backgroundWrapperRef.current.style.transformOrigin = `${frameCenterX}px ${frameCenterY}px`;
+  }
+
+  timeLine.to(backgroundWrapperRef.current, {
+    scale: 0,
+    x: offsetToScreenCenterX,
+    y: offsetToScreenCenterY,
+    opacity: 0,
+    duration: 0.4,
+    force3D: true,
     ease: "power2.inOut",
   }, ">");
 
   timeLine.to(frameContainerRef.current, {
-    width: 0,
-    height: 0,
-    padding: 0,
-    y: `${frameOffsetToScreenCenter}px`,
+    scale: 0,
+    y: frameOffsetToScreenCenter,
+    opacity: 0,
+    duration: 0.4,
+    force3D: true,
     ease: "power2.inOut",
   }, "<");
 
   timeLine.to(actionButtonRef.current, {
-    width: 0,
-    height: 0,
-    padding: 0,
+    scale: 0,
+    opacity: 0,
+    duration: 0.4,
+    force3D: true,
     ease: "power2.inOut",
   }, "<");
 
   timeLine.to(logoBlockRef.current, {
     scale: 2,
-    y: `${logoOffsetToScreenCenter}px`,
+    y: logoOffsetToScreenCenter,
+    duration: 0.4,
+    force3D: true,
     ease: "power2.inOut",
   }, "<");
 

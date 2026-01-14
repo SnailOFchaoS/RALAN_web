@@ -11,6 +11,7 @@ export interface MobileFirstSlideAnimationProps {
   timeLine: gsap.core.Timeline;
   titleTextRef: React.RefObject<HTMLDivElement | null>;
   infoTextRef: React.RefObject<HTMLDivElement | null>;
+  backgroundWrapperRef: React.RefObject<HTMLDivElement | null>;
   backgroundImageRef: React.RefObject<HTMLDivElement | null>;
   frameContainerRef: React.RefObject<HTMLDivElement | null>;
   logoBlockRef: React.RefObject<HTMLDivElement | null>;
