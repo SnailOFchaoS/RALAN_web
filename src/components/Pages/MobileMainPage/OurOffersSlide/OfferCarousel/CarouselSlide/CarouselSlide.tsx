@@ -25,7 +25,7 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({ offer, onDetailsClick, is
           {offer.date ?? ''}
         </div>
         <div className={styles.price}>
-          {offer.price.toLocaleString('ru-RU')} ₽
+          {offer.price.toLocaleString('ru-RU')} р
         </div>
       </div>
       <div className={styles.slideInfoLine}>
@@ -39,8 +39,8 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({ offer, onDetailsClick, is
       <div className={styles.buttonLine}>
         <ButtonWithArrow
           text='ПОДРОБНЕЕ'
-          size={{ width: 153, height: 40 }}
-          fontSize={12}
+          size={{ width: 161, height: 33 }}
+          fontSize={11}
           onClick={onDetailsClick}
         />
       </div>

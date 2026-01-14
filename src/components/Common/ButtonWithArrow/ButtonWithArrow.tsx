@@ -7,9 +7,10 @@ interface buttonInterFace {
 	size?: {width: number, height: number}
 	fontSize?: number,
 	onClick?: () => void,
+	hideArrow?: boolean,
 }
 
-const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize, onClick}) => {
+const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize, onClick, hideArrow}) => {
 
 	const laptopScale = useMainPageContext().laptopScale;
 
@@ -29,8 +30,12 @@ const ButtonWithArrow: React.FC<buttonInterFace> = ({text, size, fontSize, onCli
 			>
 				{text}
 			</p>
-			<div className={`${styles.arrowContainer} ${styles.arrowRight}`}/>
-			<div className={`${styles.arrowContainer} ${styles.arrowLeft}`}/>
+			{!hideArrow && (
+				<>
+					<div className={`${styles.arrowContainer} ${styles.arrowRight}`}/>
+					<div className={`${styles.arrowContainer} ${styles.arrowLeft}`}/>
+				</>
+			)}
 		</div>
 	)
 }

@@ -20,7 +20,7 @@ const ElseOffersItem: React.FC<ElseOffersItemProps> = ({ mirror = false, data, o
 
   const scaledValues = useMemo(() => ({
     borderWidth: 2,
-    contentHeight: 500,
+    contentHeight: 230,
     contentMarginTop: 12,
   }), []);
 

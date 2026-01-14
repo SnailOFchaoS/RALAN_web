@@ -9,6 +9,7 @@ import AboutUsSlide from "./AboutUsSlide/AboutUsSlide";
 import OurOffersSlide from "./OurOffersSlide/OurOffersSlide";
 import YouWillFindSlide from "./YouWillFindSlide/YouWillFindSlide";
 import TeamRepresentatives from "./TeamRepresentatives/TeamRepresentatives";
+import Footer from "./Footer/Footer";
 
 const MobileMainPage = () => {
 	const mainPageRef = useRef<HTMLDivElement>(null);
@@ -32,6 +33,7 @@ const MobileMainPage = () => {
 				<TeamRepresentatives />
 				<OurOffersSlide />
 				<CallToActionSlide />
+				<Footer />
 			</div>
 		</MainPageProvider>
 	)

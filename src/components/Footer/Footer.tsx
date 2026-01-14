@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useMainPageContext } from "../Pages/MainPage/context";
 import ralanLogoRed from '../../../assets/svg/logo_with_text_red.svg'
 import stravaIcon from '../../../assets/svg/strava.svg'
-import intervalsIcon from '../../../assets/svg/intervals.svg'
 import telegramIcon from '../../../assets/svg/telegram.svg'
 
 import styles from './Footer.module.scss'
@@ -53,20 +52,16 @@ const Footer: React.FC = () => {
             height={144 * laptopScale}
           />
           <div className={styles.linksLine}>
-            <Image
-              alt='intervals'
-              src={intervalsIcon}
-              className={styles.icon}
-              width={50 * laptopScale}
-              height={50 * laptopScale}
-            />
-            <Image
-              alt='strava'
-              src={stravaIcon}
-              className={styles.icon}
-              width={50 * laptopScale}
-              height={50 * laptopScale}
-            />
+            <a href='https://www.strava.com/clubs/1151973' target="_blank" rel="noopener noreferrer">
+              <Image
+                alt='strava'
+                src={stravaIcon}
+                className={styles.icon}
+                width={50 * laptopScale}
+                height={50 * laptopScale}
+              />
+            </a>
+            
             <a href="https://t.me/ralanpro" target="_blank" rel="noopener noreferrer">
               <Image
                 alt='telegram'
