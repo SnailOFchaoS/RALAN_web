@@ -1,0 +1,64 @@
+.elseOffersWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  
+  .titleWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 361px;
+    height: 52px;
+    border-bottom: 2px solid #A8DADC;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding-bottom: 8px;
+
+    &:active {
+      opacity: 0.8;
+    }
+
+    .textBlock {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 4px;
+
+      .subtitle {
+        font-family: var(--montserrat), sans-serif;
+        font-weight: normal;
+        font-size: 8px;
+        color: #FFFFF0;
+      }
+
+      .title {
+        font-family: var(--tactic-sans-medium), sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        color: #A8DADC;
+        margin: 0;
+      }
+    }
+
+    .arrowWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+
+      .arrowIcon {
+        width: 32px;
+        height: 32px;
+        background-color: #A8DADC;
+        mask-image: url('../../../../../../assets/svg/arrow.svg');
+        -webkit-mask-image: url('../../../../../../assets/svg/arrow.svg');
+        mask-repeat: no-repeat;
+        mask-size: contain;
+        mask-position: center;
+      }
+    }
+  }
+}
+

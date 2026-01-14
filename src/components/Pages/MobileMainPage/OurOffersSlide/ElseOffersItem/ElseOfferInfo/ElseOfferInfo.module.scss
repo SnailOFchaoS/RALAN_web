@@ -1,0 +1,64 @@
+.elseOfferInfoWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 361px;
+  height: 230px;
+  background-color: #FFFFF0;
+  border-radius: 40px;
+  gap: 8px;
+  box-sizing: border-box;
+
+  .leftSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 12px;
+    padding-right: 0;
+  }
+
+  .textContent {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .textBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .blockTitle {
+      font-family: var(--tactic-sans-medium), sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      color: #1A2344;
+    }
+
+    .blockText {
+      font-family: var(--montserrat), sans-serif;
+      font-weight: 400;
+      font-size: 8px;
+      color: #457B9D;
+    }
+  }
+
+  .buttonWrapper {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .imageBlock {
+    position: relative;
+    width: 170px;
+    height: 222px;
+    border-radius: 40px;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin: 4px 4px 4px 0;
+
+    .image {
+      object-fit: cover;
+    }
+  }
+}

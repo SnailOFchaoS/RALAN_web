@@ -1,0 +1,115 @@
+.footerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  padding: 40px 16px;
+  box-sizing: border-box;
+
+  .backgroundWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+
+    .backgroundTop {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(to bottom, rgba(26, 35, 68, 0.0) 0%, rgba(29, 53, 87, 1) 100%);
+    }
+
+    .backgroundBottom {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(to top, rgba(26, 35, 68, 0.0) 0%, rgba(29, 53, 87, 1) 100%);
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+
+    .logoWrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .contactsWrapper {
+      display: flex;
+      flex-direction: column;
+      width: 361px;
+      padding: 0 20px;
+
+      .contactRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        height: 38px;
+
+        .textContent {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+
+          .smallText {
+            font-family: var(--montserrat), sans-serif;
+            font-weight: 400;
+            font-size: 4px;
+            color: #A8DADC;
+            margin: 0;
+          }
+
+          .bigText {
+            font-family: var(--tactic-sans-medium), sans-serif;
+            font-weight: 500;
+            font-size: 6px;
+            color: #fffff0;
+            margin: 0;
+          }
+
+          .smallTextRight {
+            font-family: var(--montserrat), sans-serif;
+            font-weight: 400;
+            font-size: 4px;
+            color: #A8DADC;
+            margin: 0;
+            text-align: right;
+          }
+
+          .bigTextRight {
+            font-family: var(--tactic-sans-medium), sans-serif;
+            font-weight: 500;
+            font-size: 6px;
+            color: #fffff0;
+            margin: 0;
+            text-align: right;
+          }
+        }
+
+        .linksLine {
+          display: flex;
+          flex-direction: row;
+          flex: 1;
+          justify-content: flex-end;
+          gap: 8px;
+
+          .icon {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

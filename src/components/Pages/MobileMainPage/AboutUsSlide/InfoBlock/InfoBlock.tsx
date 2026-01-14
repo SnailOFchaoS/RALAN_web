@@ -10,8 +10,8 @@ const InfoBlock = () => {
 			</div>
       
         {OFFERS.map((offer, index) => (
-					<div className={styles.infoModule}>
-						<div key={index} className={styles.offerItem}>
+					<div key={index} className={styles.infoModule}>
+						<div className={styles.offerItem}>
 							<h3 className={styles.offerTitle}>{offer.title}</h3>
 							<p className={styles.offerDescription}>{offer.description}</p>
 						</div>
