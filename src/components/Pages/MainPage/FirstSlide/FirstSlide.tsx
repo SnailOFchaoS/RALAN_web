@@ -12,7 +12,8 @@ import { RectData } from './animation.types';
 import styles from "./FirstSlide.module.scss";
 
 const FirstSlide = () => {
-  const mainImageRef = useRef<HTMLDivElement>(null);
+  const backgroundWrapperRef = useRef<HTMLDivElement>(null);
+  const backgroundImageRef = useRef<HTMLDivElement>(null);
   const firstSlideWrapperRef = useRef<HTMLDivElement>(null);
   const frameContainerRef = useRef<HTMLDivElement>(null);
   const titleTextRef = useRef<HTMLDivElement>(null);
@@ -24,7 +25,8 @@ const FirstSlide = () => {
 
   useEffect(() => {
     if (
-      !mainImageRef.current ||
+      !backgroundWrapperRef.current ||
+      !backgroundImageRef.current ||
       !firstSlideWrapperRef.current ||
       !frameContainerRect ||
       !frameContainerRef.current
@@ -32,7 +34,6 @@ const FirstSlide = () => {
       return;
     }
 
-    const mainImage = mainImageRef.current;
     const firstSlideWrapper = firstSlideWrapperRef.current;
 
     const scrollTriggerOptions = {
@@ -53,7 +54,8 @@ const FirstSlide = () => {
       timeLine, 
       titleTextRef, 
       infoTextRef, 
-      mainImage, 
+      backgroundWrapperRef,
+      backgroundImageRef,
       frameContainerRect,
       laptopScale,
     })
@@ -79,20 +81,22 @@ const FirstSlide = () => {
 
   return (
     <div className={styles.firstSlideWrapper} ref={firstSlideWrapperRef}>
-      <div className={styles.mainImage} ref={mainImageRef}>
-        <Image
-          src={fistSlidePhoto}
-          alt=''
-          className={styles.image}
-          style={{objectFit: "cover"}}
-        />
+      <div className={styles.backgroundWrapper} ref={backgroundWrapperRef}>
+        <div className={styles.backgroundImage} ref={backgroundImageRef}>
+          <Image
+            src={fistSlidePhoto}
+            alt=''
+            className={styles.image}
+            style={{objectFit: "cover"}}
+          />
+        </div>
       </div>
       <div className={styles.contentWrapper}>
         <FrameComponent
           onContainerReady={handleContainerReady}
           frameContainerRef={frameContainerRef} 
           timeLine={currentTimeLine}
-          mainImageRef={mainImageRef}
+          mainImageRef={backgroundWrapperRef}
         >
           <div className={styles.mainContent} >
             <div className={styles.titleText} ref={titleTextRef}>

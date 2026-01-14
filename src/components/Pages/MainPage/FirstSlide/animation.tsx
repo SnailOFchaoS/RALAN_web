@@ -4,41 +4,45 @@ export const firstSlideAnimation = ({
 	timeLine, 
 	titleTextRef, 
 	infoTextRef, 
-	mainImage, 
+	backgroundWrapperRef,
+	backgroundImageRef,
 	frameContainerRect,
 	laptopScale,
 }: FirstSlideAnimationProps) => {
 
+	const backgroundWrapper = backgroundWrapperRef.current;
+	if (!backgroundWrapper) return;
+
 	timeLine.to(titleTextRef.current, {opacity: 0,}, 0);
 	timeLine.to(infoTextRef.current, {opacity: 0,}, 0);
-	timeLine.to(mainImage, {
+	timeLine.to(backgroundWrapper, {
 		x: frameContainerRect.left,
 		y: frameContainerRect.top,
 		width: frameContainerRect.width,
 		height: frameContainerRect.height,
 		borderRadius: `${100 * laptopScale}px`,
 		immediateRender: false,
-		onUpdate: function() {2
+		onUpdate: function() {
 			const brightnessValue = this.progress() * 0.5 + 0.5;
-			(mainImage as HTMLElement).style.setProperty('filter', `brightness(${brightnessValue})`);
+			backgroundWrapper.style.setProperty('filter', `brightness(${brightnessValue})`);
 		},
 	}, 0);
 
-	timeLine.to(mainImage, {
+	timeLine.to(backgroundWrapper, {
 		width: 0,
 		height: 0,
-		x: `${frameContainerRect?.width / 2 + frameContainerRect.left }px`,
-		y: `${frameContainerRect?.height / 2 + frameContainerRect.top }px`,
+		x: `${frameContainerRect.width / 2 + frameContainerRect.left}px`,
+		y: `${frameContainerRect.height / 2 + frameContainerRect.top}px`,
 		transformOrigin: "top center", 
-    ease: "power2.inOut",
+		ease: "power2.inOut",
 	}, ">")
 
-	return ;
+	return;
 }
 
 export const frameContentAnimation = ({
 	timeLine, 
-  logoTimeline,
+	logoTimeline,
 	frameContainerRef, 
 	bottomContentRef, 
 	topContentRef,
@@ -58,17 +62,17 @@ export const frameContentAnimation = ({
 		width: 0,
 		height: 0,
 		y: `${rect?.height / 2 }px`,
-    ease: "power2.inOut",
+		ease: "power2.inOut",
 	}, "<")
 
 	timeLine.to(bottomContentRef.current, {
 		width: 0,
-    ease: "power2.inOut",
+		ease: "power2.inOut",
 	}, "<")
 
 	timeLine.to(topContentRef.current, {
 		scale: 2,
-    y: `${rect?.height / 2 }px`,
+		y: `${rect?.height / 2 }px`,
 		ease: "power2.inOut",
 	}, "<")
 
@@ -81,7 +85,7 @@ export const frameContentAnimation = ({
 	}, 0)
 
 	logoTimeline.to(mainLogoImageRef.current, {
-    scale: laptopScale === 1 ? 0.35 : 0.41,
+		scale: laptopScale === 1 ? 0.35 : 0.41,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2 - 66 / 2 * laptopScale - 8 * laptopScale,
 	}, '<')
 

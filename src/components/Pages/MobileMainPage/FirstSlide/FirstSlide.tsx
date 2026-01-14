@@ -22,6 +22,7 @@ const FirstSlide = () => {
   const [logoBlockRect, setLogoBlockRect] = useState<RectData | null>(null);
   
   const firstSlideWrapperRef = useRef<HTMLDivElement>(null);
+  const backgroundWrapperRef = useRef<HTMLDivElement>(null);
   const backgroundImageRef = useRef<HTMLDivElement>(null);
   const frameContainerRef = useRef<HTMLDivElement>(null);
   const titleTextRef = useRef<HTMLDivElement>(null);
@@ -62,6 +63,7 @@ const FirstSlide = () => {
 
   useEffect(() => {
     if (
+      !backgroundWrapperRef.current ||
       !backgroundImageRef.current ||
       !firstSlideWrapperRef.current ||
       !frameContainerRef.current ||
@@ -76,7 +78,7 @@ const FirstSlide = () => {
     const scrollTriggerOptions = {
       trigger: firstSlideWrapperRef.current,
       start: "top top",
-      end: "+=150%",
+      end: "+=75%",
       pin: true,
       scrub: 1,
     };
@@ -89,6 +91,7 @@ const FirstSlide = () => {
       timeLine,
       titleTextRef,
       infoTextRef,
+      backgroundWrapperRef,
       backgroundImageRef,
       frameContainerRef,
       logoBlockRef,
@@ -105,15 +108,17 @@ const FirstSlide = () => {
 
   return (
     <div className={styles.firstSlideWrapper} ref={firstSlideWrapperRef}>
-      <div className={styles.backgroundImage} ref={backgroundImageRef}>
-        <Image
-          src={fistSlidePhoto}
-          alt=""
-          fill
-          sizes="100vw"
-          style={{ objectFit: "cover" }}
-          priority
-        />
+      <div className={styles.backgroundWrapper} ref={backgroundWrapperRef}>
+        <div className={styles.backgroundImage} ref={backgroundImageRef}>
+          <Image
+            src={fistSlidePhoto}
+            alt=""
+            fill
+            sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "55% center" }}
+            priority
+          />
+        </div>
       </div>
 
       <div className={styles.contentWrapper}>

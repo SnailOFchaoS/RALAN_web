@@ -11,7 +11,8 @@ export interface FirstSlideAnimationProps {
 	timeLine: gsap.core.Timeline;
 	titleTextRef: React.RefObject<HTMLDivElement | null>;
 	infoTextRef: React.RefObject<HTMLDivElement | null>;
-	mainImage: HTMLDivElement;
+	backgroundWrapperRef: React.RefObject<HTMLDivElement | null>;
+	backgroundImageRef: React.RefObject<HTMLDivElement | null>;
 	frameContainerRect: RectData;
 	laptopScale: number;
 }
@@ -27,4 +28,3 @@ export interface FrameContentAnimationProps {
 	mainLogoTextRef: React.RefObject<HTMLDivElement | null>;
 	mainLogoArrowRef: React.RefObject<HTMLDivElement | null>;
 }
-
