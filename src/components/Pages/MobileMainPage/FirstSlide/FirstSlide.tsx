@@ -75,12 +75,19 @@ const FirstSlide = () => {
       return;
     }
 
-    const scrollTriggerOptions = {
+    const scrollTriggerOptions: ScrollTrigger.Vars = {
       trigger: firstSlideWrapperRef.current,
       start: "top top",
       end: "+=75%",
       pin: true,
-      scrub: 1,
+      scrub: 0.5,
+      fastScrollEnd: true, // Быстрое завершение при быстрой прокрутке
+      preventOverlaps: true, // Предотвращает перекрытие анимаций
+      snap: {
+        snapTo: "labels" as const, // Привязка к меткам
+        duration: { min: 0.2, max: 0.5 }, // Длительность snap-анимации
+        ease: "power2.inOut",
+      },
     };
 
     const timeLine = gsap.timeline({

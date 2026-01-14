@@ -36,6 +36,9 @@ export const mobileFirstSlideAnimation = ({
   const offsetToScreenCenterX = screenWidth / 2 - frameCenterX;
   const offsetToScreenCenterY = screenCenterY - frameCenterY;
 
+  // Метка начала
+  timeLine.addLabel("start");
+
   // Фаза 1: Скрытие текста
   timeLine.to(titleTextRef.current, {
     opacity: 0,
@@ -55,6 +58,9 @@ export const mobileFirstSlideAnimation = ({
     filter: 'brightness(1)',
     ease: "none",
   }, 0);
+
+  // Метка после обрезки
+  timeLine.addLabel("clipped");
 
   // Устанавливаем transform-origin в центр рамки для корректного масштабирования
   if (backgroundWrapperRef.current) {
@@ -88,6 +94,9 @@ export const mobileFirstSlideAnimation = ({
     y: logoOffsetToScreenCenter,
     ease: "power2.inOut",
   }, "<");
+
+  // Метка конца
+  timeLine.addLabel("end");
 
   return;
 };
