@@ -35,7 +35,6 @@ const OfferCarousel = () => {
   const leftEdge = (CONTAINER_WIDTH - SLIDE_WIDTH) / 2;
   const rightEdge = CONTAINER_WIDTH - leftEdge;
 
-  // Дублируем слайды для бесконечной прокрутки
   const allSlides = useMemo(() => {
     return [...sortedOffers, ...sortedOffers];
   }, [sortedOffers]);
@@ -59,15 +58,12 @@ const OfferCarousel = () => {
     dispatch(fetchOffers());
   }, [dispatch]);
 
-  // Snap to nearest slide
   const snapToNearestSlide = useCallback((currentPosition: number) => {
     if (sortedOffers.length === 0) return;
 
-    // Вычисляем индекс ближайшего слайда
     const nearestIndex = Math.round(currentPosition / itemWidth);
     const targetPosition = nearestIndex * itemWidth;
 
-    // Нормализуем целевую позицию
     let normalizedTarget = targetPosition;
     while (normalizedTarget < 0) {
       normalizedTarget += totalWidth;
@@ -76,19 +72,16 @@ const OfferCarousel = () => {
       normalizedTarget -= totalWidth;
     }
 
-    // Анимация к целевой позиции
     const startPosition = currentPosition;
     const startTime = performance.now();
-    const duration = 300; // ms
+    const duration = 300;
 
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function (ease-out)
+
       const easeOut = 1 - Math.pow(1 - progress, 3);
-      
-      // Вычисляем кратчайший путь
+
       let diff = normalizedTarget - startPosition;
       if (Math.abs(diff) > totalWidth / 2) {
         if (diff > 0) {
@@ -99,8 +92,7 @@ const OfferCarousel = () => {
       }
       
       let newPosition = startPosition + diff * easeOut;
-      
-      // Нормализуем позицию
+
       while (newPosition < 0) {
         newPosition += totalWidth;
       }
@@ -218,43 +210,17 @@ const OfferCarousel = () => {
     let translateX = baseX;
     let transformOrigin = 'center center';
     
-    // Элемент слева от центра - прилипает к центральному и выглядывает слева
     if (itemLeft < leftEdge) {
       const distancePastLeft = leftEdge - itemLeft;
-      // Первый этап (progress 0-1): уменьшение до MIN_SCALE
-      // Второй этап (progress 1-2): продолжаем уменьшаться до 0.3
       const progress = distancePastLeft / itemWidth;
       const clampedProgress = Math.min(progress, 2);
-      
-      // Смещаем влево на PEEK_OFFSET, максимум на 2 * PEEK_OFFSET
+
       translateX = leftEdge - PEEK_OFFSET * Math.min(clampedProgress, 1);
       transformOrigin = 'right center';
       
       if (progress <= 1) {
         scale = 1 - progress * (1 - MIN_SCALE);
       } else {
-        // Продолжаем уменьшаться от MIN_SCALE до 0.3
-        const extraProgress = progress - 1;
-        scale = MIN_SCALE - extraProgress * (MIN_SCALE - 0.3);
-        scale = Math.max(scale, 0.3);
-      }
-      zIndex = Math.round(50 - clampedProgress * 25);
-    }
-    
-    // Элемент справа от центра - прилипает к центральному и выглядывает справа
-    if (itemRight > rightEdge) {
-      const distancePastRight = itemRight - rightEdge;
-      const progress = distancePastRight / itemWidth;
-      const clampedProgress = Math.min(progress, 2);
-      
-      // Смещаем вправо на PEEK_OFFSET, максимум на 2 * PEEK_OFFSET
-      translateX = leftEdge + PEEK_OFFSET * Math.min(clampedProgress, 1);
-      transformOrigin = 'left center';
-      
-      if (progress <= 1) {
-        scale = 1 - progress * (1 - MIN_SCALE);
-      } else {
-        // Продолжаем уменьшаться от MIN_SCALE до 0.3
         const extraProgress = progress - 1;
         scale = MIN_SCALE - extraProgress * (MIN_SCALE - 0.3);
         scale = Math.max(scale, 0.3);
@@ -262,8 +228,25 @@ const OfferCarousel = () => {
       zIndex = Math.round(50 - clampedProgress * 25);
     }
 
-    // Показываем 5 элементов: 2 предыдущих, текущий, 2 следующих
-    // Расстояние от центра контейнера
+    if (itemRight > rightEdge) {
+      const distancePastRight = itemRight - rightEdge;
+      const progress = distancePastRight / itemWidth;
+      const clampedProgress = Math.min(progress, 2);
+
+      translateX = leftEdge + PEEK_OFFSET * Math.min(clampedProgress, 1);
+      transformOrigin = 'left center';
+      
+      if (progress <= 1) {
+        scale = 1 - progress * (1 - MIN_SCALE);
+      } else {
+
+        const extraProgress = progress - 1;
+        scale = MIN_SCALE - extraProgress * (MIN_SCALE - 0.3);
+        scale = Math.max(scale, 0.3);
+      }
+      zIndex = Math.round(50 - clampedProgress * 25);
+    }
+
     const distanceFromCenter = Math.abs(baseX + SLIDE_WIDTH / 2 - CONTAINER_WIDTH / 2);
     const isVisible = distanceFromCenter < itemWidth * 2.5;
 
@@ -276,7 +259,6 @@ const OfferCarousel = () => {
     } as React.CSSProperties;
   };
 
-  // Cleanup animation on unmount
   useEffect(() => {
     return () => {
       if (snapAnimationRef.current) {
