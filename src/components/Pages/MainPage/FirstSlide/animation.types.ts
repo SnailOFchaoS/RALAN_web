@@ -12,9 +12,10 @@ export interface FirstSlideAnimationProps {
 	titleTextRef: React.RefObject<HTMLDivElement | null>;
 	infoTextRef: React.RefObject<HTMLDivElement | null>;
 	backgroundWrapperRef: React.RefObject<HTMLDivElement | null>;
-	backgroundImageRef: React.RefObject<HTMLDivElement | null>;
+	darkOverlayRef: React.RefObject<HTMLDivElement | null>;
 	frameContainerRect: RectData;
 	laptopScale: number;
+	bgRect: RectData;
 }
 
 export interface FrameContentAnimationProps {

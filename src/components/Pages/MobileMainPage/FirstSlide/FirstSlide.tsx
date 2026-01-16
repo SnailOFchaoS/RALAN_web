@@ -24,6 +24,7 @@ const FirstSlide = () => {
   const firstSlideWrapperRef = useRef<HTMLDivElement>(null);
   const backgroundWrapperRef = useRef<HTMLDivElement>(null);
   const backgroundImageRef = useRef<HTMLDivElement>(null);
+  const darkOverlayRef = useRef<HTMLDivElement>(null);
   const frameContainerRef = useRef<HTMLDivElement>(null);
   const titleTextRef = useRef<HTMLDivElement>(null);
   const infoTextRef = useRef<HTMLDivElement>(null);
@@ -65,6 +66,7 @@ const FirstSlide = () => {
     if (
       !backgroundWrapperRef.current ||
       !backgroundImageRef.current ||
+      !darkOverlayRef.current ||
       !firstSlideWrapperRef.current ||
       !frameContainerRef.current ||
       !frameContainerRect ||
@@ -80,21 +82,15 @@ const FirstSlide = () => {
       start: "top top",
       end: "+=75%",
       pin: true,
-      scrub: 0.5,
-      fastScrollEnd: true, // Быстрое завершение при быстрой прокрутке
-      preventOverlaps: true, // Предотвращает перекрытие анимаций
-      snap: {
-        snapTo: "labels" as const, // Привязка к меткам
-        duration: { min: 0.2, max: 0.5 }, // Длительность snap-анимации
-        ease: "power2.inOut",
-      },
+      scrub: 1.5,
+      fastScrollEnd: true,
+      preventOverlaps: true,
     };
 
     const timeLine = gsap.timeline({
       scrollTrigger: { ...scrollTriggerOptions },
     });
 
-    // Используем фактическую высоту wrapper для корректных вычислений на iPhone
     const wrapperRect = firstSlideWrapperRef.current.getBoundingClientRect();
 
     mobileFirstSlideAnimation({
@@ -102,7 +98,7 @@ const FirstSlide = () => {
       titleTextRef,
       infoTextRef,
       backgroundWrapperRef,
-      backgroundImageRef,
+      darkOverlayRef,
       frameContainerRef,
       logoBlockRef,
       actionButtonRef,
@@ -130,6 +126,7 @@ const FirstSlide = () => {
             priority
           />
         </div>
+        <div className={styles.darkOverlay} ref={darkOverlayRef} />
       </div>
 
       <div className={styles.contentWrapper}>

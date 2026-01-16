@@ -19,7 +19,8 @@
 
       .infoTitle {
         display: flex;
-        align-items: center;
+        align-items: start;
+        padding-top: 16px;
         font-family: var(--tactic-sans-medium), sans-serif;
         height: 60px;
         font-weight: 500;

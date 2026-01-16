@@ -163,7 +163,6 @@ const ContactFormModal = ({
             placeholder="mymail@mail.com"
             value={formData.email}
             onChange={handleInputChange('email')}
-            required
           />
 
           <p className={styles.infoText}>
