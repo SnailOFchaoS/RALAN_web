@@ -80,7 +80,7 @@ const FirstSlide = () => {
     const scrollTriggerOptions: ScrollTrigger.Vars = {
       trigger: firstSlideWrapperRef.current,
       start: "top top",
-      end: "+=50%",
+      end: "+=75%",
       pin: true,
       scrub: 3,
       fastScrollEnd: true,
