@@ -5,16 +5,19 @@ export const firstSlideAnimation = ({
 	titleTextRef, 
 	infoTextRef, 
 	backgroundWrapperRef,
-	backgroundImageRef,
+	darkOverlayRef,
 	frameContainerRect,
 	laptopScale,
+	bgRect,
 }: FirstSlideAnimationProps) => {
 
 	const backgroundWrapper = backgroundWrapperRef.current;
-	if (!backgroundWrapper) return;
+	const darkOverlay = darkOverlayRef.current;
+	if (!backgroundWrapper || !darkOverlay) return;
 
-	timeLine.to(titleTextRef.current, {opacity: 0,}, 0);
-	timeLine.to(infoTextRef.current, {opacity: 0,}, 0);
+	timeLine.to(titleTextRef.current, {opacity: 0}, 0);
+	timeLine.to(infoTextRef.current, {opacity: 0}, 0);
+	
 	timeLine.to(backgroundWrapper, {
 		x: frameContainerRect.left,
 		y: frameContainerRect.top,
@@ -22,20 +25,28 @@ export const firstSlideAnimation = ({
 		height: frameContainerRect.height,
 		borderRadius: `${100 * laptopScale}px`,
 		immediateRender: false,
-		onUpdate: function() {
-			const brightnessValue = this.progress() * 0.5 + 0.5;
-			backgroundWrapper.style.setProperty('filter', `brightness(${brightnessValue})`);
-		},
 	}, 0);
+
+	timeLine.to(darkOverlay, {
+		opacity: 0,
+		ease: "none",
+	}, 0);
+
+	timeLine.addLabel("collapse");
 
 	timeLine.to(backgroundWrapper, {
 		width: 0,
 		height: 0,
 		x: `${frameContainerRect.width / 2 + frameContainerRect.left}px`,
 		y: `${frameContainerRect.height / 2 + frameContainerRect.top}px`,
-		transformOrigin: "top center", 
+		transformOrigin: "center center", 
 		ease: "power2.inOut",
-	}, ">")
+	}, "collapse");
+
+	timeLine.to(backgroundWrapper, {
+		opacity: 0,
+		duration: 0.1,
+	}, ">");
 
 	return;
 }
@@ -63,18 +74,18 @@ export const frameContentAnimation = ({
 		height: 0,
 		y: `${rect?.height / 2 }px`,
 		ease: "power2.inOut",
-	}, "<")
+	}, "collapse")
 
 	timeLine.to(bottomContentRef.current, {
 		width: 0,
 		ease: "power2.inOut",
-	}, "<")
+	}, "collapse")
 
 	timeLine.to(topContentRef.current, {
 		scale: 2,
 		y: `${rect?.height / 2 }px`,
 		ease: "power2.inOut",
-	}, "<")
+	}, "collapse")
 
 	logoTimeline.to(topContentRef.current, {
 		width: `${168 / 2 * laptopScale}px`,

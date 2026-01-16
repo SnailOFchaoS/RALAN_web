@@ -5,7 +5,7 @@ export const mobileFirstSlideAnimation = ({
   titleTextRef,
   infoTextRef,
   backgroundWrapperRef,
-  backgroundImageRef,
+  darkOverlayRef,
   frameContainerRef,
   logoBlockRef,
   actionButtonRef,
@@ -36,36 +36,30 @@ export const mobileFirstSlideAnimation = ({
   const offsetToScreenCenterX = screenWidth / 2 - frameCenterX;
   const offsetToScreenCenterY = screenCenterY - frameCenterY;
 
-  // Метка начала
-  timeLine.addLabel("start");
+  // Устанавливаем transform-origin заранее
+  if (backgroundWrapperRef.current) {
+    backgroundWrapperRef.current.style.transformOrigin = `${frameCenterX}px ${frameCenterY}px`;
+  }
 
-  // Фаза 1: Скрытие текста
-  timeLine.to(titleTextRef.current, {
+  // Фаза 1: Скрытие текста (opacity — GPU-ускоренное свойство)
+  timeLine.to([titleTextRef.current, infoTextRef.current], {
     opacity: 0,
-  }, 0);
-  
-  timeLine.to(infoTextRef.current, {
-    opacity: 0,
+    force3D: true,
   }, 0);
 
   // Фаза 2: Обрезка фона до размера рамки с помощью clip-path
   timeLine.to(backgroundWrapperRef.current, {
     clipPath: `inset(${clipTop}px ${clipRight}px ${clipBottom}px ${clipLeft}px round 50px)`,
     ease: "none",
+    force3D: true,
   }, 0);
 
-  timeLine.to(backgroundImageRef.current, {
-    filter: 'brightness(1)',
+  // Анимация затемнения через opacity overlay (GPU-ускорено)
+  timeLine.to(darkOverlayRef.current, {
+    opacity: 0,
     ease: "none",
+    force3D: true,
   }, 0);
-
-  // Метка после обрезки
-  timeLine.addLabel("clipped");
-
-  // Устанавливаем transform-origin в центр рамки для корректного масштабирования
-  if (backgroundWrapperRef.current) {
-    backgroundWrapperRef.current.style.transformOrigin = `${frameCenterX}px ${frameCenterY}px`;
-  }
 
   // Фаза 3: Масштабирование и схлопывание к центру экрана
   timeLine.to(backgroundWrapperRef.current, {
@@ -74,6 +68,7 @@ export const mobileFirstSlideAnimation = ({
     y: offsetToScreenCenterY,
     opacity: 0,
     ease: "power2.inOut",
+    force3D: true,
   }, ">");
 
   timeLine.to(frameContainerRef.current, {
@@ -81,22 +76,22 @@ export const mobileFirstSlideAnimation = ({
     y: frameOffsetToScreenCenter,
     opacity: 0,
     ease: "power2.inOut",
+    force3D: true,
   }, "<");
 
   timeLine.to(actionButtonRef.current, {
     scale: 0,
     opacity: 0,
     ease: "power2.inOut",
+    force3D: true,
   }, "<");
 
   timeLine.to(logoBlockRef.current, {
     scale: 2,
     y: logoOffsetToScreenCenter,
     ease: "power2.inOut",
+    force3D: true,
   }, "<");
-
-  // Метка конца
-  timeLine.addLabel("end");
 
   return;
 };

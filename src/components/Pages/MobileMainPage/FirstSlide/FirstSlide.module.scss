@@ -12,6 +12,8 @@
     height: 100%;
     z-index: 0;
     clip-path: inset(0 0 0 0 round 0);
+    will-change: clip-path, transform, opacity;
+    transform: translateZ(0);
 
     .backgroundImage {
       position: absolute;
@@ -19,7 +21,18 @@
       left: 0;
       width: 100%;
       height: 100%;
-      filter: brightness(0.5);
+    }
+
+    .darkOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      opacity: 0.5;
+      will-change: opacity;
+      pointer-events: none;
     }
   }
 
@@ -47,6 +60,8 @@
       border-radius: 50px;
       padding: 152px 32px 95px;
       box-sizing: border-box;
+      will-change: transform, opacity;
+      transform: translateZ(0);
 
       .mainContent {
         display: flex;

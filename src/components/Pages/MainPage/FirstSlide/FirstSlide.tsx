@@ -14,6 +14,7 @@ import styles from "./FirstSlide.module.scss";
 const FirstSlide = () => {
   const backgroundWrapperRef = useRef<HTMLDivElement>(null);
   const backgroundImageRef = useRef<HTMLDivElement>(null);
+  const darkOverlayRef = useRef<HTMLDivElement>(null);
   const firstSlideWrapperRef = useRef<HTMLDivElement>(null);
   const frameContainerRef = useRef<HTMLDivElement>(null);
   const titleTextRef = useRef<HTMLDivElement>(null);
@@ -27,6 +28,7 @@ const FirstSlide = () => {
     if (
       !backgroundWrapperRef.current ||
       !backgroundImageRef.current ||
+      !darkOverlayRef.current ||
       !firstSlideWrapperRef.current ||
       !frameContainerRect ||
       !frameContainerRef.current
@@ -42,6 +44,8 @@ const FirstSlide = () => {
       end: `+=${1400 * laptopScale}vh`,
       pin: true,
       scrub: 2,
+      fastScrollEnd: true,
+      preventOverlaps: true,
     }
 
     const timeLine = gsap.timeline({
@@ -50,14 +54,22 @@ const FirstSlide = () => {
 
     setCurrentTimeLine(timeLine)
 
+    const bgRect = backgroundWrapperRef.current.getBoundingClientRect();
+
     firstSlideAnimation({
       timeLine, 
       titleTextRef, 
       infoTextRef, 
       backgroundWrapperRef,
-      backgroundImageRef,
+      darkOverlayRef,
       frameContainerRect,
       laptopScale,
+      bgRect: {
+        top: bgRect.top,
+        left: bgRect.left,
+        width: bgRect.width,
+        height: bgRect.height,
+      },
     })
 
     return () => {
@@ -90,6 +102,7 @@ const FirstSlide = () => {
             style={{objectFit: "cover"}}
           />
         </div>
+        <div className={styles.darkOverlay} ref={darkOverlayRef} />
       </div>
       <div className={styles.contentWrapper}>
         <FrameComponent

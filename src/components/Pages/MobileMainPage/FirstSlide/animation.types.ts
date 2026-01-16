@@ -12,7 +12,7 @@ export interface MobileFirstSlideAnimationProps {
   titleTextRef: React.RefObject<HTMLDivElement | null>;
   infoTextRef: React.RefObject<HTMLDivElement | null>;
   backgroundWrapperRef: React.RefObject<HTMLDivElement | null>;
-  backgroundImageRef: React.RefObject<HTMLDivElement | null>;
+  darkOverlayRef: React.RefObject<HTMLDivElement | null>;
   frameContainerRef: React.RefObject<HTMLDivElement | null>;
   logoBlockRef: React.RefObject<HTMLDivElement | null>;
   actionButtonRef: React.RefObject<HTMLDivElement | null>;
