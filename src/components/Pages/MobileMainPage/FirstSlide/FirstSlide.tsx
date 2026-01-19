@@ -11,6 +11,22 @@ import { RectData, AnimationPhase, AnimationTimelines } from './animation.types'
 
 import styles from "./FirstSlide.module.scss";
 
+const lockScroll = () => {
+  document.body.style.overflow = 'hidden';
+  document.body.style.touchAction = 'none';
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
+  document.body.style.top = '0';
+};
+
+const unlockScroll = () => {
+  document.body.style.overflow = '';
+  document.body.style.touchAction = '';
+  document.body.style.position = '';
+  document.body.style.width = '';
+  document.body.style.top = '';
+};
+
 const FirstSlide = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [onCloseClick, setOnCloseClick] = useState(false);
@@ -38,6 +54,13 @@ const FirstSlide = () => {
 
   const handleCloseModal = useCallback(() => {
     setOnCloseClick(true);
+  }, []);
+
+  useEffect(() => {
+    lockScroll();
+    return () => {
+      unlockScroll();
+    };
   }, []);
 
   useEffect(() => {
@@ -122,6 +145,7 @@ const FirstSlide = () => {
         phase2Timeline.play().then(() => {
           animationPhaseRef.current = 2;
           isAnimatingRef.current = false;
+          unlockScroll();
         });
       }
     };
@@ -132,6 +156,7 @@ const FirstSlide = () => {
       const currentPhase = animationPhaseRef.current;
 
       if (currentPhase === 2) {
+        lockScroll();
         isAnimatingRef.current = true;
         phase2Timeline.reverse().then(() => {
           animationPhaseRef.current = 1;
@@ -149,54 +174,25 @@ const FirstSlide = () => {
     const handleWheel = (e: WheelEvent) => {
       const phase = animationPhaseRef.current;
 
-      if (isAnimatingRef.current) {
-        e.preventDefault();
-        return;
+      if (isAnimatingRef.current) return;
+
+      if (e.deltaY > 0 && phase < 2) {
+        handleScrollDown();
       }
 
-      if (phase === 2 && e.deltaY > 0) {
-        return;
-      }
-
-      if (e.deltaY < 0 && window.scrollY <= 0) {
-        if (phase > 0) {
-          e.preventDefault();
-          handleScrollUp();
+      else if (e.deltaY < 0 && phase > 0) {
+        if (phase === 2 && window.scrollY > 0) {
           return;
         }
-      }
-
-      if (phase < 2 && e.deltaY > 0) {
-        e.preventDefault();
-        handleScrollDown();
-        return;
+        handleScrollUp();
       }
     };
 
     let touchStartY = 0;
-    const SWIPE_THRESHOLD = 30;
+    const SWIPE_THRESHOLD = 50;
 
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      const phase = animationPhaseRef.current;
-      const touchCurrentY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchCurrentY;
-
-      if (isAnimatingRef.current) {
-        e.preventDefault();
-        return;
-      }
-
-      if (phase === 2 && deltaY > 0) {
-        return;
-      }
-
-      if (phase < 2) {
-        e.preventDefault();
-      }
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -210,20 +206,21 @@ const FirstSlide = () => {
         handleScrollDown();
       }
 
-      else if (deltaY < -SWIPE_THRESHOLD && phase > 0 && window.scrollY <= 0) {
+      else if (deltaY < -SWIPE_THRESHOLD && phase > 0) {
+        if (phase === 2 && window.scrollY > 0) {
+          return;
+        }
         handleScrollUp();
       }
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [frameContainerRect, logoBlockRect]);
