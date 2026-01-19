@@ -36,6 +36,7 @@ const FirstSlide = () => {
   const [onCloseClick, setOnCloseClick] = useState(false);
   const [frameContainerRect, setFrameContainerRect] = useState<RectData | null>(null);
   const [logoBlockRect, setLogoBlockRect] = useState<RectData | null>(null);
+  const [fixedHeight, setFixedHeight] = useState<number | null>(null);
   
   const animationPhaseRef = useRef<AnimationPhase>(0);
   const isAnimatingRef = useRef(false);
@@ -61,6 +62,7 @@ const FirstSlide = () => {
   }, []);
 
   useEffect(() => {
+    setFixedHeight(window.innerHeight);
     lockScroll();
     return () => {
       unlockScroll();
@@ -248,7 +250,11 @@ const FirstSlide = () => {
   }, [frameContainerRect, logoBlockRect]);
 
   return (
-    <div className={styles.firstSlideWrapper} ref={firstSlideWrapperRef}>
+    <div 
+      className={styles.firstSlideWrapper} 
+      ref={firstSlideWrapperRef}
+      style={fixedHeight ? { height: `${fixedHeight}px`, minHeight: `${fixedHeight}px` } : undefined}
+    >
       <div className={styles.backgroundWrapper} ref={backgroundWrapperRef}>
         <div className={styles.backgroundImage} ref={backgroundImageRef}>
           <Image
