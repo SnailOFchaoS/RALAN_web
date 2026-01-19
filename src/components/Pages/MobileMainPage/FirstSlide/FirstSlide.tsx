@@ -11,20 +11,24 @@ import { RectData, AnimationPhase, AnimationTimelines } from './animation.types'
 
 import styles from "./FirstSlide.module.scss";
 
+let savedScrollY = 0;
+
 const lockScroll = () => {
+  savedScrollY = window.scrollY;
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   document.body.style.touchAction = 'none';
-  document.body.style.position = 'fixed';
-  document.body.style.width = '100%';
-  document.body.style.top = '0';
+  document.body.style.overscrollBehavior = 'none';
+  document.documentElement.style.overscrollBehavior = 'none';
 };
 
 const unlockScroll = () => {
+  document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
   document.body.style.touchAction = '';
-  document.body.style.position = '';
-  document.body.style.width = '';
-  document.body.style.top = '';
+  document.body.style.overscrollBehavior = '';
+  document.documentElement.style.overscrollBehavior = '';
+  window.scrollTo(0, savedScrollY);
 };
 
 const FirstSlide = () => {
@@ -195,6 +199,22 @@ const FirstSlide = () => {
       touchStartY = e.touches[0].clientY;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      const phase = animationPhaseRef.current;
+      
+      if (phase < 2) {
+        e.preventDefault();
+        return;
+      }
+      
+      const touchCurrentY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchCurrentY;
+      
+      if (deltaY < 0 && window.scrollY <= 0) {
+        e.preventDefault();
+      }
+    };
+
     const handleTouchEnd = (e: TouchEvent) => {
       const phase = animationPhaseRef.current;
       const touchEndY = e.changedTouches[0].clientY;
@@ -216,11 +236,13 @@ const FirstSlide = () => {
 
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [frameContainerRect, logoBlockRect]);
