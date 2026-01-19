@@ -139,6 +139,12 @@ const FirstSlide = () => {
     if (!timelinesRef.current || !firstSlideWrapperRef.current) return;
 
     const { phase1Timeline, phase2Timeline } = timelinesRef.current;
+    
+    let touchStartY = 0;
+    let isTouchActive = false;
+    let currentSwipeDirection: 'up' | 'down' | null = null;
+    let animationTriggered = false;
+    const SWIPE_THRESHOLD = 30;
 
     const handleScrollDown = () => {
       if (isAnimatingRef.current) return;
@@ -150,6 +156,10 @@ const FirstSlide = () => {
         phase1Timeline.play().then(() => {
           animationPhaseRef.current = 1;
           isAnimatingRef.current = false;
+          
+          if (isTouchActive && currentSwipeDirection === 'down') {
+            handleScrollDown();
+          }
         });
       } else if (currentPhase === 1) {
         isAnimatingRef.current = true;
@@ -172,6 +182,10 @@ const FirstSlide = () => {
         phase2Timeline.reverse().then(() => {
           animationPhaseRef.current = 1;
           isAnimatingRef.current = false;
+          
+          if (isTouchActive && currentSwipeDirection === 'up') {
+            handleScrollUp();
+          }
         });
       } else if (currentPhase === 1) {
         isAnimatingRef.current = true;
@@ -199,46 +213,48 @@ const FirstSlide = () => {
       }
     };
 
-    let touchStartY = 0;
-    const SWIPE_THRESHOLD = 50;
-
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
+      isTouchActive = true;
+      currentSwipeDirection = null;
+      animationTriggered = false;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       const phase = animationPhaseRef.current;
-      
-      if (phase < 2) {
-        e.preventDefault();
-        return;
-      }
-      
       const touchCurrentY = e.touches[0].clientY;
       const deltaY = touchStartY - touchCurrentY;
       
-      if (deltaY < 0 && window.scrollY <= 0) {
+      if (phase < 2) {
+        e.preventDefault();
+      }
+      
+      if (deltaY > SWIPE_THRESHOLD) {
+        currentSwipeDirection = 'down';
+        if (!animationTriggered && phase < 2) {
+          animationTriggered = true;
+          handleScrollDown();
+        }
+      } else if (deltaY < -SWIPE_THRESHOLD) {
+        currentSwipeDirection = 'up';
+        if (!animationTriggered && phase > 0) {
+          if (phase === 2 && window.scrollY > 0) {
+            return;
+          }
+          animationTriggered = true;
+          handleScrollUp();
+        }
+      }
+      
+      if (deltaY < 0 && window.scrollY <= 0 && phase === 2) {
         e.preventDefault();
       }
     };
 
-    const handleTouchEnd = (e: TouchEvent) => {
-      const phase = animationPhaseRef.current;
-      const touchEndY = e.changedTouches[0].clientY;
-      const deltaY = touchStartY - touchEndY;
-
-      if (isAnimatingRef.current) return;
-
-      if (deltaY > SWIPE_THRESHOLD && phase < 2) {
-        handleScrollDown();
-      }
-
-      else if (deltaY < -SWIPE_THRESHOLD && phase > 0) {
-        if (phase === 2 && window.scrollY > 0) {
-          return;
-        }
-        handleScrollUp();
-      }
+    const handleTouchEnd = () => {
+      isTouchActive = false;
+      currentSwipeDirection = null;
+      animationTriggered = false;
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
