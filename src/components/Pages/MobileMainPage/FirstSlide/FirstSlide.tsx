@@ -1,25 +1,25 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import fistSlidePhoto from '../../../../../assets/png/fist_slide_photo.png';
 import Modal from '@/components/Common/Modal/Modal';
 import ContactFormModal from '@/components/Common/ContactFormModal/ContactFormModal';
 import LogoBlock from './LogoBlock/LogoBlock';
 import ActionButton from './ActionButton/ActionButton';
-import { mobileFirstSlideAnimation } from './animation';
-import { RectData } from './animation.types';
+import { createMobileAnimations } from './animation';
+import { RectData, AnimationPhase, AnimationTimelines } from './animation.types';
 
 import styles from "./FirstSlide.module.scss";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const FirstSlide = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [onCloseClick, setOnCloseClick] = useState(false);
   const [frameContainerRect, setFrameContainerRect] = useState<RectData | null>(null);
   const [logoBlockRect, setLogoBlockRect] = useState<RectData | null>(null);
+  
+  const animationPhaseRef = useRef<AnimationPhase>(0);
+  const isAnimatingRef = useRef(false);
+  const timelinesRef = useRef<AnimationTimelines | null>(null);
   
   const firstSlideWrapperRef = useRef<HTMLDivElement>(null);
   const backgroundWrapperRef = useRef<HTMLDivElement>(null);
@@ -77,24 +77,9 @@ const FirstSlide = () => {
       return;
     }
 
-    const scrollTriggerOptions: ScrollTrigger.Vars = {
-      trigger: firstSlideWrapperRef.current,
-      start: "top top",
-      end: "+=50%",
-      pin: true,
-      scrub: 3,
-      fastScrollEnd: true,
-      preventOverlaps: true,
-    };
-
-    const timeLine = gsap.timeline({
-      scrollTrigger: { ...scrollTriggerOptions },
-    });
-
     const wrapperRect = firstSlideWrapperRef.current.getBoundingClientRect();
 
-    mobileFirstSlideAnimation({
-      timeLine,
+    timelinesRef.current = createMobileAnimations({
       titleTextRef,
       infoTextRef,
       backgroundWrapperRef,
@@ -109,7 +94,137 @@ const FirstSlide = () => {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(st => st.kill());
+      if (timelinesRef.current) {
+        timelinesRef.current.phase1Timeline.kill();
+        timelinesRef.current.phase2Timeline.kill();
+      }
+    };
+  }, [frameContainerRect, logoBlockRect]);
+
+  useEffect(() => {
+    if (!timelinesRef.current || !firstSlideWrapperRef.current) return;
+
+    const { phase1Timeline, phase2Timeline } = timelinesRef.current;
+
+    const handleScrollDown = () => {
+      if (isAnimatingRef.current) return;
+
+      const currentPhase = animationPhaseRef.current;
+
+      if (currentPhase === 0) {
+        isAnimatingRef.current = true;
+        phase1Timeline.play().then(() => {
+          animationPhaseRef.current = 1;
+          isAnimatingRef.current = false;
+        });
+      } else if (currentPhase === 1) {
+        isAnimatingRef.current = true;
+        phase2Timeline.play().then(() => {
+          animationPhaseRef.current = 2;
+          isAnimatingRef.current = false;
+        });
+      }
+    };
+
+    const handleScrollUp = () => {
+      if (isAnimatingRef.current) return;
+
+      const currentPhase = animationPhaseRef.current;
+
+      if (currentPhase === 2) {
+        isAnimatingRef.current = true;
+        phase2Timeline.reverse().then(() => {
+          animationPhaseRef.current = 1;
+          isAnimatingRef.current = false;
+        });
+      } else if (currentPhase === 1) {
+        isAnimatingRef.current = true;
+        phase1Timeline.reverse().then(() => {
+          animationPhaseRef.current = 0;
+          isAnimatingRef.current = false;
+        });
+      }
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      const phase = animationPhaseRef.current;
+
+      if (isAnimatingRef.current) {
+        e.preventDefault();
+        return;
+      }
+
+      if (phase === 2 && e.deltaY > 0) {
+        return;
+      }
+
+      if (e.deltaY < 0 && window.scrollY <= 0) {
+        if (phase > 0) {
+          e.preventDefault();
+          handleScrollUp();
+          return;
+        }
+      }
+
+      if (phase < 2 && e.deltaY > 0) {
+        e.preventDefault();
+        handleScrollDown();
+        return;
+      }
+    };
+
+    let touchStartY = 0;
+    const SWIPE_THRESHOLD = 30;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const phase = animationPhaseRef.current;
+      const touchCurrentY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchCurrentY;
+
+      if (isAnimatingRef.current) {
+        e.preventDefault();
+        return;
+      }
+
+      if (phase === 2 && deltaY > 0) {
+        return;
+      }
+
+      if (phase < 2) {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const phase = animationPhaseRef.current;
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+
+      if (isAnimatingRef.current) return;
+
+      if (deltaY > SWIPE_THRESHOLD && phase < 2) {
+        handleScrollDown();
+      }
+
+      else if (deltaY < -SWIPE_THRESHOLD && phase > 0 && window.scrollY <= 0) {
+        handleScrollUp();
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [frameContainerRect, logoBlockRect]);
 
