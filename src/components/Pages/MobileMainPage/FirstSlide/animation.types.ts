@@ -22,3 +22,9 @@ export interface MobileFirstSlideAnimationProps {
   screenWidth: number;
 }
 
+export interface AnimationTimelines {
+  phase1Timeline: gsap.core.Timeline;
+  phase2Timeline: gsap.core.Timeline;
+}
+
+export type AnimationPhase = 0 | 1 | 2;

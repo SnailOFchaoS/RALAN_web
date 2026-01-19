@@ -1,7 +1,7 @@
-import { MobileFirstSlideAnimationProps } from './animation.types';
+import gsap from 'gsap';
+import { MobileFirstSlideAnimationProps, AnimationTimelines } from './animation.types';
 
-export const mobileFirstSlideAnimation = ({
-  timeLine,
+export const createMobileAnimations = ({
   titleTextRef,
   infoTextRef,
   backgroundWrapperRef,
@@ -13,7 +13,7 @@ export const mobileFirstSlideAnimation = ({
   logoBlockRect,
   screenHeight,
   screenWidth,
-}: MobileFirstSlideAnimationProps) => {
+}: Omit<MobileFirstSlideAnimationProps, 'timeLine'>): AnimationTimelines => {
 
   const screenCenterY = screenHeight / 2;
   const logoCurrentCenterY = logoBlockRect.top + logoBlockRect.height / 2;
@@ -22,76 +22,80 @@ export const mobileFirstSlideAnimation = ({
   const frameCurrentCenterY = frameContainerRect.top + frameContainerRect.height / 2;
   const frameOffsetToScreenCenter = screenCenterY - frameCurrentCenterY;
 
-  // Вычисляем clip-path для обрезки до размеров рамки
   const clipTop = frameContainerRect.top;
   const clipRight = screenWidth - frameContainerRect.left - frameContainerRect.width;
   const clipBottom = screenHeight - frameContainerRect.top - frameContainerRect.height;
   const clipLeft = frameContainerRect.left;
 
-  // Центр рамки
   const frameCenterX = frameContainerRect.left + frameContainerRect.width / 2;
   const frameCenterY = frameContainerRect.top + frameContainerRect.height / 2;
 
-  // Смещение для перемещения к центру экрана
   const offsetToScreenCenterX = screenWidth / 2 - frameCenterX;
   const offsetToScreenCenterY = screenCenterY - frameCenterY;
 
-  // Устанавливаем transform-origin заранее
   if (backgroundWrapperRef.current) {
     backgroundWrapperRef.current.style.transformOrigin = `${frameCenterX}px ${frameCenterY}px`;
   }
 
-  // Фаза 1: Скрытие текста (opacity — GPU-ускоренное свойство)
-  timeLine.to([titleTextRef.current, infoTextRef.current], {
+  const phase1Timeline = gsap.timeline({ paused: true });
+
+  phase1Timeline.to([titleTextRef.current, infoTextRef.current], {
     opacity: 0,
+    duration: 0.4,
+    ease: "power2.out",
     force3D: true,
   }, 0);
 
-  // Фаза 2: Обрезка фона до размера рамки с помощью clip-path
-  timeLine.to(backgroundWrapperRef.current, {
+  phase1Timeline.to(backgroundWrapperRef.current, {
     clipPath: `inset(${clipTop}px ${clipRight}px ${clipBottom}px ${clipLeft}px round 50px)`,
-    ease: "none",
+    duration: 0.5,
+    ease: "power2.inOut",
     force3D: true,
   }, 0);
 
-  // Анимация затемнения через opacity overlay (GPU-ускорено)
-  timeLine.to(darkOverlayRef.current, {
+  phase1Timeline.to(darkOverlayRef.current, {
     opacity: 0,
-    ease: "none",
+    duration: 0.5,
+    ease: "power2.inOut",
     force3D: true,
   }, 0);
 
-  // Фаза 3: Масштабирование и схлопывание к центру экрана
-  timeLine.to(backgroundWrapperRef.current, {
+  const phase2Timeline = gsap.timeline({ paused: true });
+
+  phase2Timeline.to(backgroundWrapperRef.current, {
     scale: 0,
     x: offsetToScreenCenterX,
     y: offsetToScreenCenterY,
     opacity: 0,
+    duration: 0.5,
     ease: "power2.inOut",
     force3D: true,
-  }, ">");
+  }, 0);
 
-  timeLine.to(frameContainerRef.current, {
+  phase2Timeline.to(frameContainerRef.current, {
     scale: 0,
     y: frameOffsetToScreenCenter,
     opacity: 0,
+    duration: 0.5,
     ease: "power2.inOut",
     force3D: true,
-  }, "<");
+  }, 0);
 
-  timeLine.to(actionButtonRef.current, {
+  phase2Timeline.to(actionButtonRef.current, {
     scale: 0,
     opacity: 0,
+    duration: 0.5,
     ease: "power2.inOut",
     force3D: true,
-  }, "<");
+  }, 0);
 
-  timeLine.to(logoBlockRef.current, {
+  phase2Timeline.to(logoBlockRef.current, {
     scale: 2,
     y: logoOffsetToScreenCenter,
+    duration: 0.5,
     ease: "power2.inOut",
     force3D: true,
-  }, "<");
+  }, 0);
 
-  return;
+  return { phase1Timeline, phase2Timeline };
 };
