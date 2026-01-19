@@ -70,26 +70,30 @@ const FirstSlide = () => {
   }, []);
 
   useEffect(() => {
-    if (frameContainerRef.current) {
-      const rect = frameContainerRef.current.getBoundingClientRect();
-      setFrameContainerRect({
-        top: Math.round(rect.top),
-        left: Math.round(rect.left),
-        width: Math.round(rect.width),
-        height: Math.round(rect.height),
-      });
-    }
+    if (!fixedHeight) return;
     
-    if (logoBlockRef.current) {
-      const rect = logoBlockRef.current.getBoundingClientRect();
-      setLogoBlockRect({
-        top: Math.round(rect.top),
-        left: Math.round(rect.left),
-        width: Math.round(rect.width),
-        height: Math.round(rect.height),
-      });
-    }
-  }, []);
+    requestAnimationFrame(() => {
+      if (frameContainerRef.current) {
+        const rect = frameContainerRef.current.getBoundingClientRect();
+        setFrameContainerRect({
+          top: Math.round(rect.top),
+          left: Math.round(rect.left),
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+        });
+      }
+      
+      if (logoBlockRef.current) {
+        const rect = logoBlockRef.current.getBoundingClientRect();
+        setLogoBlockRect({
+          top: Math.round(rect.top),
+          left: Math.round(rect.left),
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+        });
+      }
+    });
+  }, [fixedHeight]);
 
   useEffect(() => {
     if (
@@ -101,7 +105,8 @@ const FirstSlide = () => {
       !frameContainerRect ||
       !logoBlockRect ||
       !titleTextRef.current ||
-      !infoTextRef.current
+      !infoTextRef.current ||
+      !fixedHeight
     ) {
       return;
     }
@@ -118,7 +123,7 @@ const FirstSlide = () => {
       actionButtonRef,
       frameContainerRect,
       logoBlockRect,
-      screenHeight: wrapperRect.height,
+      screenHeight: fixedHeight,
       screenWidth: wrapperRect.width,
     });
 
@@ -128,7 +133,7 @@ const FirstSlide = () => {
         timelinesRef.current.phase2Timeline.kill();
       }
     };
-  }, [frameContainerRect, logoBlockRect]);
+  }, [frameContainerRect, logoBlockRect, fixedHeight]);
 
   useEffect(() => {
     if (!timelinesRef.current || !firstSlideWrapperRef.current) return;
