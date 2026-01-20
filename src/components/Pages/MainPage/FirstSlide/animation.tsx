@@ -8,7 +8,6 @@ export const firstSlideAnimation = ({
 	darkOverlayRef,
 	frameContainerRect,
 	laptopScale,
-	bgRect,
 }: FirstSlideAnimationProps) => {
 
 	const backgroundWrapper = backgroundWrapperRef.current;
@@ -91,12 +90,13 @@ export const frameContentAnimation = ({
 		width: `${168 / 2 * laptopScale}px`,
 		height: `${77 / 2 * laptopScale}px`,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2,
-		top: laptopScale === 1 ? `-222px` : `-${209 * laptopScale}px`,
+		top: `-${265 * laptopScale}px`,
 		padding: `0 ${13 / 2 * laptopScale - 2}px`,
 	}, 0)
 
 	logoTimeline.to(mainLogoImageRef.current, {
-		scale: laptopScale === 1 ? 0.35 : 0.41,
+		width: `${66 / 2 * laptopScale}px`,
+		height: `${66 / 2 * laptopScale}px`,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2 - 66 / 2 * laptopScale - 8 * laptopScale,
 	}, '<')
 

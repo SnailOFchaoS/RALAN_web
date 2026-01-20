@@ -23,14 +23,25 @@ const FrameComponent = ({
   const topContentRef = useRef<HTMLDivElement>(null);
   const logoElementRef = useRef<HTMLDivElement>(null);
   const animationProgressRef = useRef<number>(0);
+  const positionSavedRef = useRef<boolean>(false);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [onCloseClick, setOnCloseClick] = useState(false);
 
-  let context = useMainPageContext()
-  const topContentTimeline = gsap.timeline();
+  const context = useMainPageContext();
+  const topContentTimelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  if (!topContentTimelineRef.current) {
+    topContentTimelineRef.current = gsap.timeline();
+  }
+
+  const topContentTimeline = topContentTimelineRef.current;
+  const contextRef = useRef(context);
+
+  contextRef.current = context;
+
+  const lastIsMenuVisibleRef = useRef<boolean | undefined>(undefined);
 
   const handleOpenModal = useCallback(() => {
-    // Открываем модалку только если анимация не началась (progress близок к 0)
     if (animationProgressRef.current < 0.01) {
       setIsModalOpened(true);
       setOnCloseClick(false);
@@ -73,25 +84,40 @@ const FrameComponent = ({
       scrub: 0.5,
 
       onUpdate: (self) => {
-        // Сохраняем текущий прогресс анимации
         animationProgressRef.current = self.progress;
+        const ctx = contextRef.current;
 
-        if(self.progress >= 0.95 && !context?.isMenuVisible && context?.setIsMenuVisible){
-          context.setIsMenuVisible(true)
+        const shouldBeVisible = self.progress >= 0.95;
+        if (lastIsMenuVisibleRef.current !== shouldBeVisible) {
+          lastIsMenuVisibleRef.current = shouldBeVisible;
+          ctx?.setIsMenuVisible?.(shouldBeVisible);
         }
 
-        if(self.progress < 0.95 && context?.setIsMenuVisible){
-          context.setIsMenuVisible(false)
+        if (self.progress >= 0.95 && topContentRef.current && !positionSavedRef.current) {
+          const rect = topContentRef.current.getBoundingClientRect();
+          
+          if (rect.top >= 0 && rect.top < 50) {
+            ctx?.setTopContentEndPosition?.({
+              top: rect.top,
+              left: rect.left,
+              width: rect.width,
+              height: rect.height,
+            });
+            positionSavedRef.current = true;
+          }
         }
       },
 
       onLeave: () => {
-        if (context && context.setIsMenuVisible && !context?.isMenuVisible) {
-          context.setIsMenuVisible(true)
-        }
+        const ctx = contextRef.current;
+        ctx?.setIsMenuVisible?.(true);
+        lastIsMenuVisibleRef.current = true;
+        
         if (topContentRef.current) {
-          topContentRef.current.style.opacity = '0'
+          topContentRef.current.style.opacity = '0';
         }
+
+        ctx?.setIsTopContentHidden?.(true);
       },
 
       onLeaveBack: () => {
@@ -113,12 +139,16 @@ const FrameComponent = ({
       },
 
       onEnterBack: () => {
-        if (context && context.setIsMenuVisible) {
-          context.setIsMenuVisible(false)
-        }
+        const ctx = contextRef.current;
+        ctx?.setIsMenuVisible?.(false);
+        lastIsMenuVisibleRef.current = false;
+        ctx?.setIsTopContentHidden?.(false);
+
         if (topContentRef.current) {
-          topContentRef.current.style.opacity = '1'
+          topContentRef.current.style.opacity = '1';
         }
+        positionSavedRef.current = false;
+        ctx?.setTopContentEndPosition?.(null);
       },
 
     })

@@ -54,8 +54,6 @@ const FirstSlide = () => {
 
     setCurrentTimeLine(timeLine)
 
-    const bgRect = backgroundWrapperRef.current.getBoundingClientRect();
-
     firstSlideAnimation({
       timeLine, 
       titleTextRef, 
@@ -64,12 +62,6 @@ const FirstSlide = () => {
       darkOverlayRef,
       frameContainerRect,
       laptopScale,
-      bgRect: {
-        top: bgRect.top,
-        left: bgRect.left,
-        width: bgRect.width,
-        height: bgRect.height,
-      },
     })
 
     return () => {

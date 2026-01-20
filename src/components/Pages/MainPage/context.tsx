@@ -1,17 +1,7 @@
-import { createContext, useContext, RefObject } from 'react';
+import { createContext, useContext } from 'react';
+import { MainPageContextType, TopContentEndPosition } from './MainPage.types';
 
-interface MainPageContextType {
-  laptopScale: number;
-  mainPageRef: RefObject<HTMLDivElement | null>;
-  mainLogoImageRef?: RefObject<HTMLDivElement | null> | null;
-  setMainLogoImageRef?: (ref: RefObject<HTMLDivElement | null> | null) => void,
-  mainLogoTextRef?: RefObject<HTMLDivElement | null> | null;
-  setMainLogoTextRef?: (ref: RefObject<HTMLDivElement | null> | null) => void,
-  mainLogoArrowRef?: RefObject<HTMLDivElement | null> | null;
-  setMainLogoArrowRef?: (ref: RefObject<HTMLDivElement | null> | null) => void,
-  isMenuVisible?: boolean;
-  setIsMenuVisible?: (isMenuVisible: boolean) => void;
-}
+export type { TopContentEndPosition };
 
 const MainPageContext = createContext<MainPageContextType | null>(null);
 

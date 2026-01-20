@@ -7,4 +7,3 @@ export interface FrameComponentProps {
 	timeLine: gsap.core.Timeline | null;
 	mainImageRef: React.RefObject<HTMLDivElement | null>;
 }
-
