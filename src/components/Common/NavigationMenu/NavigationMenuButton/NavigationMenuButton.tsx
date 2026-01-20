@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react";
 import Image from "next/image";
 
 import { useMainPageContext } from "../../../Pages/MainPage/context";
@@ -6,28 +7,34 @@ import navigationButtonArrowIcon from '../../../../../assets/svg/navigation_butt
 
 import styles from './NavigationMenuButton.module.scss'
 
-const NavigationMenuButton = ({isOpen}:{isOpen: boolean}) => {
+const NavigationMenuButton = memo(({isOpen}:{isOpen: boolean}) => {
+	const { laptopScale } = useMainPageContext();
 
-	const laptopScale = useMainPageContext().laptopScale;
+	const logoSize = useMemo(() => 66 * laptopScale, [laptopScale]);
+	const arrowWidth = useMemo(() => 41 * laptopScale, [laptopScale]);
+
+	const boxShadowStyle = useMemo(() => 
+		!isOpen ? { boxShadow: `0 0 10px 0 rgba(0, 0, 0, 0.25)` } : undefined
+	, [isOpen]);
 
 	return (
-		<div className={styles.navigationMenuButton}
-      style={!isOpen? {boxShadow: `0 0 10px 0 rgba(0, 0, 0, 0.25)`} : {}}
-    >
+		<div className={styles.navigationMenuButton} style={boxShadowStyle}>
 			<Image
 				alt='logo'
-				width={66 * laptopScale}
-				height={66 * laptopScale}
+				width={logoSize}
+				height={logoSize}
 				src={logoIcon}
 			/>
 
 			<Image
 				alt='arrow'
-				width={41 * laptopScale}
+				width={arrowWidth}
 				src={navigationButtonArrowIcon}
 			/>
 		</div>
 	);
-}
+});
+
+NavigationMenuButton.displayName = 'NavigationMenuButton';
 
 export default NavigationMenuButton;

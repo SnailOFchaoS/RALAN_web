@@ -27,8 +27,19 @@ const FrameComponent = ({
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [onCloseClick, setOnCloseClick] = useState(false);
 
-  let context = useMainPageContext()
-  const topContentTimeline = gsap.timeline();
+  const context = useMainPageContext();
+  const topContentTimelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  if (!topContentTimelineRef.current) {
+    topContentTimelineRef.current = gsap.timeline();
+  }
+
+  const topContentTimeline = topContentTimelineRef.current;
+  const contextRef = useRef(context);
+
+  contextRef.current = context;
+
+  const lastIsMenuVisibleRef = useRef<boolean | undefined>(undefined);
 
   const handleOpenModal = useCallback(() => {
     if (animationProgressRef.current < 0.01) {
@@ -71,30 +82,22 @@ const FrameComponent = ({
       },
       end: `+=${747 * context.laptopScale}`,
       scrub: 0.5,
-      snap: {
-        snapTo: [0, 1],
-        duration: { min: 0.1, max: 0.3 },
-        delay: 0,
-        ease: "power2.out",
-        onComplete: () => {
-          if (animationProgressRef.current >= 0.95 && context?.setIsMenuVisible) {
-            context.setIsMenuVisible(true);
-          }
-        },
-      },
 
       onUpdate: (self) => {
         animationProgressRef.current = self.progress;
+        const ctx = contextRef.current;
 
-        if(self.progress < 0.95 && context?.setIsMenuVisible){
-          context.setIsMenuVisible(false)
+        const shouldBeVisible = self.progress >= 0.95;
+        if (lastIsMenuVisibleRef.current !== shouldBeVisible) {
+          lastIsMenuVisibleRef.current = shouldBeVisible;
+          ctx?.setIsMenuVisible?.(shouldBeVisible);
         }
 
         if (self.progress >= 0.95 && topContentRef.current && !positionSavedRef.current) {
           const rect = topContentRef.current.getBoundingClientRect();
           
-          if (rect.top >= 0 && rect.top < 50 && context?.setTopContentEndPosition) {
-            context.setTopContentEndPosition({
+          if (rect.top >= 0 && rect.top < 50) {
+            ctx?.setTopContentEndPosition?.({
               top: rect.top,
               left: rect.left,
               width: rect.width,
@@ -102,21 +105,19 @@ const FrameComponent = ({
             });
             positionSavedRef.current = true;
           }
-          
-          if (context?.setIsMenuVisible) {
-            context.setIsMenuVisible(true);
-          }
         }
       },
 
       onLeave: () => {
-        if (context?.setIsMenuVisible) {
-          context.setIsMenuVisible(true)
-        }
-        // Мгновенно скрываем TopContent (NavigationMenuButton уже виден поверх)
+        const ctx = contextRef.current;
+        ctx?.setIsMenuVisible?.(true);
+        lastIsMenuVisibleRef.current = true;
+        
         if (topContentRef.current) {
           topContentRef.current.style.opacity = '0';
         }
+
+        ctx?.setIsTopContentHidden?.(true);
       },
 
       onLeaveBack: () => {
@@ -138,18 +139,16 @@ const FrameComponent = ({
       },
 
       onEnterBack: () => {
-        if (context?.setIsMenuVisible) {
-          context.setIsMenuVisible(false)
-        }
-        // TopContent уже скрыт, он станет видимым когда анимация вернётся в конечное положение
-        // Показываем его сразу, т.к. NavigationMenuButton уже скрыт
+        const ctx = contextRef.current;
+        ctx?.setIsMenuVisible?.(false);
+        lastIsMenuVisibleRef.current = false;
+        ctx?.setIsTopContentHidden?.(false);
+
         if (topContentRef.current) {
           topContentRef.current.style.opacity = '1';
         }
         positionSavedRef.current = false;
-        if (context?.setTopContentEndPosition) {
-          context.setTopContentEndPosition(null);
-        }
+        ctx?.setTopContentEndPosition?.(null);
       },
 
     })

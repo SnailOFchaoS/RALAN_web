@@ -25,6 +25,8 @@ export default function MainPage() {
   const [mainLogoTextRef, setMainLogoTextRef] = useState<RefObject<HTMLDivElement | null> | null>(null);
   const [mainLogoArrowRef, setMainLogoArrowRef] = useState<RefObject<HTMLDivElement | null> | null>(null);
   const [topContentEndPosition, setTopContentEndPosition] = useState<TopContentEndPosition | null>(null);
+  const [isAtDefaultPosition, setIsAtDefaultPosition] = useState<boolean>(false);
+  const [isTopContentHidden, setIsTopContentHidden] = useState<boolean>(false);
   const mainPageRef = useRef<HTMLDivElement>(null);
 
   const aboutUsSlideRef = useRef<HTMLDivElement>(null);
@@ -39,22 +41,16 @@ export default function MainPage() {
 			const width = window.innerWidth;
 			
 			if (width >= 2560) {
-				// 4K мониторы
 				setLaptopScale(1);
 			} else if (width > 1600) {
-				// Десктоп (Full HD и стандартный)
 				setLaptopScale(1);
 			} else if (width > 1440) {
-				// Большой ноутбук
 				setLaptopScale(0.67);
 			} else if (width > 1366) {
-				// Средний ноутбук
 				setLaptopScale(0.67);
 			} else if (width > 1280) {
-				// Маленький ноутбук
 				setLaptopScale(0.67);
 			} else {
-				// Меньше 1280px (планшеты и т.д.)
 				setLaptopScale(0.67);
 			}
 		};
@@ -98,6 +94,10 @@ export default function MainPage() {
       setMainLogoArrowRef,
       topContentEndPosition,
       setTopContentEndPosition,
+      isAtDefaultPosition,
+      setIsAtDefaultPosition,
+      isTopContentHidden,
+      setIsTopContentHidden,
     }}>
       <div className={styles.scaleWrapper} ref={mainPageRef}>
         <NavigationMenu navigationData={navigationData}/>

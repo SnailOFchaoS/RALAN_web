@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 
@@ -133,49 +133,45 @@ const NavigationModal = ({
     }
   }, [onCloseClick])
 
-  const onLogoClicked = () => {
+  const onLogoClicked = useCallback(() => {
     if (timeLineRef.current) {
       setIsReversing(true);
       timeLineRef.current.reverse();
     }
-  }
+  }, []);
 
-  const scrollToSection = (sectionRef: React.RefObject<HTMLDivElement | null>) => {
+  const scrollToSection = useCallback((sectionRef: React.RefObject<HTMLDivElement | null>) => {
     sectionRef.current?.scrollIntoView({ behavior: 'smooth' });
     if (timeLineRef.current) {
       setIsReversing(true);
       timeLineRef.current.reverse();
     }
-  };
+  }, []);
 
-  // Позиционируем модалку относительно TopContent (только по Y, X центрируется через CSS)
-  const getModalPositionStyles = () => {
-    const { topContentEndPosition } = context;
-    
-    // Используем только top из координат, центрирование по X из CSS
-    if (topContentEndPosition && topContentEndPosition.top >= 0) {
-      // topElement в начальном состоянии имеет top: -48 * laptopScale
-      const modalTop = topContentEndPosition.top + 48 * context.laptopScale;
-      
-      return {
-        top: `${modalTop}px`,
-        // left и transform остаются из CSS для центрирования
-        pointerEvents: (isOpen && !onCloseClick && !isReversing ? 'auto' : 'none') as 'auto' | 'none',
-      };
+  const { topContentEndPosition, isAtDefaultPosition, laptopScale } = context;
+  const canInteract = isOpen && !onCloseClick && !isReversing;
+  
+  const modalPositionStyles = useMemo(() => {
+    const pointerEvents = (canInteract ? 'auto' : 'none') as 'auto' | 'none';
+
+    if (isAtDefaultPosition) {
+      return { pointerEvents };
     }
 
-    // Fallback на CSS позицию
-    return {
-      pointerEvents: (isOpen && !onCloseClick && !isReversing ? 'auto' : 'none') as 'auto' | 'none',
-    };
-  };
+    if (topContentEndPosition && topContentEndPosition.top >= 0) {
+      const modalTop = topContentEndPosition.top + 48 * laptopScale;
+      return { top: `${modalTop}px`, pointerEvents };
+    }
+
+    return { pointerEvents };
+  }, [canInteract, isAtDefaultPosition, topContentEndPosition, laptopScale]);
 
   return (
-    <div className={styles.navigationModalWrapper} style={getModalPositionStyles()}>
+    <div className={styles.navigationModalWrapper} style={modalPositionStyles}>
       <div className={styles.topContentWrapper}>
         <div
           className={styles.topElement}
-          onClick={() => onLogoClicked()}
+          onClick={onLogoClicked}
           ref={logoRef}
         >
           <div className={styles.logoImageWrapper} ref={logoImageRef}>
@@ -212,8 +208,8 @@ const NavigationModal = ({
           >
             <p 
               className={styles.text} 
-              onClick={() => { scrollToSection(element.ref) }}
-              style={{ pointerEvents: isOpen && !onCloseClick && !isReversing ? 'auto' : 'none' }}
+              onClick={() => scrollToSection(element.ref)}
+              style={{ pointerEvents: canInteract ? 'auto' : 'none' }}
             >
               {element.text}
             </p>
@@ -225,4 +221,4 @@ const NavigationModal = ({
   )
 }
 
-export default NavigationModal;
+export default memo(NavigationModal);
