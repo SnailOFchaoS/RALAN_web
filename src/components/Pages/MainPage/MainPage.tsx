@@ -8,7 +8,7 @@ import TeamRepresentatives from "./TeamRepresentatives/TeamRepresentatives"
 import OurOffersSlide from "./OurOffersSlide/OurOffersSlide"
 import CallToActionSlide from "./CallToActionSlide/CallToActionSlide";
 import Footer from "@/components/Footer/Footer";
-import { MainPageProvider } from "./context";
+import { MainPageProvider, TopContentEndPosition } from "./context";
 import { NavigationElement } from "./MainPage.types";
 
 import styles from './MainPage.module.scss'
@@ -24,6 +24,7 @@ export default function MainPage() {
   const [mainLogoImageRef, setMainLogoImageRef] = useState<RefObject<HTMLDivElement | null> | null>(null);
   const [mainLogoTextRef, setMainLogoTextRef] = useState<RefObject<HTMLDivElement | null> | null>(null);
   const [mainLogoArrowRef, setMainLogoArrowRef] = useState<RefObject<HTMLDivElement | null> | null>(null);
+  const [topContentEndPosition, setTopContentEndPosition] = useState<TopContentEndPosition | null>(null);
   const mainPageRef = useRef<HTMLDivElement>(null);
 
   const aboutUsSlideRef = useRef<HTMLDivElement>(null);
@@ -95,6 +96,8 @@ export default function MainPage() {
       setMainLogoTextRef,
       mainLogoArrowRef,
       setMainLogoArrowRef,
+      topContentEndPosition,
+      setTopContentEndPosition,
     }}>
       <div className={styles.scaleWrapper} ref={mainPageRef}>
         <NavigationMenu navigationData={navigationData}/>

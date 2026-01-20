@@ -1,5 +1,12 @@
 import { createContext, useContext, RefObject } from 'react';
 
+export interface TopContentEndPosition {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
+
 interface MainPageContextType {
   laptopScale: number;
   mainPageRef: RefObject<HTMLDivElement | null>;
@@ -11,6 +18,8 @@ interface MainPageContextType {
   setMainLogoArrowRef?: (ref: RefObject<HTMLDivElement | null> | null) => void,
   isMenuVisible?: boolean;
   setIsMenuVisible?: (isMenuVisible: boolean) => void;
+  topContentEndPosition?: TopContentEndPosition | null;
+  setTopContentEndPosition?: (position: TopContentEndPosition | null) => void;
 }
 
 const MainPageContext = createContext<MainPageContextType | null>(null);

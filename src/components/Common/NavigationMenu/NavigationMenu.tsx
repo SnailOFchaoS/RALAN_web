@@ -1,4 +1,4 @@
-import { useCallback, useState, memo, useEffect, useRef } from "react";
+import { useCallback, useState, memo, useEffect } from "react";
 
 import NavigationMenuButton from "./NavigationMenuButton/NavigationMenuButton";
 import NavigationModal from "./NavigationModal/NavigationModal";
@@ -16,6 +16,7 @@ const NavigationMenu = ({navigationData}: {navigationData: NavigationElement[]  
 	const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
   const [onCloseClick, setOnCloseClick] = useState<boolean>(false)
 	const context = useMainPageContext();
+  const { isMenuVisible, topContentEndPosition } = context;
 
 	const handleCloseModal = useCallback(() => {
     setOnCloseClick(true);
@@ -27,19 +28,43 @@ const NavigationMenu = ({navigationData}: {navigationData: NavigationElement[]  
     }
   },[isModalOpened])
 
+  // Позиционируем кнопку в том же месте, где заканчивается TopContent
+  const getPositionStyles = () => {
+    // Скрываем кнопку когда меню не видимо ИЛИ когда модалка открыта
+    if (!isMenuVisible || isModalOpened) {
+      return {
+        opacity: '0',
+        pointerEvents: 'none' as const,
+      };
+    }
+
+    // Используем координаты TopContent если они доступны и корректны
+    if (topContentEndPosition && topContentEndPosition.top >= 0) {
+      return {
+        opacity: '1',
+        top: `${topContentEndPosition.top}px`,
+        left: `${topContentEndPosition.left}px`,
+        transform: 'none',
+        pointerEvents: 'auto' as const,
+        cursor: 'pointer',
+      };
+    }
+
+    // Fallback на CSS позицию
+    return {
+      opacity: '1',
+      pointerEvents: 'auto' as const,
+      cursor: 'pointer',
+    };
+  };
+
 	
 	return (
 		<>
 			<div 
         className={styles.navigationMenuClosedWrapper}
         onClick={() => {setIsModalOpened(!isModalOpened)}}
-        style={!context.isMenuVisible ? 
-          {
-            opacity: '0',
-          } : {
-            pointerEvents: `auto`,
-            cursor: 'pointer',
-          }}
+        style={getPositionStyles()}
       >
         <NavigationMenuButton isOpen={isModalOpened}/>
       </div>

@@ -25,7 +25,7 @@ const NavigationModal = ({
   isOpen, 
   setIsModalOpened, 
   onCloseClick, 
-  navigationData 
+  navigationData,
 }: NavigationModalProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null)
@@ -148,8 +148,34 @@ const NavigationModal = ({
     }
   };
 
+  // Позиционируем модалку относительно TopContent
+  const getModalPositionStyles = () => {
+    const { topContentEndPosition } = context;
+    
+    // Используем координаты если они доступны и корректны
+    if (topContentEndPosition && topContentEndPosition.top >= 0) {
+      // topElement в начальном состоянии имеет top: -48 * laptopScale
+      const modalWidth = 336 * context.laptopScale;
+      const buttonCenterX = topContentEndPosition.left + topContentEndPosition.width / 2;
+      const modalLeft = buttonCenterX - modalWidth / 2;
+      const modalTop = topContentEndPosition.top + 48 * context.laptopScale;
+      
+      return {
+        top: `${modalTop}px`,
+        left: `${modalLeft}px`,
+        transform: 'none',
+        pointerEvents: (isOpen && !onCloseClick && !isReversing ? 'auto' : 'none') as 'auto' | 'none',
+      };
+    }
+
+    // Fallback на CSS позицию
+    return {
+      pointerEvents: (isOpen && !onCloseClick && !isReversing ? 'auto' : 'none') as 'auto' | 'none',
+    };
+  };
+
   return (
-    <div className={styles.navigationModalWrapper} style={{ pointerEvents: isOpen && !onCloseClick && !isReversing ? 'auto' : 'none' }}>
+    <div className={styles.navigationModalWrapper} style={getModalPositionStyles()}>
       <div className={styles.topContentWrapper}>
         <div
           className={styles.topElement}

@@ -23,6 +23,7 @@ const FrameComponent = ({
   const topContentRef = useRef<HTMLDivElement>(null);
   const logoElementRef = useRef<HTMLDivElement>(null);
   const animationProgressRef = useRef<number>(0);
+  const positionSavedRef = useRef<boolean>(false);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [onCloseClick, setOnCloseClick] = useState(false);
 
@@ -71,26 +72,57 @@ const FrameComponent = ({
       },
       end: `+=${747 * context.laptopScale}`,
       scrub: 0.5,
+      snap: {
+        snapTo: [0, 1],
+        duration: { min: 0.1, max: 0.3 },
+        delay: 0,
+        ease: "power2.out",
+        onComplete: () => {
+          // После завершения snap-анимации показываем меню если progress >= 0.95
+          if (animationProgressRef.current >= 0.95 && context?.setIsMenuVisible) {
+            context.setIsMenuVisible(true);
+          }
+        },
+      },
 
       onUpdate: (self) => {
         // Сохраняем текущий прогресс анимации
         animationProgressRef.current = self.progress;
 
-        if(self.progress >= 0.95 && !context?.isMenuVisible && context?.setIsMenuVisible){
-          context.setIsMenuVisible(true)
-        }
-
+        // Скрываем меню если не достигли конца анимации
         if(self.progress < 0.95 && context?.setIsMenuVisible){
           context.setIsMenuVisible(false)
+        }
+
+        // Записываем координаты ТОЛЬКО ОДИН РАЗ когда progress >= 0.95
+        // И только если элемент в верхней части экрана (top < 50px)
+        if (self.progress >= 0.95 && topContentRef.current && !positionSavedRef.current) {
+          const rect = topContentRef.current.getBoundingClientRect();
+          
+          // Записываем координаты только если элемент в верхней части экрана
+          if (rect.top >= 0 && rect.top < 50 && context?.setTopContentEndPosition) {
+            context.setTopContentEndPosition({
+              top: rect.top,
+              left: rect.left,
+              width: rect.width,
+              height: rect.height,
+            });
+            positionSavedRef.current = true;
+          }
+          
+          if (context?.setIsMenuVisible) {
+            context.setIsMenuVisible(true);
+          }
         }
       },
 
       onLeave: () => {
-        if (context && context.setIsMenuVisible && !context?.isMenuVisible) {
-          context.setIsMenuVisible(true)
-        }
         if (topContentRef.current) {
+          // Скрываем TopContent и показываем меню
           topContentRef.current.style.opacity = '0'
+          if (context?.setIsMenuVisible) {
+            context.setIsMenuVisible(true)
+          }
         }
       },
 
@@ -113,11 +145,16 @@ const FrameComponent = ({
       },
 
       onEnterBack: () => {
-        if (context && context.setIsMenuVisible) {
+        if (context?.setIsMenuVisible) {
           context.setIsMenuVisible(false)
         }
         if (topContentRef.current) {
           topContentRef.current.style.opacity = '1'
+        }
+        // Сбрасываем флаг чтобы координаты записались заново при следующем скролле
+        positionSavedRef.current = false;
+        if (context?.setTopContentEndPosition) {
+          context.setTopContentEndPosition(null);
         }
       },
 
