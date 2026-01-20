@@ -8,7 +8,6 @@ export const firstSlideAnimation = ({
 	darkOverlayRef,
 	frameContainerRect,
 	laptopScale,
-	bgRect,
 }: FirstSlideAnimationProps) => {
 
 	const backgroundWrapper = backgroundWrapperRef.current;

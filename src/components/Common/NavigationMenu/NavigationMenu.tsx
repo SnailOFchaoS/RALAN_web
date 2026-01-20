@@ -38,13 +38,12 @@ const NavigationMenu = ({navigationData}: {navigationData: NavigationElement[]  
       };
     }
 
-    // Используем координаты TopContent если они доступны и корректны
+    // Используем только top из координат TopContent, центрирование по X из CSS
     if (topContentEndPosition && topContentEndPosition.top >= 0) {
       return {
         opacity: '1',
         top: `${topContentEndPosition.top}px`,
-        left: `${topContentEndPosition.left}px`,
-        transform: 'none',
+        // left и transform остаются из CSS для центрирования
         pointerEvents: 'auto' as const,
         cursor: 'pointer',
       };

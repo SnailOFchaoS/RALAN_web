@@ -31,7 +31,6 @@ const FrameComponent = ({
   const topContentTimeline = gsap.timeline();
 
   const handleOpenModal = useCallback(() => {
-    // Открываем модалку только если анимация не началась (progress близок к 0)
     if (animationProgressRef.current < 0.01) {
       setIsModalOpened(true);
       setOnCloseClick(false);
@@ -78,7 +77,6 @@ const FrameComponent = ({
         delay: 0,
         ease: "power2.out",
         onComplete: () => {
-          // После завершения snap-анимации показываем меню если progress >= 0.95
           if (animationProgressRef.current >= 0.95 && context?.setIsMenuVisible) {
             context.setIsMenuVisible(true);
           }
@@ -86,20 +84,15 @@ const FrameComponent = ({
       },
 
       onUpdate: (self) => {
-        // Сохраняем текущий прогресс анимации
         animationProgressRef.current = self.progress;
 
-        // Скрываем меню если не достигли конца анимации
         if(self.progress < 0.95 && context?.setIsMenuVisible){
           context.setIsMenuVisible(false)
         }
 
-        // Записываем координаты ТОЛЬКО ОДИН РАЗ когда progress >= 0.95
-        // И только если элемент в верхней части экрана (top < 50px)
         if (self.progress >= 0.95 && topContentRef.current && !positionSavedRef.current) {
           const rect = topContentRef.current.getBoundingClientRect();
           
-          // Записываем координаты только если элемент в верхней части экрана
           if (rect.top >= 0 && rect.top < 50 && context?.setTopContentEndPosition) {
             context.setTopContentEndPosition({
               top: rect.top,
@@ -117,12 +110,12 @@ const FrameComponent = ({
       },
 
       onLeave: () => {
+        if (context?.setIsMenuVisible) {
+          context.setIsMenuVisible(true)
+        }
+        // Мгновенно скрываем TopContent (NavigationMenuButton уже виден поверх)
         if (topContentRef.current) {
-          // Скрываем TopContent и показываем меню
-          topContentRef.current.style.opacity = '0'
-          if (context?.setIsMenuVisible) {
-            context.setIsMenuVisible(true)
-          }
+          topContentRef.current.style.opacity = '0';
         }
       },
 
@@ -148,10 +141,11 @@ const FrameComponent = ({
         if (context?.setIsMenuVisible) {
           context.setIsMenuVisible(false)
         }
+        // TopContent уже скрыт, он станет видимым когда анимация вернётся в конечное положение
+        // Показываем его сразу, т.к. NavigationMenuButton уже скрыт
         if (topContentRef.current) {
-          topContentRef.current.style.opacity = '1'
+          topContentRef.current.style.opacity = '1';
         }
-        // Сбрасываем флаг чтобы координаты записались заново при следующем скролле
         positionSavedRef.current = false;
         if (context?.setTopContentEndPosition) {
           context.setTopContentEndPosition(null);

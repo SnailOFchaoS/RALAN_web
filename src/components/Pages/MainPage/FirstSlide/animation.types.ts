@@ -15,7 +15,6 @@ export interface FirstSlideAnimationProps {
 	darkOverlayRef: React.RefObject<HTMLDivElement | null>;
 	frameContainerRect: RectData;
 	laptopScale: number;
-	bgRect: RectData;
 }
 
 export interface FrameContentAnimationProps {

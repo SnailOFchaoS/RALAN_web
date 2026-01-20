@@ -148,22 +148,18 @@ const NavigationModal = ({
     }
   };
 
-  // Позиционируем модалку относительно TopContent
+  // Позиционируем модалку относительно TopContent (только по Y, X центрируется через CSS)
   const getModalPositionStyles = () => {
     const { topContentEndPosition } = context;
     
-    // Используем координаты если они доступны и корректны
+    // Используем только top из координат, центрирование по X из CSS
     if (topContentEndPosition && topContentEndPosition.top >= 0) {
       // topElement в начальном состоянии имеет top: -48 * laptopScale
-      const modalWidth = 336 * context.laptopScale;
-      const buttonCenterX = topContentEndPosition.left + topContentEndPosition.width / 2;
-      const modalLeft = buttonCenterX - modalWidth / 2;
       const modalTop = topContentEndPosition.top + 48 * context.laptopScale;
       
       return {
         top: `${modalTop}px`,
-        left: `${modalLeft}px`,
-        transform: 'none',
+        // left и transform остаются из CSS для центрирования
         pointerEvents: (isOpen && !onCloseClick && !isReversing ? 'auto' : 'none') as 'auto' | 'none',
       };
     }
