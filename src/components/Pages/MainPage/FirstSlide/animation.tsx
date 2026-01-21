@@ -67,6 +67,9 @@ export const frameContentAnimation = ({
 	if(!rect || !topContentRef.current || !logoTimeline) return;
 
 	const topContentRect = topContentRef.current?.getBoundingClientRect();
+	
+	const topOffsetPercent = 24.5;
+	const topOffset = (window.innerHeight * topOffsetPercent / 100) * laptopScale;
 
 	timeLine.to(frameContainerRef.current, {
 		width: 0,
@@ -90,7 +93,7 @@ export const frameContentAnimation = ({
 		width: `${168 / 2 * laptopScale}px`,
 		height: `${77 / 2 * laptopScale}px`,
 		x: (topContentRect.width - 168 / 2 * laptopScale) / 2,
-		top: `-${265 * laptopScale}px`,
+		top: `-${topOffset}px`,
 		padding: `0 ${13 / 2 * laptopScale - 2}px`,
 	}, 0)
 
