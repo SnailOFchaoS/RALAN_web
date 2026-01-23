@@ -11,7 +11,7 @@ export default function Document() {
         <meta name="theme-color" content="#1A2344" />
         <meta name="author" content="RALAN TEAM" />
 
-        <meta name="keywords" content="велоспорт, велотренировки, велотренер, шоссейный велосипед, триатлон, велокоманда, тренировки Москва, велоспорт Москва" />
+        <meta name="keywords" content="велошкола, велоспорт, велотренировки, велотренер, шоссейный велосипед, трековый велосипед, триатлон, велокоманда, тренировки Москва, велоспорт Москва, велошкола Москва" />
         <meta name="robots" content="index, follow" />
 
         <meta property="og:type" content="website" />
