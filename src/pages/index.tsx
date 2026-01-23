@@ -3,7 +3,7 @@ import Head from "next/head";
 import MainPage from "@/components/Pages/MainPage/MainPage";
 import MobileMainPage from "@/components/Pages/MobileMainPage/MobileMainPagr";
 import { useIsMobile } from "@/components/Common/hooks/useIsMobile";
-import { schemaOrgData } from "./schema";
+import { schemaOrgData } from "@/schema";
 import { logVersion } from "@/version";
 
 export default function Home() {
