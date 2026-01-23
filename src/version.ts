@@ -1,7 +1,6 @@
 export const APP_VERSION = "1.0.0";
 export const BUILD_DATE = "2026-01-23";
 
-// Выводит версию в консоль (только в браузере)
 export const logVersion = () => {
   if (typeof window !== "undefined") {
     console.log(
