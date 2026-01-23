@@ -8,6 +8,8 @@ export default function Home() {
   if (isMobile === null) {
     return null;
   }
+  
+  console.log("build version 0.0.2")
 
   return (
     <>

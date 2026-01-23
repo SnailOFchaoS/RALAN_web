@@ -31,17 +31,18 @@ const NavigationMenu = ({navigationData}: {navigationData: NavigationElement[]  
 
       if (Math.abs(currentTop - defaultTop) > 1) {
         isAnimatingToDefaultRef.current = true;
-        gsap.to(wrapperRef.current, {
-          top: defaultTop,
-          duration: 0.3,
-          ease: "power2.out",
-          onComplete: () => {
-            isAnimatingToDefaultRef.current = false;
-            setIsAtDefaultPosition?.(true);
-          }
+        requestAnimationFrame(() => {
+          gsap.to(wrapperRef.current, {
+            top: defaultTop,
+            duration: 0.3,
+            ease: "power2.out",
+            onComplete: () => {
+              isAnimatingToDefaultRef.current = false;
+              setIsAtDefaultPosition?.(true);
+            }
+          });
         });
       } else {
-
         setIsAtDefaultPosition?.(true);
       }
     }
