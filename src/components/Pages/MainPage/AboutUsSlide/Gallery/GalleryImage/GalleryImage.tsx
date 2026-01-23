@@ -178,11 +178,15 @@ const GalleryImage = ({
 		const anims = animationRefs.current;
 		if (!anims.right || !anims.left || !anims.top || !anims.bottom || !anims.hover) return;
 		if (isAnimationPlay) return;
-		if (index === hoveredIndex) anims.hover.play();
-		else anims.hover.reverse();
-		const pos = needAnimation(index);
-		if (pos && anims[pos]) { anims[pos]!.play(); return; }
-		["left", "right", "bottom", "top"].forEach(key => anims[key]?.reverse());
+		
+		requestAnimationFrame(() => {
+			if (!anims.hover) return;
+			if (index === hoveredIndex) anims.hover.play();
+			else anims.hover.reverse();
+			const pos = needAnimation(index);
+			if (pos && anims[pos]) { anims[pos]!.play(); return; }
+			["left", "right", "bottom", "top"].forEach(key => anims[key]?.reverse());
+		});
 	}, [hoveredIndex, isAnimationPlay, index, needAnimation]);
 
 	return (
