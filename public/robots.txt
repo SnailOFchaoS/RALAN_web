@@ -1,0 +1,10 @@
+# robots.txt for https://ralan.pro
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ralan.pro/sitemap.xml
+
+# Disallow admin/api paths
+Disallow: /api/
