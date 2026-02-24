@@ -10,11 +10,16 @@ import CallToActionSlide from "./CallToActionSlide/CallToActionSlide";
 import Footer from "@/components/Footer/Footer";
 import { MainPageProvider, TopContentEndPosition } from "./context";
 import { NavigationElement } from "./MainPage.types";
+import type { Offer } from "@/store/slices/Offers/types";
 
 import styles from './MainPage.module.scss'
 import NavigationMenu from "@/components/Common/NavigationMenu/NavigationMenu";
 
-export default function MainPage() {
+interface MainPageProps {
+  initialOffers?: Offer[];
+}
+
+export default function MainPage({ initialOffers = [] }: MainPageProps) {
 
   const mainBackgroundProps = {
     backgroundColor: '#1A2344',
@@ -115,7 +120,7 @@ export default function MainPage() {
         </div>
         
         <div ref={ourOffersSlide}>
-          <OurOffersSlide/>
+          <OurOffersSlide initialOffers={initialOffers} />
         </div>
         <>
           <CallToActionSlide/>

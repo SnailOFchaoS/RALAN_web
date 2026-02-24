@@ -2,6 +2,7 @@ import { useRef } from "react";
 
 import Background from "@/components/Background/Background";
 import { MainPageProvider } from "@/components/Pages/MainPage/context";
+import type { Offer } from "@/store/slices/Offers/types";
 
 import CallToActionSlide from "./CallToActionSlide/CallToActionSlide";
 import FirstSlide from "./FirstSlide/FirstSlide";
@@ -11,7 +12,11 @@ import YouWillFindSlide from "./YouWillFindSlide/YouWillFindSlide";
 import TeamRepresentatives from "./TeamRepresentatives/TeamRepresentatives";
 import Footer from "./Footer/Footer";
 
-const MobileMainPage = () => {
+interface MobileMainPageProps {
+  initialOffers?: Offer[];
+}
+
+const MobileMainPage = ({ initialOffers = [] }: MobileMainPageProps) => {
 	const mainPageRef = useRef<HTMLDivElement>(null);
 
 	const mainBackgroundProps = {
@@ -31,7 +36,7 @@ const MobileMainPage = () => {
 				<AboutUsSlide />
 				<YouWillFindSlide />
 				<TeamRepresentatives />
-				<OurOffersSlide />
+				<OurOffersSlide initialOffers={initialOffers} />
 				<CallToActionSlide />
 				<Footer />
 			</div>

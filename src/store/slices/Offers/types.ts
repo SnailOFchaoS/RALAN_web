@@ -6,6 +6,7 @@ export interface Offer {
   price: number;
   time: string;
   level: string[];
+  important?: boolean;
 }
 
 // API Response types

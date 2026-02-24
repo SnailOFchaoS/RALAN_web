@@ -1,5 +1,8 @@
+import Image from 'next/image';
+
 import ButtonWithArrow from '@/components/Common/ButtonWithArrow/ButtonWithArrow';
 import { Offer } from '@/store/slices/Offers/types';
+import importantIcon from '../../../../../../../assets/svg/important.svg';
 
 import styles from './CarouselSlide.module.scss';
 
@@ -12,6 +15,16 @@ interface CarouselSlideProps {
 const CarouselSlide: React.FC<CarouselSlideProps> = ({ offer, onDetailsClick, isActive = false }) => {
   return (
     <div className={styles.slideWrapper}>
+      {offer.important && (
+        <div className={styles.important}>
+          <Image
+            src={importantIcon}
+            alt=""
+            width={40}
+            height={40}
+          />
+        </div>
+      )}
       <div className={styles.slideInfoLine}>
         <div className={styles.discipline}>
           {offer.discipline ? offer.discipline.join('/') : ''}

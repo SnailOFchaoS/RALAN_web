@@ -38,6 +38,7 @@ const FirstSlide = () => {
   const [logoBlockRect, setLogoBlockRect] = useState<RectData | null>(null);
   const [fixedHeight, setFixedHeight] = useState<number | null>(null);
   
+  const [animationPhase, setAnimationPhase] = useState<AnimationPhase>(0);
   const animationPhaseRef = useRef<AnimationPhase>(0);
   const isAnimatingRef = useRef(false);
   const timelinesRef = useRef<AnimationTimelines | null>(null);
@@ -155,16 +156,17 @@ const FirstSlide = () => {
         isAnimatingRef.current = true;
         phase1Timeline.play().then(() => {
           animationPhaseRef.current = 1;
+          setAnimationPhase(1);
           isAnimatingRef.current = false;
-          
           if (isTouchActive && currentSwipeDirection === 'down') {
             handleScrollDown();
           }
         });
       } else if (currentPhase === 1) {
         isAnimatingRef.current = true;
+        animationPhaseRef.current = 2;
+        setAnimationPhase(2);
         phase2Timeline.play().then(() => {
-          animationPhaseRef.current = 2;
           isAnimatingRef.current = false;
           unlockScroll();
         });
@@ -179,10 +181,10 @@ const FirstSlide = () => {
       if (currentPhase === 2) {
         lockScroll();
         isAnimatingRef.current = true;
+        setAnimationPhase(1);
+        animationPhaseRef.current = 1;
         phase2Timeline.reverse().then(() => {
-          animationPhaseRef.current = 1;
           isAnimatingRef.current = false;
-          
           if (isTouchActive && currentSwipeDirection === 'up') {
             handleScrollUp();
           }
@@ -191,6 +193,7 @@ const FirstSlide = () => {
         isAnimatingRef.current = true;
         phase1Timeline.reverse().then(() => {
           animationPhaseRef.current = 0;
+          setAnimationPhase(0);
           isAnimatingRef.current = false;
         });
       }
@@ -202,13 +205,13 @@ const FirstSlide = () => {
       if (isAnimatingRef.current) return;
 
       if (e.deltaY > 0 && phase < 2) {
+        e.preventDefault();
         handleScrollDown();
-      }
-
-      else if (e.deltaY < 0 && phase > 0) {
+      } else if (e.deltaY < 0 && phase > 0) {
         if (phase === 2 && window.scrollY > 0) {
           return;
         }
+        e.preventDefault();
         handleScrollUp();
       }
     };
@@ -224,11 +227,14 @@ const FirstSlide = () => {
       const phase = animationPhaseRef.current;
       const touchCurrentY = e.touches[0].clientY;
       const deltaY = touchStartY - touchCurrentY;
-      
+
       if (phase < 2) {
         e.preventDefault();
       }
-      
+      if (deltaY < 0 && phase === 2 && window.scrollY <= 0) {
+        e.preventDefault();
+      }
+
       if (deltaY > SWIPE_THRESHOLD) {
         currentSwipeDirection = 'down';
         if (!animationTriggered && phase < 2) {
@@ -245,10 +251,6 @@ const FirstSlide = () => {
           handleScrollUp();
         }
       }
-      
-      if (deltaY < 0 && window.scrollY <= 0 && phase === 2) {
-        e.preventDefault();
-      }
     };
 
     const handleTouchEnd = () => {
@@ -257,13 +259,13 @@ const FirstSlide = () => {
       animationTriggered = false;
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    document.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);

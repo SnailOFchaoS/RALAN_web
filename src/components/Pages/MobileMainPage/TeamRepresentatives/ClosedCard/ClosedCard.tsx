@@ -22,7 +22,7 @@ const ClosedCard: React.FC<ClosedCardProps> = ({ person, imageConfig }) => {
       </div>
       <div className={styles.nameBlock}>
         <p className={styles.surname}>{person.surname.toUpperCase()}</p>
-        <p className={styles.fullName}>{person.name} {person.patronymic}</p>
+        <p className={styles.fullName}>{person.name}</p>
       </div>
     </>
   );

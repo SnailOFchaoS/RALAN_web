@@ -140,6 +140,11 @@ const offersSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setInitialOffers: (state, action: { payload: Offer[] }) => {
+      if (state.offers.length === 0) {
+        state.offers = action.payload;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -214,5 +219,5 @@ const offersSlice = createSlice({
   },
 });
 
-export const { clearSelectedOffer, clearError } = offersSlice.actions;
+export const { clearSelectedOffer, clearError, setInitialOffers } = offersSlice.actions;
 export default offersSlice.reducer;

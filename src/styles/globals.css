@@ -17,10 +17,18 @@ body {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  html,
-  body {
-    overscroll-behavior: none;
+  html {
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    min-height: 100%;
+    height: auto;
+  }
+
+  body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    min-height: 100%;
+    height: auto;
   }
 }
 

@@ -2,13 +2,18 @@ import { useState, useCallback, useEffect } from "react";
 import Modal from "@/components/Common/Modal/Modal";
 import ContactFormModal from "@/components/Common/ContactFormModal/ContactFormModal";
 import { bycicleService, bikeUniform } from "@/components/Pages/MainPage/constants";
+import type { Offer } from "@/store/slices/Offers/types";
 
 import OfferCarousel from "./OfferCarousel/OfferCarousel";
 import ElseOffersItem from "./ElseOffersItem/ElseOffersItem";
 
 import styles from "./OurOffersSlide.module.scss";
 
-const OurOffersSlide: React.FC = () => {
+interface OurOffersSlideProps {
+  initialOffers?: Offer[];
+}
+
+const OurOffersSlide: React.FC<OurOffersSlideProps> = ({ initialOffers = [] }) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [onCloseClick, setOnCloseClick] = useState(false);
 
@@ -34,7 +39,7 @@ const OurOffersSlide: React.FC = () => {
       </div>
       
       <div className={styles.carouselWrapper}>
-        <OfferCarousel />
+        <OfferCarousel initialOffers={initialOffers} />
       </div>
       
       <div className={styles.elseOffers}>

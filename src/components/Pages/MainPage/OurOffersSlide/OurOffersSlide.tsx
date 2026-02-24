@@ -3,11 +3,16 @@ import ElseOffersItem from "./ElseOffersItem/ElseOffersItem";
 import OfferCarousel from "./OfferCarousel/OfferCarousel";
 import Modal from "@/components/Common/Modal/Modal";
 import ContactFormModal from "@/components/Common/ContactFormModal/ContactFormModal";
-import {bycicleService, bikeUniform} from "@/components/Pages/MainPage/constants"
+import { bycicleService, bikeUniform } from "@/components/Pages/MainPage/constants";
+import type { Offer } from "@/store/slices/Offers/types";
 
-import styles from "./OurOffersSlide.module.scss"
+import styles from "./OurOffersSlide.module.scss";
 
-const OurOffersSlide = () => {
+interface OurOffersSlideProps {
+  initialOffers?: Offer[];
+}
+
+const OurOffersSlide = ({ initialOffers = [] }: OurOffersSlideProps) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [onCloseClick, setOnCloseClick] = useState(false);
 
@@ -27,14 +32,14 @@ const OurOffersSlide = () => {
   }, [isModalOpened]);
 
   return (
-    <div className={styles.ourOffersWrapper}>
+    <section className={styles.ourOffersWrapper} aria-label="Наши предложения">
       <div className={styles.titleLine}>
-        <p className={styles.titleText}>
+        <h2 className={styles.titleText}>
           МЫ ПРЕДЛАГАЕМ
-        </p>
+        </h2>
       </div>
       <div className={styles.sliderWrapper}>
-        <OfferCarousel/>
+        <OfferCarousel initialOffers={initialOffers} />
       </div>
       <div className={styles.elseOffers}>
         <ElseOffersItem
@@ -55,7 +60,7 @@ const OurOffersSlide = () => {
           onCloseClick={onCloseClick}
         />
       </Modal>
-    </div>
+    </section>
   )
 }
 
