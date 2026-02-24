@@ -1,4 +1,4 @@
-export const APP_VERSION = "1.0.1";
+export const APP_VERSION = "1.0.2";
 export const BUILD_DATE = "2026-02-16";
 
 export const logVersion = () => {
