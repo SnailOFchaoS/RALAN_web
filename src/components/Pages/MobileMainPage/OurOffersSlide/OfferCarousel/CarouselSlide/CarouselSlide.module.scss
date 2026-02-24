@@ -1,4 +1,5 @@
 .slideWrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -6,6 +7,15 @@
   padding: 8px;
   gap: 4px;
   box-sizing: border-box;
+
+  .important {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
 
   .slideInfoLine {
     display: flex;

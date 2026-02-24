@@ -12,6 +12,7 @@ export {
   default as offersReducer,
   clearSelectedOffer,
   clearError,
+  setInitialOffers,
   fetchOffers,
   fetchOfferById,
   createOffer,

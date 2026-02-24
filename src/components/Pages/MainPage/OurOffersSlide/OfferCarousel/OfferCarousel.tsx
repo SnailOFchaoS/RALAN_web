@@ -3,14 +3,27 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import Modal from '@/components/Common/Modal/Modal';
 import ContactFormModal from '@/components/Common/ContactFormModal/ContactFormModal';
 import { useAppDispatch, useAppSelector } from '@/components/Common/hooks/ReduxHooks';
-import { fetchOffers } from '@/store/slices/Offers';
+import { fetchOffers, setInitialOffers } from '@/store/slices/Offers';
+import type { Offer } from '@/store/slices/Offers/types';
 
 import { useMainPageContext } from '../../context';
 import CarouselSlide from './CarouselSlider/CarouselSlider';
 import SlideWrapper from './SlideWrapper/SlideWrapper';
 import styles from './OfferCarousel.module.scss';
 
-const OfferCarousel = () => {
+const sortOffers = (list: Offer[]) =>
+  [...list].sort((a, b) => {
+    const aImportant = a.important === true ? 1 : 0;
+    const bImportant = b.important === true ? 1 : 0;
+    if (bImportant !== aImportant) return bImportant - aImportant;
+    return a.price - b.price;
+  });
+
+interface OfferCarouselProps {
+  initialOffers?: Offer[];
+}
+
+const OfferCarousel = ({ initialOffers = [] }: OfferCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideWidth, setSlideWidth] = useState<number>(0);
   const [isModalOpened, setIsModalOpened] = useState(false);
@@ -21,9 +34,8 @@ const OfferCarousel = () => {
   const { offers } = useAppSelector((state) => state.offers);
   const dispatch = useAppDispatch();
 
-  const sortedOffers = useMemo(() => {
-    return [...offers].sort((a, b) => a.price - b.price);
-  }, [offers]);
+  const sortedOffers = useMemo(() => sortOffers(offers), [offers]);
+  const offersForCarousel = sortedOffers.length > 0 ? sortedOffers : initialOffers;
 
   const handleOpenModal = useCallback(() => {
     setIsModalOpened(true);
@@ -40,11 +52,14 @@ const OfferCarousel = () => {
     }
   }, [isModalOpened]);
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (initialOffers.length > 0 && offers.length === 0) {
+      dispatch(setInitialOffers(initialOffers));
+    }
     dispatch(fetchOffers());
   }, [dispatch]);
 
-  const slideCount = sortedOffers.length;
+  const slideCount = offersForCarousel.length;
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slideCount);
@@ -69,7 +84,7 @@ const OfferCarousel = () => {
         ref={sliderRef}
         style={{ transform: `translateX(${transformValue})` }}
       >
-        {sortedOffers.map((item, index) => (
+        {offersForCarousel.map((item, index) => (
           <SlideWrapper
             key={index}
             index={index}

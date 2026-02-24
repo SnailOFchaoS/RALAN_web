@@ -17,6 +17,7 @@
     @include responsive-block((height: 84px));
 
     .titleText{
+      margin: 0;
       color: #fffff0;
       text-align: center;
       font-family: var(--tactic-sans-bold), sans-serif;

@@ -3,13 +3,26 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import Modal from '@/components/Common/Modal/Modal';
 import ContactFormModal from '@/components/Common/ContactFormModal/ContactFormModal';
 import { useAppDispatch, useAppSelector } from '@/components/Common/hooks/ReduxHooks';
-import { fetchOffers } from '@/store/slices/Offers';
+import { fetchOffers, setInitialOffers } from '@/store/slices/Offers';
+import type { Offer } from '@/store/slices/Offers/types';
 
 import CarouselSlide from './CarouselSlide/CarouselSlide';
 import { SLIDE_WIDTH, SLIDE_GAP, CONTAINER_WIDTH, MIN_SCALE, PEEK_OFFSET } from './OfferCarousel.constants';
 import styles from './OfferCarousel.module.scss';
 
-const OfferCarousel = () => {
+const sortOffers = (list: Offer[]) =>
+  [...list].sort((a, b) => {
+    const aImportant = a.important === true ? 1 : 0;
+    const bImportant = b.important === true ? 1 : 0;
+    if (bImportant !== aImportant) return bImportant - aImportant;
+    return a.price - b.price;
+  });
+
+interface OfferCarouselProps {
+  initialOffers?: Offer[];
+}
+
+const OfferCarousel = ({ initialOffers = [] }: OfferCarouselProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [startX, setStartX] = useState(0);
@@ -25,19 +38,18 @@ const OfferCarousel = () => {
   const { offers } = useAppSelector((state) => state.offers);
   const dispatch = useAppDispatch();
 
-  const sortedOffers = useMemo(() => {
-    return [...offers].sort((a, b) => a.price - b.price);
-  }, [offers]);
+  const sortedOffers = useMemo(() => sortOffers(offers), [offers]);
+  const offersForCarousel = sortedOffers.length > 0 ? sortedOffers : initialOffers;
 
   const itemWidth = SLIDE_WIDTH + SLIDE_GAP;
-  const totalWidth = sortedOffers.length * itemWidth;
+  const totalWidth = offersForCarousel.length * itemWidth;
 
   const leftEdge = (CONTAINER_WIDTH - SLIDE_WIDTH) / 2;
   const rightEdge = CONTAINER_WIDTH - leftEdge;
 
   const allSlides = useMemo(() => {
-    return [...sortedOffers, ...sortedOffers];
-  }, [sortedOffers]);
+    return [...offersForCarousel, ...offersForCarousel];
+  }, [offersForCarousel]);
 
   const handleOpenModal = useCallback(() => {
     setIsModalOpened(true);
@@ -55,11 +67,14 @@ const OfferCarousel = () => {
   }, [isModalOpened]);
 
   useEffect(() => {
+    if (initialOffers.length > 0 && offers.length === 0) {
+      dispatch(setInitialOffers(initialOffers));
+    }
     dispatch(fetchOffers());
   }, [dispatch]);
 
   const snapToNearestSlide = useCallback((currentPosition: number) => {
-    if (sortedOffers.length === 0) return;
+    if (offersForCarousel.length === 0) return;
 
     const nearestIndex = Math.round(currentPosition / itemWidth);
     const targetPosition = nearestIndex * itemWidth;
@@ -111,7 +126,7 @@ const OfferCarousel = () => {
       cancelAnimationFrame(snapAnimationRef.current);
     }
     snapAnimationRef.current = requestAnimationFrame(animate);
-  }, [itemWidth, totalWidth, sortedOffers.length]);
+  }, [itemWidth, totalWidth, offersForCarousel.length]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (snapAnimationRef.current) {
@@ -267,7 +282,7 @@ const OfferCarousel = () => {
     };
   }, []);
 
-  if (sortedOffers.length === 0) return null;
+  if (offersForCarousel.length === 0) return null;
 
   return (
     <div 

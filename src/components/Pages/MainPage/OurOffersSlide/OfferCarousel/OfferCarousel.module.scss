@@ -45,7 +45,6 @@
   transform: scale(1);
   filter: blur(0px);
   z-index: 1;
-  cursor: pointer;
   @include responsive-shadow(0px, 5px, 15px, rgba(0, 0, 0, 0.3));
 }
 

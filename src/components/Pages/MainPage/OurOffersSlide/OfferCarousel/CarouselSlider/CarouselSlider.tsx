@@ -1,7 +1,10 @@
+import Image from 'next/image';
+
 import ButtonWithArrow from '@/components/Common/ButtonWithArrow/ButtonWithArrow';
 import { CarouselSlideProps } from './CarouselSlider.types';
 import { useAutoFontSize } from '@/components/Common/hooks/useAutoFontSize';
 import { useMainPageContext } from '@/components/Pages/MainPage/context';
+import importantIcon from '../../../../../../../assets/svg/important.svg';
 
 import styles from './CarouselSlider.module.scss'
 
@@ -17,17 +20,27 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({offer, onDetailsClick, isA
 	});
 
 	return (
-		<div className={styles.slideWrapper}>
+		<article className={styles.slideWrapper} aria-label={offer.offerName}>
+			{offer.important && 
+				<div className={styles.important}>
+					<Image
+						src={importantIcon}
+						alt="important"
+						width={87 * laptopScale}
+						height={87 * laptopScale}
+					/>
+				</div>
+			}
 			<div className={styles.slideInfoLine}>
 				<div className={`${styles.halfLine} ${styles.discipline}`}>
 					{offer.discipline ? offer.discipline.join('/') : ''}
 				</div>
-				<div 
+				<h3
 					className={`${styles.halfLine} ${styles.offerName}`}
 					ref={offerNameRef}
 				>
 					{offer.offerName}
-				</div>
+				</h3>
 			</div>
 			<div className={styles.slideInfoLine}>
 				<div className={`${styles.halfLine} ${styles.dateAndTime}`}>
@@ -52,7 +65,7 @@ const CarouselSlide: React.FC<CarouselSlideProps> = ({offer, onDetailsClick, isA
 					onClick={onDetailsClick}
 				/>
 			</div>
-		</div>
+		</article>
 	);
 }
 
